@@ -1,0 +1,8 @@
+<div class="home-welcome" role="heading" aria-level="2"
+     aria-label="{{ page.welcome_messages.first | escape }}"
+     data-welcome-messages="{{ page.welcome_messages | jsonify | escape }}">
+  {% for message in page.welcome_messages %}
+    <span class="home-welcome__sizer" aria-hidden="true">{{ message | escape }}|</span>
+  {% endfor %}
+  <span class="home-welcome__line" aria-hidden="true"><span class="home-welcome__text">{{ page.welcome_messages.first | escape }}</span></span>
+</div>

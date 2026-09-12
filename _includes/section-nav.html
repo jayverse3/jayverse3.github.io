@@ -1,0 +1,12 @@
+<nav class="section-nav" aria-label="On this page">
+  <ul>
+    {% for item in page.section_nav %}
+      <li>
+        <a href="#{{ item.id | escape }}">
+          <span class="section-nav__line" aria-hidden="true"></span>
+          <span class="section-nav__label">{{ item.title | escape }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

@@ -6,7 +6,7 @@
         <button><span class="navicon"></span></button>
         <ul class="visible-links">
           <li class="masthead__menu-item masthead__menu-item--lg persist {% if page.url == '/' or page.url == '/index.html' %}selected{% endif %}">
-            <a href="{{ base_path }}/">{{ site.title }}</a>
+            <a href="{{ base_path }}/">Home</a>
           </li>
           {% for link in site.data.navigation.main %}
             {% if link.url contains 'http' %}
@@ -18,12 +18,20 @@
               <a href="{{ domain }}{{ link.url }}">{{ link.title }}</a>
             </li>
           {% endfor %}
-          <li id="theme-toggle" class="masthead__menu-item persist tail">
-            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
-          </li>
         </ul>
         <ul class="hidden-links hidden"></ul>
       </nav>
+      <span class="masthead__updated">
+        Last updated in <time datetime="{{ 'now' | date: '%Y-%m-%d' }}">{{ 'now' | date: '%b %Y' }}</time>
+      </span>
+      <div class="masthead__actions">
+        <a class="masthead__action masthead__action--rss" href="{{ '/feed.xml' | relative_url }}" target="_blank" aria-label="Subscribe via RSS" title="Subscribe via RSS">
+          <i class="fa-solid fa-rss" aria-hidden="true"></i>
+        </a>
+        <button id="theme-toggle" class="masthead__action" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+          <i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>

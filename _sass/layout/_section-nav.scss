@@ -1,0 +1,93 @@
+/* Homepage chapter navigation; use the existing right gutter, not content width. */
+.section-nav {
+  display: none;
+  position: fixed;
+  top: 50%;
+  /* Shift outward on wide screens, keeping at least 1rem at the viewport edge. */
+  right: unquote("max(1rem, calc((100% - #{$x-large}) / 2 + 1rem - 32px))");
+  z-index: 10;
+  width: 10rem;
+  transform: translateY(-50%);
+  font-family: $sans-serif;
+
+  @media (min-width: $x-large) and (min-height: 400px) {
+    display: block;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.5rem;
+    width: 100%;
+    color: var(--global-text-color);
+    font-size: 0.667rem;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.8;
+    transition: color 180ms ease, opacity 180ms ease;
+
+    &:hover,
+    &:focus-visible,
+    &[aria-current="location"] {
+      color: var(--global-link-color);
+      text-decoration: none;
+      opacity: 1;
+
+      .section-nav__line {
+        width: 3rem;
+        opacity: 1;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+  }
+
+  &__line {
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+    transition: width 180ms ease, opacity 180ms ease;
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+/* Keep native anchor links clear of the fixed header, including without JS. */
+.page--section-nav .home-section-title {
+  scroll-margin-top: var(--section-nav-offset, 6rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.section-nav) {
+    scroll-behavior: auto;
+  }
+
+  .section-nav a,
+  .section-nav__line {
+    transition: none;
+  }
+}

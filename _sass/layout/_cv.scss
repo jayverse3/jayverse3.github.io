@@ -1,0 +1,154 @@
+/* CV title, download action, and document-style entries. */
+.cv-page__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1.5rem;
+
+  .page__title {
+    margin: 0;
+    line-height: 1.2;
+  }
+}
+
+.cv-page .cv-page__download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 44px;
+  padding: 0.45em 0.85em;
+  border: 1px solid rgba(122, 130, 136, 0.35);
+  border-radius: 6px;
+  color: var(--global-link-color);
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    color: var(--global-link-color-hover);
+    border-color: currentColor;
+    background: rgba(120, 166, 190, 0.08);
+    text-decoration: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--global-link-color);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.cv-page {
+  .cv-section {
+    margin-bottom: 2rem;
+  }
+
+  .cv-section__title {
+    margin: 0 0 1rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--global-border-color);
+    font-size: 1.25rem;
+  }
+
+  .cv-entry + .cv-entry {
+    margin-top: 1.15rem;
+  }
+
+  .cv-entry__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.2rem 1rem;
+  }
+
+  .cv-entry__title {
+    min-width: 0;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
+  .cv-entry__date {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+
+  .cv-awards {
+    .cv-entry__header {
+      flex-wrap: nowrap;
+    }
+
+    .cv-entry__date {
+      flex-shrink: 0;
+    }
+  }
+
+  .cv-entry__body {
+    margin-top: 0.35rem;
+    font-size: 1rem;
+    line-height: 1.55;
+
+    p {
+      margin: 0;
+    }
+
+    p + p {
+      margin-top: 0.55rem;
+    }
+
+    h4 {
+      margin: 0.85rem 0 0.35rem;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.2rem;
+    }
+
+    li {
+      margin: 0;
+    }
+
+    li + li {
+      margin-top: 0.55rem;
+    }
+
+    .cv-experience-groups {
+      margin-top: 0.85rem;
+      list-style-type: disc;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      > li + li {
+        margin-top: 0.85rem;
+      }
+
+      > li > h4 {
+        margin: 0;
+      }
+
+      > li > ul {
+        list-style-type: circle;
+      }
+    }
+  }
+}
