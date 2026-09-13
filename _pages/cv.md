@@ -11,16 +11,16 @@ redirect_from:
 <section class="cv-section" aria-labelledby="education">
   <h2 class="cv-section__title" id="education">Education</h2>
 
-  <article class="cv-entry">
+  <article class="cv-entry cv-entry--education">
     <div class="cv-entry__header">
-      <h3 class="cv-entry__title"><strong>Peking University</strong> | Computer Science and Technology | M.S. Candidate</h3>
+      <h3 class="cv-entry__title"><strong>Peking University</strong><span class="cv-entry__education-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__major">Computer Science and Technology</span><span class="cv-entry__separator"> | </span><span class="cv-entry__degree">M.S.</span></span></h3>
       <p class="cv-entry__date"><time datetime="2025-09">Sep 2025</time> &ndash; <time datetime="2028-06">Jun 2028</time></p>
     </div>
   </article>
 
-  <article class="cv-entry">
+  <article class="cv-entry cv-entry--education">
     <div class="cv-entry__header">
-      <h3 class="cv-entry__title"><strong>Northwest A&amp;F University</strong> | Software Engineering | B.Eng.</h3>
+      <h3 class="cv-entry__title"><strong>Northwest A&amp;F University</strong><span class="cv-entry__education-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__major">Software Engineering</span><span class="cv-entry__separator"> | </span><span class="cv-entry__degree">B.Eng.</span></span></h3>
       <p class="cv-entry__date"><time datetime="2020-09">Sep 2020</time> &ndash; <time datetime="2024-06">Jun 2024</time></p>
     </div>
   </article>
@@ -29,9 +29,9 @@ redirect_from:
 <section class="cv-section" aria-labelledby="experience">
   <h2 class="cv-section__title" id="experience">Experience</h2>
 
-  <article class="cv-entry">
+  <article class="cv-entry cv-entry--experience">
     <div class="cv-entry__header">
-      <h3 class="cv-entry__title"><strong>Baidu</strong> | Basic Model R&amp;D Department | Research Intern (<strong>Top Internship Program</strong>)</h3>
+      <h3 class="cv-entry__title"><strong>Baidu</strong><span class="cv-entry__position-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__department">Basic Model R&amp;D Department</span><span class="cv-entry__separator"> | </span><span class="cv-entry__role">Research Intern (<strong>Top Internship Program</strong>)</span></span></h3>
       <p class="cv-entry__date"><time datetime="2026-09">Sep 2026</time> &ndash; Present</p>
     </div>
     <div class="cv-entry__body">
@@ -39,9 +39,9 @@ redirect_from:
     </div>
   </article>
 
-  <article class="cv-entry">
+  <article class="cv-entry cv-entry--experience">
     <div class="cv-entry__header">
-      <h3 class="cv-entry__title"><strong>ByteDance</strong> | AI Data &amp; Safety | Research Intern</h3>
+      <h3 class="cv-entry__title"><strong>ByteDance</strong><span class="cv-entry__position-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__department">AI Data &amp; Safety</span><span class="cv-entry__separator"> | </span><span class="cv-entry__role">Research Intern</span></span></h3>
       <p class="cv-entry__date"><time datetime="2026-02">Feb 2026</time> &ndash; <time datetime="2026-08">Aug 2026</time></p>
     </div>
     <div class="cv-entry__body">
@@ -49,14 +49,14 @@ redirect_from:
         <li>
           <h4>Coding Agent</h4>
           <ul>
-            <li><strong>Verifiable Task Synthesis:</strong> Built a GitHub-based pipeline to synthesize and validate coding tasks, helping improve Seed models’ score on Terminal-Bench 2.1 from <strong>53.6 to 71.0</strong>.</li>
+            <li><strong>Verifiable Task Synthesis:</strong> Built an automated pipeline to synthesize verifiable coding tasks from shell scripts and Python source code, helping improve Seed models’ score on Terminal-Bench 2.1 from <strong>53.6 to 71.0</strong>.</li>
             <li><strong>Targeted Data Synthesis:</strong> Used rollout analysis to synthesize targeted tasks for RFT, helping improve Seed models’ score on Terminal-Bench 2.1 from <strong>71.0 to 84.7</strong>.</li>
           </ul>
         </li>
         <li>
           <h4>GUI Agent</h4>
           <ul>
-            <li><strong>GUI-Diver:</strong> Built a GUI task-synthesis pipeline and validated the data with GRPO training, helping improve Seed models’ score on OSWorld-Verified from <strong>61.9 to 78.8</strong>.</li>
+            <li><strong>GUI-Diver:</strong> Built an automated pipeline to synthesize verifiable GUI tasks from real-world websites, helping improve Seed models’ score on OSWorld-Verified from <strong>61.9 to 78.8</strong>.</li>
           </ul>
         </li>
       </ul>

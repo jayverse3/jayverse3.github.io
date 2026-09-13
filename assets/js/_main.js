@@ -9,12 +9,8 @@ const browserPref = window.matchMedia && window.matchMedia('(prefers-color-schem
 
 // Determine the computed theme, which can be "dark" or "light".
 function determineComputedTheme() {
-  // Determine the expected state of the theme toggle, which can be "dark", "light", or default "system"
-  let themeSetting = localStorage.getItem("theme");
-  themeSetting = (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") ? "system" : themeSetting;
-
-  // Return the setting if set, or use the browser preference
-  if (themeSetting != "system") {
+  const themeSetting = localStorage.getItem("theme");
+  if (themeSetting === "dark" || themeSetting === "light") {
     return themeSetting;
   }
   return browserPref ? "dark" : "light";
@@ -22,15 +18,10 @@ function determineComputedTheme() {
 
 // Set the theme on page load or when explicitly called
 function setTheme(theme) {
-  const use_theme = theme ||
-    localStorage.getItem("theme") ||
-    $("html").attr("data-theme") ||
-    (browserPref ? "dark" : "light");
-
-  if (use_theme === "dark") {
+  if (theme === "dark") {
     $("html").attr("data-theme", "dark");
     $("#theme-icon").removeClass("fa-sun").addClass("fa-moon");
-  } else if (use_theme === "light") {
+  } else if (theme === "light") {
     $("html").removeAttr("data-theme");
     $("#theme-icon").removeClass("fa-moon").addClass("fa-sun");
   }
@@ -64,16 +55,46 @@ $(document).ready(function () {
   // Enable the theme toggle
   $('#theme-toggle').on('click', toggleTheme);
 
-  // Follow menu drop down
+  // Center the menu below its trigger, keeping a 16px gutter on narrow screens.
+  const authorMenuWrapper = document.querySelector('.author__urls-wrapper');
+  function positionAuthorMenu() {
+    if (!authorMenuWrapper || window.innerWidth >= scssLarge) return;
+    const menuWidth = authorMenuWrapper.querySelector('.author__urls').getBoundingClientRect().width;
+    if (!menuWidth) return;
+    const button = authorMenuWrapper.querySelector('button');
+    const buttonRect = button.getBoundingClientRect();
+    const buttonCenter = buttonRect.left + buttonRect.width / 2;
+    const halfWidth = menuWidth / 2;
+    const menuCenter = Math.max(16 + halfWidth, Math.min(buttonCenter, window.innerWidth - 16 - halfWidth));
+    authorMenuWrapper.style.setProperty('--author-links-center', (menuCenter - authorMenuWrapper.getBoundingClientRect().left) + 'px');
+    authorMenuWrapper.style.setProperty('--author-links-arrow-shift', (buttonCenter - menuCenter) + 'px');
+  }
+
+  // Reposition when opening the menu or when its contents / trigger change size.
+  if (authorMenuWrapper && 'ResizeObserver' in window) {
+    const menuObserver = new ResizeObserver(positionAuthorMenu);
+    menuObserver.observe(authorMenuWrapper);
+    menuObserver.observe(authorMenuWrapper.querySelector('button'));
+    menuObserver.observe(authorMenuWrapper.querySelector('.author__urls'));
+  }
+
+  // Profile links menu drop down
   $(".author__urls-wrapper button").on("click", function () {
-    $(".author__urls").fadeToggle("fast", function () { });
-    $(".author__urls-wrapper button").toggleClass("open");
+    $(".author__urls").stop(true, true).fadeToggle("fast");
+    positionAuthorMenu();
   });
 
-  // Restore the follow menu if toggled on a window resize
+  // Tapping outside dismisses the small-screen menu without intercepting links.
+  $(document).on("click", function (event) {
+    if (!authorMenuWrapper || window.innerWidth >= scssLarge || authorMenuWrapper.contains(event.target)) return;
+    $(authorMenuWrapper).find('.author__urls').stop(true, true).fadeOut("fast");
+  });
+
+  // Restore the desktop links list on a window resize.
   jQuery(window).on('resize', function () {
+    positionAuthorMenu();
     if ($('.author__urls.social-icons').css('display') == 'none' && $(window).width() >= scssLarge) {
-      $(".author__urls").css('display', 'block')
+      $(".author__urls").css('display', 'block');
     }
   });
 

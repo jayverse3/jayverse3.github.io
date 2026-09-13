@@ -106,6 +106,20 @@
   }
 }
 
+// Switch dividers with the background, while keeping the heading text transition.
+.page__content h2.home-section-title,
+.cv-page .cv-section__title {
+  transition-property: color;
+}
+
+// Keep dark-mode section dividers subtle without changing other UI borders.
+html[data-theme="dark"] {
+  .page__content h2.home-section-title,
+  .cv-page .cv-section__title {
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
 .page__meta {
   margin-top: 2em;
   color: var(--global-text-color-light);
@@ -210,12 +224,6 @@
     opacity: 0.8;
   }
 
-  &__date-note {
-    display: block;
-    margin-top: 0.25rem;
-    font-size: 0.75rem;
-  }
-
   .profile-card__description {
     grid-column: 2 / -1;
     font-size: 0.9rem;
@@ -247,6 +255,33 @@
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+  }
+}
+
+/* Stack school names and dates on small screens. */
+@media (max-width: $small) {
+  .page__content .profile-card--education {
+    .profile-card__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .page__content .profile-card--experience {
+    .profile-card__subtitle {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .profile-card__detail {
+      order: -1;
+      margin: 0;
+    }
+
+    .profile-card__separator {
+      display: none;
+    }
   }
 }
 
@@ -318,7 +353,7 @@ html[data-theme="dark"] .page__content .model-name {
 // Dim siblings only while a card is hovered, not while crossing the gaps.
 @media (hover: hover) and (pointer: fine) {
   .page__content .profile-cards:has(> .profile-card:hover) > .profile-card:not(:hover):not(:focus-within) {
-    opacity: 0.5;
+    opacity: 0.65;
   }
 }
 

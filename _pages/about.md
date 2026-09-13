@@ -34,7 +34,7 @@ I am a master's student in the School of Computer Science at **Peking University
 {: .home-section-title}
 
 <div class="profile-cards">
-  <article class="profile-card" aria-labelledby="education-pku">
+  <article class="profile-card profile-card--education" aria-labelledby="education-pku">
     <div class="profile-card__logo">
       <img class="profile-card__logo-light" src="{{ '/images/peking-university.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
       <img class="profile-card__logo-dark" src="{{ '/images/peking-university-white.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
@@ -46,10 +46,10 @@ I am a master's student in the School of Computer Science at **Peking University
           <time datetime="2025-09">Sep 2025</time> &ndash; <time datetime="2028-06">Jun 2028</time>
         </p>
       </div>
-      <p class="profile-card__subtitle">M.S. Candidate <span class="profile-card__detail">· Computer Science and Technology</span></p>
+      <p class="profile-card__subtitle">M.S. <span class="profile-card__detail">· Computer Science and Technology</span></p>
     </div>
   </article>
-  <article class="profile-card" aria-labelledby="education-nwafu">
+  <article class="profile-card profile-card--education" aria-labelledby="education-nwafu">
     <div class="profile-card__logo">
       <img class="profile-card__logo-light" src="{{ '/images/northwest-af-university.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
       <img class="profile-card__logo-dark" src="{{ '/images/northwest-af-university-white.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
@@ -70,7 +70,7 @@ I am a master's student in the School of Computer Science at **Peking University
 {: .home-section-title}
 
 <div class="profile-cards">
-  <article class="profile-card" aria-labelledby="experience-baidu">
+  <article class="profile-card profile-card--experience" aria-labelledby="experience-baidu">
     <div class="profile-card__logo profile-card__logo--company">
       <img class="profile-card__logo-light" src="{{ '/images/baidu.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
       <img class="profile-card__logo-dark" src="{{ '/images/baidu-white.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
@@ -82,11 +82,11 @@ I am a master's student in the School of Computer Science at **Peking University
           <time datetime="2026-09">Sep 2026</time> &ndash; Present
         </p>
       </div>
-      <p class="profile-card__subtitle">Research Intern (<strong>Top Internship Program</strong>) <span class="profile-card__detail">· Basic Model R&amp;D Department</span></p>
+      <p class="profile-card__subtitle"><span class="profile-card__role">Research Intern (<strong>Top Internship Program</strong>)</span> <span class="profile-card__detail"><span class="profile-card__separator" aria-hidden="true">· </span>Basic Model R&amp;D Department</span></p>
     </div>
     <p class="profile-card__description">Help improve <span class="model-name"><img class="model-name__logo model-name__logo--light" src="{{ '/images/wenxin.svg' | relative_url }}" alt="" width="18" height="18"><img class="model-name__logo model-name__logo--dark" src="{{ '/images/wenxin-white.svg' | relative_url }}" alt="" width="18" height="18">ERNIE’s</span> coding capabilities through post-training, with a focus on agent performance in terminal environments and Terminal-Bench evaluation.</p>
   </article>
-  <article class="profile-card" aria-labelledby="experience-bytedance">
+  <article class="profile-card profile-card--experience" aria-labelledby="experience-bytedance">
     <div class="profile-card__logo profile-card__logo--company">
       <img class="profile-card__logo-light" src="{{ '/images/bytedance.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
       <img class="profile-card__logo-dark" src="{{ '/images/bytedance-white.svg' | relative_url }}" alt="" width="64" height="64" loading="lazy">
@@ -98,9 +98,9 @@ I am a master's student in the School of Computer Science at **Peking University
           <time datetime="2026-02">Feb 2026</time> &ndash; <time datetime="2026-08">Aug 2026</time>
         </p>
       </div>
-      <p class="profile-card__subtitle">Research Intern <span class="profile-card__detail">· AI Data &amp; Safety</span></p>
+      <p class="profile-card__subtitle"><span class="profile-card__role">Research Intern</span> <span class="profile-card__detail"><span class="profile-card__separator" aria-hidden="true">· </span>AI Data &amp; Safety</span></p>
     </div>
-    <p class="profile-card__description"><strong>Collaborated with the Seed team</strong> to improve <span class="model-name"><img class="model-name__logo model-name__logo--light" src="{{ '/images/doubao.svg' | relative_url }}" alt="" width="18" height="18"><img class="model-name__logo model-name__logo--dark" src="{{ '/images/doubao-white.svg' | relative_url }}" alt="" width="18" height="18">Seed models’</span> agentic coding and GUI capabilities through <strong>high-quality mid-training and post-training data</strong>.</p>
+    <p class="profile-card__description"><strong>Collaborated with the Seed team</strong> to improve <span class="model-name"><img class="model-name__logo model-name__logo--light" src="{{ '/images/doubao.svg' | relative_url }}" alt="" width="18" height="18"><img class="model-name__logo model-name__logo--dark" src="{{ '/images/doubao-white.svg' | relative_url }}" alt="" width="18" height="18">Seed models’</span> agentic coding and GUI capabilities by synthesizing <strong>high-quality mid-training and post-training data</strong>.</p>
   </article>
 </div>
 

@@ -10,6 +10,22 @@
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+
+  /* Apply the theme before CSS and page content can render. */
+  (function () {
+    var theme;
+    try {
+      theme = window.localStorage.getItem('theme');
+    } catch (error) {
+      /* If storage is unavailable, fall back to the system preference. */
+    }
+    if (theme !== 'light' && theme !== 'dark') {
+      theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    if (theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
 </script>
 
 <!-- For all browsers -->

@@ -88,6 +88,55 @@
     opacity: 0.8;
   }
 
+  @media (max-width: $small) {
+    .cv-entry--education,
+    .cv-entry--experience {
+      .cv-entry__title {
+        display: contents;
+      }
+
+      .cv-entry__date {
+        order: 1;
+      }
+
+      .cv-entry__education-details,
+      .cv-entry__position-details {
+        order: 2;
+        flex-basis: 100%;
+        display: flex;
+      }
+
+      .cv-entry__separator {
+        display: none;
+      }
+    }
+
+    .cv-entry--education {
+      .cv-entry__education-details {
+        align-items: baseline;
+        gap: 0.35rem;
+      }
+
+      .cv-entry__major {
+        min-width: 0;
+      }
+
+      .cv-entry__degree {
+        order: -1;
+        flex-shrink: 0;
+
+        &::after {
+          content: " ·";
+        }
+      }
+    }
+
+    .cv-entry--experience .cv-entry__position-details {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+  }
+
   .cv-awards {
     .cv-entry__header {
       flex-wrap: nowrap;

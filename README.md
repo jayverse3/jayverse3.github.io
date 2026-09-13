@@ -33,7 +33,7 @@ bundle install
 bundle exec jekyll serve --host 127.0.0.1 --port 4000
 ```
 
-Open http://127.0.0.1:4000/. On Windows, add `--force_polling` if file changes are not detected. Restart the preview after editing `_config.yml`.
+Open http://localhost:4000/ to match the origin used by Jekyll's generated asset URLs. On Windows, add `--force_polling` if file changes are not detected. Restart the preview after editing `_config.yml`.
 
 Production-style validation:
 

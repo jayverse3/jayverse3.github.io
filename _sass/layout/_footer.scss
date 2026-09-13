@@ -2,6 +2,26 @@
    FOOTER
    ========================================================================== */
 
+/* Fill short screens without fixing the footer over the page content. */
+@media screen {
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Keep #main in normal flow so its existing margins remain unchanged. */
+  body > .page-shell {
+    flex: 1 0 auto;
+    width: 100%;
+  }
+
+  body > .page__footer {
+    flex-shrink: 0;
+  }
+}
+
 .page__footer {
   @include clearfix;
   background-color: transparent;
@@ -43,13 +63,6 @@
       text-decoration: underline;
     }
   }
-
-  .fas,
-  .fab,
-  .far,
-  .fal {
-    color: var(--global-text-color-light);
-  }
 }
 
 .page__footer-copyright {
@@ -61,37 +74,4 @@
   font-family: $global-font-family;
   font-size: $type-size-7;
   opacity: 0.65;
-}
-
-.page__footer-follow {
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-
-  li {
-    display: inline-block;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-family: $sans-serif-narrow;
-    font-size: $type-size-6;
-    text-transform: uppercase;
-  }
-
-  li + li:before {
-    content: "";
-    padding-right: 5px;
-  }
-
-  a {
-    padding-right: 10px;
-    font-weight: bold;
-  }
-
-  .social-icons {
-    a {
-      white-space: nowrap;
-    }
-  }
 }

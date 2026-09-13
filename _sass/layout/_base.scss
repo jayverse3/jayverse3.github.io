@@ -18,11 +18,6 @@ body {
   padding: $masthead-height 0 0;
   font-family: $global-font-family;
   line-height: 1.5;
-
-  &.overflow--hidden {
-    /* when primary navigation is visible, the content in the background won't scroll */
-    overflow: hidden;
-  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -341,7 +336,7 @@ nav {
   }
 
 /* Global animation transition */
-b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a, tr, td, form button, input[type="submit"], .btn, .highlight, .archive__item-teaser {
+b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a, tr, td, form button, input[type="submit"], .btn, .highlight {
   -webkit-transition: $global-transition;
   transition: $global-transition;
 }
@@ -356,10 +351,6 @@ b, i, strong, em, blockquote, p, q, span, figure, img, h1, h2, header, input, a,
 
    @media print {
     .masthead,
-    .toc,
-    .page__share,
-    .page__related,
-    .ads,
     .page__footer {
       display: none;
     }

@@ -27,12 +27,6 @@
   @include breakpoint($large) {
     @include span(2 of 12);
     opacity: 1;
-    -webkit-transition: opacity 0.2s ease-in-out;
-            transition: opacity 0.2s ease-in-out;
-
-    &:hover {
-      opacity: 1;
-    }
   }
 
   @include breakpoint($x-large) {
@@ -162,7 +156,10 @@
 .author__urls {
   display: none;
   position: absolute;
-  right: 0;
+  left: var(--author-links-center, 50%);
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  transform: translateX(-50%);
   margin-top: 15px;
   padding: 10px;
   list-style-type: none;
@@ -176,6 +173,10 @@
   @include breakpoint($large) {
     display: block;
     position: relative;
+    left: auto;
+    width: auto;
+    max-width: none;
+    transform: none;
     margin: 0;
     padding: 0;
     border: 0;
@@ -187,30 +188,16 @@
     display: block;
     content: "";
     position: absolute;
-    top: -11px;
-    left: calc(50% - 10px);
-    width: 0;
-    border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: var(--global-border-color) transparent;
-    z-index: 0;
-
-    @include breakpoint($large) {
-      display: none;
-    }
-  }
-
-  &:after {
-    display: block;
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: calc(50% - 10px);
-    width: 0;
-    border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: #fff transparent;
-    z-index: 1;
+    // Overlap the top border so the arrow and panel form one continuous shape.
+    top: -8px;
+    left: calc(50% + var(--author-links-arrow-shift, 0px));
+    width: 14px;
+    height: 14px;
+    border-top: 1px solid var(--global-border-color);
+    border-left: 1px solid var(--global-border-color);
+    background: var(--global-bg-color);
+    transform: translateX(-50%) rotate(45deg);
+    pointer-events: none;
 
     @include breakpoint($large) {
       display: none;
