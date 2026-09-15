@@ -2,6 +2,15 @@
    MIXINS
    ========================================================================== */
 
+// Share pressed/hovered feedback without sticky hover on touch screens.
+@mixin interactive-state {
+  &:active { @content; }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { @content; }
+  }
+}
+
 %tab-focus {
   /* Default*/
   outline: thin dotted $warning-color;
@@ -9,15 +18,6 @@
   outline: 5px auto $warning-color;
   outline-offset: -2px;
 }
-
-/*
-   em function
-   ========================================================================== */
-
-@function em($target, $context: $doc-font-size) {
-  @return ($target / $context) * 1em;
-}
-
 
 /*
    Bourbon clearfix

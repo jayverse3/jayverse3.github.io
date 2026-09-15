@@ -1,4 +1,21 @@
-/* CV title, download action, and document-style entries. */
+/* CV content column, title, download action, and document-style entries. */
+.cv-page {
+  margin-bottom: 2em;
+
+  @include breakpoint($medium) {
+    @include span(12 of 12);
+  }
+
+  @include breakpoint($large) {
+    @include span(10 of 12 last);
+    @include prefix(0.5 of 12);
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}
+
 .cv-page__header {
   display: flex;
   align-items: center;
@@ -30,8 +47,9 @@
   text-decoration: none;
   white-space: nowrap;
   transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 
-  &:hover {
+  @include interactive-state {
     color: var(--global-link-color-hover);
     border-color: currentColor;
     background: rgba(120, 166, 190, 0.08);

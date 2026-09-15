@@ -1,0 +1,258 @@
+/* Homepage section headings, profile cards and welcome banner. */
+.page__content h2.home-section-title {
+  font-size: $type-size-3;
+  margin-top: 1.75rem;
+}
+
+/* Shared homepage cards for education, experience, and publications. */
+.page__content .profile-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: start;
+  gap: 0.625rem 1.25rem;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  transition: background-color 200ms ease, box-shadow 200ms ease, opacity 200ms ease;
+
+  &__logo {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    padding: 4px;
+    border-radius: 50%;
+    background: #fff;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .profile-card__logo-dark {
+      display: none;
+    }
+
+    &--company {
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+
+      img {
+        width: 44px;
+        height: 44px;
+      }
+
+    }
+  }
+
+  &__body {
+    min-width: 0;
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.35;
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .profile-card__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .profile-card__detail {
+    margin-top: 0.1rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .profile-card__dates {
+    font-size: 0.8rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    opacity: 0.8;
+  }
+
+  .profile-card__description {
+    grid-column: 2 / -1;
+    font-size: 0.9rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: rgba(148, 163, 184, 0.08);
+      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.18),
+                  0 8px 24px -12px rgba(0, 0, 0, 0.18);
+    }
+  }
+
+  @media (max-width: $small) {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 0.375rem 1rem;
+    padding: 0.75rem 1rem;
+
+    &__logo {
+      width: 48px;
+      height: 48px;
+    }
+
+    .profile-card__dates {
+      text-align: left;
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* Stack school names and dates on small screens. */
+@media (max-width: $small) {
+  .page__content .profile-card--education {
+    .profile-card__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .page__content .profile-card--experience {
+    .profile-card__subtitle {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .profile-card__detail {
+      order: -1;
+      margin: 0;
+    }
+
+    .profile-card__separator {
+      display: none;
+    }
+  }
+}
+
+/* Publications use the full card width without a logo column. */
+.page__content .profile-card--publication {
+  grid-template-columns: minmax(0, 1fr);
+
+  .profile-card__detail {
+    margin-top: 0.4rem;
+  }
+
+  .profile-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .profile-card__tag {
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    background: rgba(148, 163, 184, 0.12);
+  }
+}
+
+// Switch between separate color and white school/company-logo assets.
+html[data-theme="dark"] .page__content .profile-card__logo {
+  background: transparent;
+
+  .profile-card__logo-light {
+    display: none;
+  }
+
+  .profile-card__logo-dark {
+    display: block;
+  }
+}
+
+// Keep an inline model logo with its name, using separate theme assets.
+.page__content .model-name {
+  display: inline-block;
+  white-space: nowrap;
+
+  &__logo {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.2em;
+    vertical-align: -0.14em;
+
+    &--dark {
+      display: none;
+    }
+  }
+}
+
+html[data-theme="dark"] .page__content .model-name {
+  .model-name__logo--light {
+    display: none;
+  }
+
+  .model-name__logo--dark {
+    display: inline-block;
+  }
+}
+
+// Dim siblings only while a card is hovered, not while crossing the gaps.
+@media (hover: hover) and (pointer: fine) {
+  .page__content .profile-cards:has(> .profile-card:hover) > .profile-card:not(:hover):not(:focus-within) {
+    opacity: 0.65;
+  }
+}
+
+/* Homepage welcome text; overlapping sizers keep the content below stable. */
+.home-welcome {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-bottom: 0.5rem;
+  color: var(--global-base-color);
+  font-family: $serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+
+  &__line,
+  &__sizer {
+    grid-area: 1 / 1;
+    align-self: start;
+  }
+
+  &__sizer {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  // Show the cursor without making it push the last word onto another line.
+  .typed-cursor {
+    display: inline-block;
+    width: 0;
+    text-align: left;
+  }
+}

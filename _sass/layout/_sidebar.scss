@@ -132,7 +132,6 @@
   vertical-align: middle;
   font-family: $sans-serif;
   z-index: 10;
-  cursor: pointer;
 
   li:last-child {
     a {
@@ -217,8 +216,9 @@
     color: inherit;
     font-size: $type-size-5;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
 
-    &:hover {
+    @include interactive-state {
       text-decoration: underline;
     }
   }

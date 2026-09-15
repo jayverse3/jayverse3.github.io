@@ -11,7 +11,7 @@
     "uglify-js": "^3.19.3"
   },
   "scripts": {
-    "build:js": "uglifyjs node_modules/jquery/dist/jquery.min.js assets/js/plugins/jquery.greedy-navigation.js assets/js/_main.js -c -m --comments \"/^!/\" -o assets/js/main.min.js",
-    "watch:js": "onchange \"assets/js/**/*.js\" -e \"assets/js/main.min.js\" -- npm run build:js"
+    "build:js": "uglifyjs node_modules/jquery/dist/jquery.min.js assets/js/src/navigation.js assets/js/src/theme.js assets/js/src/profile-menu.js -c -m --comments \"/^!/\" -o assets/js/main.min.js",
+    "watch:js": "onchange \"assets/js/src/*.js\" -- npm run build:js"
   }
 }

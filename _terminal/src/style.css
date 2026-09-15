@@ -1,0 +1,46 @@
+@import '@xterm/xterm/css/xterm.css';
+
+:root {
+  color-scheme: light;
+  --terminal-bg: #f4f6f8;
+  --terminal-fg: #303740;
+  --terminal-muted: #626d7a;
+  --terminal-accent: #426f90;
+  --terminal-green: #566879;
+  --terminal-selection: #d6e3ee;
+  --terminal-error: #ad4545;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --terminal-bg: #202124;
+  --terminal-fg: #deded9;
+  --terminal-muted: #929995;
+  --terminal-accent: #8fb8ce;
+  --terminal-green: #abc88e;
+  --terminal-selection: #3c4c56;
+  --terminal-error: #e79494;
+}
+* { box-sizing: border-box; }
+body.terminal-page { margin: 0; overflow: hidden; background: var(--terminal-bg); color: var(--terminal-fg); font: 16px/1.5 Consolas, 'Liberation Mono', monospace; }
+.terminal-app { height: 100vh; height: 100dvh; padding: 24px; }
+.terminal-workspace, .terminal-output, .terminal-output .xterm { height: 100%; }
+.terminal-output .xterm-viewport { background: var(--terminal-bg); scrollbar-width: none; }
+.terminal-output .xterm-viewport::-webkit-scrollbar { display: none; }
+.terminal-output .xterm .xterm-scrollable-element > .scrollbar { opacity: 0; transition: opacity 160ms ease; }
+.terminal-output.is-scrolling .xterm .xterm-scrollable-element > .scrollbar.visible,
+.terminal-output .xterm .xterm-scrollable-element > .scrollbar.visible:is(:hover, :has(.slider.active)) { opacity: 1; }
+/* Keep xterm's 14px drag target, but draw a slimmer 6px rounded thumb. */
+.terminal-output .xterm .xterm-scrollable-element > .scrollbar.vertical > .slider { background: transparent; }
+.terminal-output .xterm .xterm-scrollable-element > .scrollbar.vertical > .slider::before { content: ''; position: absolute; inset: 0 4px; border-radius: 999px; background: var(--terminal-muted); opacity: 0.8; transition: opacity 160ms ease; }
+.terminal-output .xterm .xterm-scrollable-element > .scrollbar.vertical > .slider:is(:hover, .active)::before { opacity: 1; }
+.terminal-startup { position: absolute; top: 24px; left: 24px; margin: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.terminal-skip { position: fixed; top: 8px; left: 24px; transform: translateY(-200%); background: var(--terminal-bg); color: var(--terminal-accent); padding: 8px; z-index: 5; }
+.terminal-skip:focus { transform: none; }
+noscript { position: absolute; top: 64px; left: 24px; }
+noscript a { color: var(--terminal-accent); }
+@media (max-width: 700px) { .terminal-app { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) {
+  .terminal-output .xterm .xterm-scrollable-element > .scrollbar,
+  .terminal-output .xterm .xterm-scrollable-element > .scrollbar.vertical > .slider::before { transition: none; }
+}

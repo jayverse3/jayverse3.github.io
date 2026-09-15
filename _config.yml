@@ -43,17 +43,13 @@ exclude:
   - package.json
   - package-lock.json
   - scripts
-  - assets/js/_main.js
-  - assets/js/plugins
+  - assets/js/src
   # Keep asset provenance in Git, but do not publish it as web content.
   - "images/*-source.md"
 
 encoding: "utf-8"
 markdown: kramdown
 highlighter: rouge
-excerpt_separator: "\n\n"
-words_per_minute: 160
-permalink: /:categories/:title/
 timezone: Etc/UTC
 
 kramdown:
@@ -72,13 +68,6 @@ defaults:
     values:
       layout: single
       author_profile: true
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
 
 sass:
   sass_dir: _sass

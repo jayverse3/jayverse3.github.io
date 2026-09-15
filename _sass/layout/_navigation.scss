@@ -10,7 +10,7 @@
     color: var(--global-masthead-link-color);
     text-decoration: none;
 
-    &:hover {
+    @include interactive-state {
       color: var(--global-masthead-link-color-hover);
     }
   }
@@ -69,10 +69,18 @@
                 transform: scaleX(0); /* hide*/
       }
 
-      &:hover:before {
+      &:active:before {
         -webkit-transform: scaleX(1);
             -ms-transform: scaleX(1);
                 transform: scaleX(1); /* reveal*/
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        &:hover:before {
+          -webkit-transform: scaleX(1);
+              -ms-transform: scaleX(1);
+                  transform: scaleX(1);
+        }
       }
     }
   }
@@ -93,7 +101,7 @@
       padding: 10px 20px;
       font-size: $type-size-5;
 
-      &:hover {
+      @include interactive-state {
         color: var(--global-masthead-link-color-hover);
         background: var(--global-border-color);
       }

@@ -40,6 +40,7 @@
 
     a {
       text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
     }
   }
 }
@@ -106,12 +107,23 @@
   line-height: 1;
   cursor: pointer;
 
-  &:hover {
+  &:active {
     color: var(--global-masthead-link-color-hover);
   }
 
-  &--rss:hover {
+  &--rss:active {
     color: #f97316;
+  }
+
+  // Touch browsers can retain :hover after returning from another tab.
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--global-masthead-link-color-hover);
+    }
+
+    &--rss:hover {
+      color: #f97316;
+    }
   }
 
   &:focus-visible {

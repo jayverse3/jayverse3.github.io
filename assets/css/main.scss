@@ -11,7 +11,7 @@
 @import
     "vendor/breakpoint/breakpoint",
 
-    "themes",
+    "settings",
     "theme/{{ site.site_theme | default: 'default' | append: '_light' }}",
     "theme/{{ site.site_theme | default: 'default' | append: '_dark' }}",
 
@@ -22,18 +22,15 @@
     "layout/base",
 
     "include/utilities",
-    "layout/tables",
     "layout/buttons",
-    "layout/notices",
     "layout/masthead",
     "layout/navigation",
     "layout/footer",
-    "syntax",
 
     "layout/page",
+    "layout/home",
     "layout/section-nav",
     "layout/back-to-top",
-    "layout/archive",
     "layout/cv",
     "layout/sidebar"
 ;

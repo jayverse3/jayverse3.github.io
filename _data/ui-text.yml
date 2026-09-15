@@ -1,7 +1,0 @@
-# Labels used by the personal profile and basic article layout.
-en-US:
-  email_label: "Email"
-  date_label: "Published:"
-  less_than: "less than"
-  minute_read: "minute read"
-  undefined_wpm: "Set words_per_minute in _config.yml."

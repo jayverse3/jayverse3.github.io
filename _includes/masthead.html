@@ -25,6 +25,9 @@
         Last updated in <time datetime="{{ 'now' | date: '%Y-%m-%d' }}">{{ 'now' | date: '%b %Y' }}</time>
       </span>
       <div class="masthead__actions">
+        <a class="masthead__action" href="{{ '/terminal/' | relative_url }}" aria-label="Terminal" title="？？？"{% if page.url == '/terminal/' %} aria-current="page"{% endif %}>
+          <i class="fa-solid fa-terminal" aria-hidden="true"></i>
+        </a>
         <a class="masthead__action masthead__action--rss" href="{{ '/feed.xml' | relative_url }}" target="_blank" aria-label="Subscribe via RSS" title="Subscribe via RSS">
           <i class="fa-solid fa-rss" aria-hidden="true"></i>
         </a>
