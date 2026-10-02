@@ -14,7 +14,7 @@ export interface Section {
 export type ThemeChoice = 'light' | 'dark' | 'system' | 'toggle';
 export interface Result {
   lines: Line[];
-  action?: 'clear' | 'welcome' | 'gui' | 'theme';
+  action?: 'clear' | 'welcome' | 'home' | 'theme';
   theme?: ThemeChoice;
   code: number;
 }
@@ -25,7 +25,7 @@ export const commands = {
   news: 'See the latest updates',
   education: 'Explore my education',
   experience: 'Explore my experience',
-  publications: 'Browse my publications',
+  research: 'Explore my research',
   cv: 'View my CV and download the PDF',
   contact: 'Get in touch by email',
   profiles: 'Browse my online profiles',
@@ -33,7 +33,7 @@ export const commands = {
   history: 'Show commands from this visit',
   clear: 'Clear the terminal',
   welcome: 'Show the welcome banner',
-  gui: 'Return to the GUI homepage',
+  home: 'Return to the homepage',
 } as const;
 
 export type Command = keyof typeof commands;
@@ -112,9 +112,9 @@ export function execute(input: string, sections: Record<string, Section>, histor
   if (name === 'help') return {
     lines: [{ text: 'Available commands', style: 'heading' }, { text: '' }, ...commandNames.map(command => ({ text: `  ${command.padEnd(16)}${commands[command]}`, style: 'command' as const })), { text: '' }, { text: 'Click a command, or type it below. A leading / also works.', style: 'muted' }], code: 0,
   };
-  if (name === 'clear' || name === 'welcome' || name === 'gui') return { action: name, lines: [], code: 0 };
+  if (name === 'clear' || name === 'welcome' || name === 'home') return { action: name, lines: [], code: 0 };
   if (name === 'history') return { lines: history.map((text, index) => ({ text: `${String(index + 1).padStart(3)}  ${text}` })), code: 0 };
   const section = sections[name];
-  if (!section) return fail('This section is not available yet. You can still visit the GUI homepage with gui.');
+  if (!section) return fail('This section is not available yet. You can still visit the homepage with home.');
   return { lines: [{ text: section.title, style: 'heading' }, { text: '' }, ...section.lines], code: 0 };
 }

@@ -1,4 +1,10 @@
 /* CV content column, title, download action, and document-style entries. */
+
+/* Use KaTeX's wordmark at the surrounding text size. */
+.cv-latex-logo .katex {
+  font-size: 1em;
+}
+
 .cv-page {
   margin-bottom: 2em;
 

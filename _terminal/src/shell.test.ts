@@ -7,7 +7,7 @@ describe('command parsing', () => {
     expect(parseInput("theme 'light'")).toEqual(['theme', 'light']);
   });
   it('rejects unfinished quotes and shell operators', () => {
-    for (const input of ['about | cat', 'about; gui', 'about > notes', 'about && gui', 'theme "dark']) expect(() => parseInput(input)).toThrow();
+    for (const input of ['about | cat', 'about; home', 'about > notes', 'about && home', 'theme "dark']) expect(() => parseInput(input)).toThrow();
   });
   it('does not parse quoted operators as commands', () => {
     expect(parseInput('about "a|b"')).toEqual(['about', 'a|b']);
@@ -19,19 +19,27 @@ describe('command parsing', () => {
 
 describe('commands', () => {
   it('lists help and completion candidates alphabetically', () => {
-    const expected = ['about', 'clear', 'contact', 'cv', 'education', 'experience', 'gui', 'help', 'history', 'news', 'profiles', 'publications', 'theme', 'welcome'];
+    const expected = ['about', 'clear', 'contact', 'cv', 'education', 'experience', 'help', 'history', 'home', 'news', 'profiles', 'research', 'theme', 'welcome'];
     expect(commandNames).toEqual(expected);
     expect(execute('help', {}, []).lines.filter(line => line.style === 'command').map(line => line.text.trim().split(/\s+/)[0])).toEqual(expected);
     expect(complete('')).toEqual(expected);
-    expect(complete('h')).toEqual(['help', 'history']);
-    expect(complete('g')).toEqual(['gui']);
-    expect(complete('/g')).toEqual(['gui']);
+    expect(complete('h')).toEqual(['help', 'history', 'home']);
+    expect(complete('ho')).toEqual(['home']);
+    expect(complete('/ho')).toEqual(['home']);
     expect(complete('c')).toEqual(['clear', 'contact', 'cv']);
-    expect(complete('p')).toEqual(['profiles', 'publications']);
+    expect(complete('p')).toEqual(['profiles']);
     expect(complete('/pro')).toEqual(['profiles']);
   });
   it('returns homepage content', () => {
     expect(execute('about', { about: { title: 'About', lines: [{ text: 'Profile' }] } }, []).lines.at(-1)?.text).toBe('Profile');
+  });
+  it('shows research content, including the slash alias', () => {
+    const research = { title: 'Research', lines: [{ text: 'Seed2.1 Model Card' }] };
+    for (const input of ['research', '/research', 'RESEARCH']) {
+      expect(execute(input, { research }, [])).toEqual({
+        lines: [{ text: 'Research', style: 'heading' }, { text: '' }, ...research.lines], code: 0,
+      });
+    }
   });
   it('supports CLI-style slash aliases', () => {
     expect(execute('/help', {}, []).code).toBe(0);
@@ -43,7 +51,7 @@ describe('commands', () => {
   });
   it('offers prefix completion only for command names', () => {
     expect(complete('ex')).toEqual(['experience']);
-    expect(complete('/pub')).toEqual(['publications']);
+    expect(complete('/res')).toEqual(['research']);
     expect(complete('theme dark')).toEqual([]);
     expect(complete('toString')).toEqual([]);
   });
@@ -52,12 +60,12 @@ describe('commands', () => {
     expect(execute('/welcome', {}, [])).toMatchObject({ action: 'welcome', code: 0 });
     expect(execute('welcome extra', {}, []).code).toBe(1);
   });
-  it('returns to the GUI homepage with gui, including the slash alias', () => {
-    for (const input of ['gui', '/gui', 'GUI']) expect(execute(input, {}, [])).toEqual({ action: 'gui', lines: [], code: 0 });
-    expect(execute('gui extra', {}, []).code).toBe(1);
-    expect(execute('home', {}, []).code).toBe(1);
-    expect(execute('help', {}, []).lines.find(line => line.text.trimStart().startsWith('gui '))?.text).toContain('Return to the GUI homepage');
-    expect(execute('about', {}, []).lines[0].text).toContain('with gui');
+  it('returns to the homepage with home, including the slash alias', () => {
+    for (const input of ['home', '/home', 'HOME']) expect(execute(input, {}, [])).toEqual({ action: 'home', lines: [], code: 0 });
+    expect(execute('home extra', {}, []).code).toBe(1);
+    expect(execute('unknown', {}, []).code).toBe(1);
+    expect(execute('help', {}, []).lines.find(line => line.text.trimStart().startsWith('home '))?.text).toContain('Return to the homepage');
+    expect(execute('about', {}, []).lines[0].text).toContain('with home');
   });
 });
 

@@ -65,7 +65,8 @@
   }
 }
 
-.page__footer-copyright {
+.page__footer-copyright,
+.page__footer-visits {
   width: fit-content;
   max-width: 100%;
   margin-left: auto;
@@ -74,4 +75,9 @@
   font-family: $global-font-family;
   font-size: $type-size-7;
   opacity: 0.65;
+}
+
+.page__footer-visits {
+  margin-top: 0.25rem;
+  font-variant-numeric: tabular-nums;
 }

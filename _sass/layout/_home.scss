@@ -4,7 +4,7 @@
   margin-top: 1.75rem;
 }
 
-/* Shared homepage cards for education, experience, and publications. */
+/* Shared homepage cards for education, experience, and research. */
 .page__content .profile-card {
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
@@ -153,8 +153,8 @@
   }
 }
 
-/* Publications use the full card width without a logo column. */
-.page__content .profile-card--publication {
+/* Research uses the full card width without a logo column. */
+.page__content .profile-card--research {
   grid-template-columns: minmax(0, 1fr);
 
   .profile-card__detail {
@@ -190,30 +190,24 @@ html[data-theme="dark"] .page__content .profile-card__logo {
   }
 }
 
-// Keep an inline model logo with its name, using separate theme assets.
-.page__content .model-name {
+// Inline model logos use separate theme assets; prose supplies their spacing.
+.page__content .model-logo {
   display: inline-block;
-  white-space: nowrap;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.14em;
 
-  &__logo {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    margin-right: 0.2em;
-    vertical-align: -0.14em;
-
-    &--dark {
-      display: none;
-    }
+  &--dark {
+    display: none;
   }
 }
 
-html[data-theme="dark"] .page__content .model-name {
-  .model-name__logo--light {
+html[data-theme="dark"] .page__content {
+  .model-logo--light {
     display: none;
   }
 
-  .model-name__logo--dark {
+  .model-logo--dark {
     display: inline-block;
   }
 }
@@ -231,7 +225,7 @@ html[data-theme="dark"] .page__content .model-name {
   grid-template-columns: minmax(0, 1fr);
   margin-bottom: 0.5rem;
   color: var(--global-base-color);
-  font-family: $serif;
+  font-family: $welcome-font-family;
   font-size: clamp(1.5rem, 3vw, 2.25rem);
   font-weight: 400;
   line-height: 1.35;

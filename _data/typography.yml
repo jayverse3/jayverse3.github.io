@@ -1,0 +1,18 @@
+# Website font configuration. Terminal and PDF typography are independent.
+# family: body; ui_family: Chinese headings and controls; welcome_family: welcome text.
+# stylesheets: optional webfont CSS, loaded only on pages in this language.
+# A missing welcome_family inherits the English welcome font.
+# Non-English body/UI stacks are prefixed with English fonts, before the generic fallback.
+# welcome_family can reuse a shared CSS font variable.
+en:
+  family: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif'
+  welcome_family: 'Georgia, Times, serif'
+
+zh-Hans:
+  family: '"Source Han Serif SC VF", "Source Han Serif SC", "Songti SC", SimSun, serif'
+  ui_family: '"Source Han Sans SC VF", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+  welcome_family: 'var(--ui-font-family)'
+  # SIL OFL fonts, loaded as on-demand WOFF2 subsets; versions are pinned.
+  stylesheets:
+    - 'https://cdn.jsdelivr.net/npm/cn-fontsource-source-han-serif-sc-vf-regular@1.0.1/font.css'
+    - 'https://cdn.jsdelivr.net/npm/cn-fontsource-source-han-sans-sc-vf@1.0.10/font.css'

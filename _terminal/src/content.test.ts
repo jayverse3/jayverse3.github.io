@@ -34,10 +34,10 @@ describe('terminal prose layout', () => {
 describe('terminal about content', () => {
   it('adds the greeting and gives each sentence its own full-width line', () => {
     const sentences = [
-      'I am a master’s student in the School of Computer Science at Peking University.',
-      'My research interests include LLM post-training, agentic reinforcement learning, and data synthesis.',
-      'I am currently a research intern at Baidu and previously interned at ByteDance.',
-      'My long-term goal is to advance AI from assisting humans to autonomously solving problems through code.',
+      'I am a graduate student.',
+      'My research focuses on language models and data synthesis.',
+      'I build coding agents.',
+      'I enjoy turning research ideas into working systems.',
     ];
     expect(aboutLines([{ text: sentences.join(' ') }])).toEqual(
       ['Hi there, my name is Yingjie Yang.', ...sentences].map(text => ({ text, wrap: 'viewport' })),

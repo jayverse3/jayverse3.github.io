@@ -13,16 +13,6 @@ $lighter-gray               : mix(#fff, $gray, 90%);
 /* Color codes used for the site */
 $warning-color              : #f89406;
 
-/* Other basic settings for the template */
-$border-radius              : 4px;
-$box-shadow                 : 0 1px 1px rgba(0, 0, 0, 0.125);
-$global-transition          : all 0.2s ease-in-out;
-$masthead-height            : 70px;
-$navicon-width              : 28px;
-$navicon-height             : 4px;
-$sidebar-link-max-width     : 250px;
-$sidebar-screen-min-width   : 1024px;
-
 /* Default light theme for the site */
 :root {
     --global-base-color                 : #{$primary-color};
@@ -30,10 +20,8 @@ $sidebar-screen-min-width   : 1024px;
     --global-border-color               : #{$lighter-gray};
     --global-code-background-color      : #fafafa;
     --global-code-text-color            : #{$darker-gray};
-    --global-fig-caption-color          : mix(#fff,  #{$dark-gray}, 25%);
     --global-link-color                 : #{$link};
     --global-link-color-hover           : #{mix(#000, $link, 15%)};
-    --global-link-color-visited         : #{$link};
     --global-masthead-link-color        : #{$dark-gray};
     --global-masthead-link-color-hover  : #{mix(#000, $gray, 25%)};
     --global-text-color                 : #{$dark-gray};

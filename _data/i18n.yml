@@ -1,0 +1,88 @@
+# Website labels and SEO metadata for English and Simplified Chinese pages.
+# Terminal command names and help text intentionally remain English.
+en:
+  # English SEO title/description use the defaults in _config.yml.
+  seo:
+    locale: en_US
+  language_label: EN
+  switch_language: Switch to English
+  home: Home
+  cv: CV
+  toggle_navigation: Toggle navigation
+  # The header's update text/date intentionally stay English on both GUI languages.
+  last_updated: Last updated in
+  month_format: "%b %Y"
+  present: Present
+  terminal: Terminal
+  terminal_hint: "？？？"
+  subscribe_rss: Subscribe via RSS
+  toggle_theme: Toggle color theme
+  links: Links
+  email: Email
+  scholar: Google Scholar
+  github: GitHub
+  powered_by: Powered by
+  site_visits: Site visits
+  back_to_top: Back to top
+  on_this_page: On this page
+  download_pdf: Download PDF
+  download_pdf_label: Download CV as PDF (English)
+  project_page: Project Page
+  technical_report: Technical Report
+  silver_medal_kaggle: "Silver Medal, Kaggle:"
+  sections:
+    about: About
+    news: News
+    education: Education
+    experience: Experience
+    research: Research
+    honors-and-awards: Honors & Awards
+    skills: Skills
+  skills:
+    programming_languages: Programming Languages
+    post_training: Post-training
+    framework: Framework
+    tools: Tools
+
+zh-Hans:
+  seo:
+    locale: zh_CN
+    title: 杨迎杰
+    description: 杨迎杰，北京大学计算机学院硕士研究生。研究兴趣包括大语言模型后训练、智能体强化学习与数据合成。
+  language_label: 中文
+  switch_language: 切换为简体中文
+  home: 首页
+  cv: 简历
+  toggle_navigation: 展开或收起导航
+  month_format: "%Y.%m"
+  present: 至今
+  terminal: Terminal
+  terminal_hint: "？？？"
+  subscribe_rss: 订阅 RSS
+  toggle_theme: 切换颜色主题
+  links: 联系方式
+  email: 电子邮箱
+  scholar: Google Scholar
+  github: GitHub
+  powered_by: 基于
+  site_visits: 全站访问量
+  back_to_top: 返回顶部
+  on_this_page: 本页导航
+  download_pdf: 下载 PDF
+  download_pdf_label: 下载中文版 PDF 简历
+  project_page: Project Page
+  technical_report: Technical Report
+  silver_medal_kaggle: "Kaggle 银牌："
+  sections:
+    about: 个人简介
+    news: 最新动态
+    education: 教育背景
+    experience: 实习经历
+    research: 研究成果
+    honors-and-awards: 荣誉奖项
+    skills: 专业技能
+  skills:
+    programming_languages: 编程语言
+    post_training: 后训练
+    framework: 框架
+    tools: 工具

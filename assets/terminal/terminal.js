@@ -9366,7 +9366,7 @@ var ms = class {
 	news: "See the latest updates",
 	education: "Explore my education",
 	experience: "Explore my experience",
-	publications: "Browse my publications",
+	research: "Explore my research",
 	cv: "View my CV and download the PDF",
 	contact: "Get in touch by email",
 	profiles: "Browse my online profiles",
@@ -9374,7 +9374,7 @@ var ms = class {
 	history: "Show commands from this visit",
 	clear: "Clear the terminal",
 	welcome: "Show the welcome banner",
-	gui: "Return to the GUI homepage"
+	home: "Return to the homepage"
 }, gs = Object.keys(hs).sort();
 function _s(e) {
 	return e.replace(/[\u0000-\u001f\u007f-\u009f]/g, "");
@@ -9472,7 +9472,7 @@ function xs(e, t, n) {
 		],
 		code: 0
 	};
-	if (a === "clear" || a === "welcome" || a === "gui") return {
+	if (a === "clear" || a === "welcome" || a === "home") return {
 		action: a,
 		lines: [],
 		code: 0
@@ -9492,7 +9492,7 @@ function xs(e, t, n) {
 			...o.lines
 		],
 		code: 0
-	} : r("This section is not available yet. You can still visit the GUI homepage with gui.");
+	} : r("This section is not available yet. You can still visit the homepage with home.");
 }
 //#endregion
 //#region src/content.ts
@@ -9590,7 +9590,7 @@ function ks(e, t) {
 			let i = ws(n.querySelector(".profile-card__subtitle"));
 			i.text && t.push(i);
 			let a = ws(n.querySelector(".profile-card__description"));
-			if (a.text && t.push({ text: "" }, ...Ts([a])), e === "publications") {
+			if (a.text && t.push({ text: "" }, ...Ts([a])), e === "research") {
 				for (let e of n.querySelectorAll("p.profile-card__detail")) t.push({
 					...ws(e),
 					style: "muted"
@@ -9628,9 +9628,9 @@ function ks(e, t) {
 			title: "Experience",
 			lines: r("experience")
 		},
-		publications: {
-			title: "Publications",
-			lines: r("publications")
+		research: {
+			title: "Research",
+			lines: r("research")
 		},
 		cv: {
 			title: "Curriculum Vitae",
@@ -9816,7 +9816,7 @@ async function tc() {
 var Q = "", $ = 0, nc, rc = Promise.resolve(), ic = !1;
 function ac(e) {
 	rc = rc.then(e).catch((e) => {
-		console.error("Terminal error:", e), Us.hidden = !1, Us.textContent = "Terminal interrupted. Reload, or use the regular homepage.";
+		console.error("Terminal error:", e), Us.hidden = !1, Us.textContent = "Terminal interrupted. Reload, or use the homepage.";
 	});
 }
 async function oc() {
@@ -9851,7 +9851,7 @@ async function cc(e = Q) {
 	}
 	Gs.add(t);
 	let n = xs(t, Ws, Gs.entries);
-	if (n.action === "gui") {
+	if (n.action === "home") {
 		await oc(), location.assign(Vs.dataset.home || "/");
 		return;
 	}
@@ -9875,7 +9875,7 @@ async function lc(e) {
 		return;
 	}
 	if (e === "" && !Q) {
-		await cc("gui");
+		await cc("home");
 		return;
 	}
 	if (e === "	") {
@@ -9958,6 +9958,6 @@ async function uc() {
 	}).observe(Hs);
 }
 uc().catch((e) => {
-	console.error("Terminal failed to start:", e), Us.textContent = "Unable to start. Reload or return to the regular homepage.";
+	console.error("Terminal failed to start:", e), Us.textContent = "Unable to start. Reload or return to the homepage.";
 });
 //#endregion

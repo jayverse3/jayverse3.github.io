@@ -1,4 +1,3 @@
-{% include base_path %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -20,7 +19,7 @@
   </head>
   <body class="terminal-page">
     <div class="terminal-app" id="terminal-app" data-home="{{ '/' | relative_url }}" data-cv="{{ '/cv/' | relative_url }}" data-pdf="{{ '/files/yingjie-yang-cv.pdf' | relative_url }}" data-email="{{ site.author.email | escape }}" data-github="https://github.com/{{ site.author.github | escape }}" data-scholar="{{ site.author.googlescholar | escape }}">
-      <a class="terminal-skip" href="{{ '/' | relative_url }}">Return to the GUI homepage</a>
+      <a class="terminal-skip" href="{{ '/' | relative_url }}">Return to the homepage</a>
       <main class="terminal-workspace" aria-label="Yingjie Yang's terminal homepage">
         <h1 class="sr-only">Yingjie Yang — Terminal</h1>
         <div class="terminal-output" id="terminal-output" aria-label="Interactive terminal"></div>
@@ -28,8 +27,8 @@
       </main>
       <noscript><p>This terminal needs JavaScript. You can browse the <a href="{{ '/' | relative_url }}">regular homepage</a> instead.</p></noscript>
     </div>
-    {% assign homepage = site.pages | where: 'url', '/' | first %}
-    <template id="terminal-content">{{ homepage.content | markdownify }}</template>
+    <template id="terminal-content">{% include home-content.html lang="en" %}</template>
     <script type="module" src="{{ '/assets/terminal/terminal.js' | relative_url }}"></script>
+    {% include analytics.html %}
   </body>
 </html>

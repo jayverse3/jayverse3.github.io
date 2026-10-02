@@ -28,18 +28,25 @@ $(function () {
   }
 
   $button.on("click", function () {
-    $menu.stop(true, true).fadeToggle("fast");
+    $menu.stop(true, true);
+    $button.attr("aria-expanded", String(!$menu.is(":visible")));
+    $menu.fadeToggle("fast");
     positionMenu();
   });
 
   $(document).on("click", function (event) {
     if ($button.is(":visible") && !wrapper.contains(event.target)) {
       $menu.stop(true, true).fadeOut("fast");
+      $button.attr("aria-expanded", "false");
     }
   });
 
   $(window).on("resize", function () {
+    // Clear mobile animation styles on desktop; CSS controls both layouts.
+    if (!$button.is(":visible")) {
+      $menu.stop(true, true).css("display", "");
+      $button.attr("aria-expanded", "false");
+    }
     positionMenu();
-    if (!$button.is(":visible") && $menu.css("display") === "none") $menu.css("display", "block");
   });
 });

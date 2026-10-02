@@ -36,7 +36,7 @@
 
   h2, h3, h4, h5, h6 {
     margin-bottom: 0;
-    font-family: $sans-serif-narrow;
+    font-family: $global-font-family;
   }
 
   h3, h4 {
@@ -44,7 +44,7 @@
   }
 
   p, li {
-    font-family: $sans-serif;
+    font-family: $global-font-family;
     font-size: $type-size-6;
     line-height: 1.5;
   }
@@ -106,13 +106,13 @@
   }
 }
 .sidebar .author__name {
-  font-family: $sans-serif;
+  font-family: $global-font-family;
   font-size: $type-size-5;
 }
 
 .sidebar .author__desktop {
   display: none;
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: $sidebar-screen-min-width) {
     display: block;
   }
 }
@@ -130,7 +130,7 @@
   position: relative;
   display: table-cell;
   vertical-align: middle;
-  font-family: $sans-serif;
+  font-family: $global-font-family;
   z-index: 10;
 
   li:last-child {

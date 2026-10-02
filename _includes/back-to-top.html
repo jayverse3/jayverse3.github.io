@@ -1,4 +1,5 @@
-<button class="back-to-top" type="button" aria-label="Back to top" hidden>
+{% assign back_to_top_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
+<button class="back-to-top" type="button" aria-label="{{ back_to_top_ui.back_to_top | escape }}" hidden>
   <span class="back-to-top__icon" aria-hidden="true"></span>
-  <span class="back-to-top__label" aria-hidden="true">Back to top</span>
+  <span class="back-to-top__label" aria-hidden="true">{{ back_to_top_ui.back_to_top | escape }}</span>
 </button>

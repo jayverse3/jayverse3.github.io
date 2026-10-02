@@ -1,0 +1,7 @@
+{%- assign summary_copy = include.entry[include.lang] | default: include.entry.en -%}
+{%- assign model_label = summary_copy.model | escape -%}
+{%- assign model_logo = '' -%}
+{%- if include.entry.model_logo -%}
+  {%- capture model_logo -%}<img class="model-logo model-logo--light" src="{{ include.entry.model_logo | relative_url }}" alt="" width="18" height="18"><img class="model-logo model-logo--dark" src="{{ include.entry.model_logo_dark | relative_url }}" alt="" width="18" height="18">{%- endcapture -%}
+{%- endif -%}
+{{- summary_copy.summary | replace: '%MODEL_LOGO%', model_logo | replace: '%MODEL%', model_label | markdownify | remove: '<p>' | remove: '</p>' | strip -}}

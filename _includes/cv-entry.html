@@ -1,0 +1,39 @@
+{%- assign cv_entry = include.entry -%}
+{%- assign cv_copy = cv_entry[include.lang] | default: cv_entry.en -%}
+<article class="cv-entry{% if include.kind != 'research' %} cv-entry--{{ include.kind }}{% endif %}">
+  <div class="cv-entry__header">
+    {% if include.kind == 'education' %}
+    <h3 class="cv-entry__title"><strong>{{ cv_copy.name | escape }}</strong><span class="cv-entry__education-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__major">{{ cv_copy.major | escape }}</span><span class="cv-entry__separator"> | </span><span class="cv-entry__degree">{{ cv_copy.degree | escape }}</span></span></h3>
+    {% elsif include.kind == 'experience' %}
+    <h3 class="cv-entry__title"><strong>{{ cv_copy.name | escape }}</strong><span class="cv-entry__position-details">{% if cv_copy.department %}<span class="cv-entry__separator"> | </span><span class="cv-entry__department">{{ cv_copy.department | escape }}</span>{% endif %}<span class="cv-entry__separator"> | </span><span class="cv-entry__role">{{ cv_copy.role | escape }}{% if cv_copy.program %}{% if include.lang == 'zh-Hans' %}<strong>（{{ cv_copy.program | escape }}）</strong>{% else %} <strong>({{ cv_copy.program | escape }})</strong>{% endif %}{% endif %}</span></span></h3>
+    {% else %}
+    <h3 class="cv-entry__title"><strong>{{ cv_entry.title | escape }}</strong></h3>
+    {% endif %}
+    <p class="cv-entry__date">{% if include.kind == 'research' %}{{ cv_entry.date | slice: 0,4 }}{% else %}{% include date-range.html start=cv_entry.start end=cv_entry.end ui=include.ui %}{% endif %}</p>
+  </div>
+  {% if include.kind == 'experience' %}
+  <div class="cv-entry__body">
+    {% if cv_copy.cv_groups %}
+    <ul class="cv-experience-groups">
+      {% for group in cv_copy.cv_groups %}
+      <li>
+        <h4>{{ group.title | escape }}</h4>
+        <ul>
+          {% for highlight in group.highlights %}
+          <li>{{ highlight | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    {{ cv_copy.summary | markdownify }}
+    {% endif %}
+  </div>
+  {% elsif include.kind == 'research' %}
+  <div class="cv-entry__body">
+    <p>{{ cv_copy.team | escape }}</p>
+    <p>{{ include.ui[cv_entry.type] | escape }} &middot; <a href="{{ cv_entry.url | escape }}" target="_blank" aria-label="{{ cv_copy.link_label | escape }}">{{ include.ui.project_page | escape }}</a></p>
+  </div>
+  {% endif %}
+</article>

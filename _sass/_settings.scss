@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SHARED TYPOGRAPHY, BREAKPOINTS AND GRID SETTINGS
+   SHARED TYPOGRAPHY, LAYOUT AND MOTION SETTINGS
    ========================================================================== */
 
 /* ==========================================================================
@@ -9,13 +9,11 @@
 /* Space between paragraphs */
 $paragraph-spacing          : 1.3em;
 
-/* System typefaces */
-$serif                      : Georgia, Times, serif;
-$sans-serif                 : -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+/* Website font choices are configured in _data/typography.yml. */
+$global-font-family         : var(--font-family, sans-serif);
+$header-font-family         : $global-font-family;
+$welcome-font-family        : var(--welcome-font-family, serif);
 $monospace                  : Monaco, Consolas, "Lucida Console", monospace;
-
-/* Sans serif typefaces */
-$sans-serif-narrow          : $sans-serif;
 
 /* Type scale */
 $type-size-3                : 1.563em;  // ~25.008px
@@ -24,9 +22,15 @@ $type-size-5                : 1em;      // ~16px
 $type-size-6                : 0.75em;   // ~12px
 $type-size-7                : 0.6875em; // ~11px
 
-$global-font-family         : $sans-serif;
-$header-font-family         : $sans-serif;
-$caption-font-family        : $serif;
+/* Theme-independent layout and motion */
+$border-radius              : 4px;
+$box-shadow                 : 0 1px 1px rgba(0, 0, 0, 0.125);
+$transition-timing          : 0.2s ease-in-out;
+$masthead-height            : 70px;
+$navicon-width              : 28px;
+$navicon-height             : 4px;
+$sidebar-link-max-width     : 250px;
+$sidebar-screen-min-width   : 1024px;
 
 /* ==========================================================================
    Breakpoints

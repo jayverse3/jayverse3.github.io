@@ -26,6 +26,11 @@
     color: var(--global-text-color);
     cursor: pointer;
     z-index: 100;
+
+    &:focus-visible {
+      outline: 2px solid var(--global-link-color);
+      outline-offset: 2px;
+    }
   }
 
   .visible-links {
@@ -62,8 +67,7 @@
         height: 4px;
         background: var(--global-border-color);
         width: 100%;
-        -webkit-transition: $global-transition;
-        transition: $global-transition;
+        transition: transform $transition-timing, background-color $transition-timing;
         -webkit-transform: scaleX(0);
             -ms-transform: scaleX(0);
                 transform: scaleX(0); /* hide*/

@@ -1,37 +1,55 @@
-{% include base_path %}
+{% assign nav_lang = page.lang | default: 'en' %}
+{% assign nav_ui = site.data.i18n[nav_lang] | default: site.data.i18n.en %}
+{% assign nav_pages = site.pages | where: 'lang', nav_lang %}
+{% assign nav_home = nav_pages | where: 'translation_key', 'home' | first %}
+{% assign nav_home_url = nav_home.url | default: '/' %}
 <div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
       <nav id="site-nav" class="greedy-nav">
-        <button><span class="navicon"></span></button>
+        <button type="button" aria-label="{{ nav_ui.toggle_navigation | escape }}" aria-controls="navigation-overflow" aria-expanded="false"><span class="navicon" aria-hidden="true"></span></button>
         <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg persist {% if page.url == '/' or page.url == '/index.html' %}selected{% endif %}">
-            <a href="{{ base_path }}/">Home</a>
+          <li class="masthead__menu-item masthead__menu-item--lg persist {% if page.url == nav_home_url %}selected{% endif %}">
+            <a href="{{ nav_home_url | relative_url }}"{% if page.url == nav_home_url %} aria-current="page"{% endif %}>{{ nav_ui.home | escape }}</a>
           </li>
           {% for link in site.data.navigation.main %}
-            {% if link.url contains 'http' %}
-              {% assign domain = '' %}
-            {% else %}
-              {% assign domain = base_path %}
+            {% assign nav_link_url = link.url %}
+            {% if link.translation_key %}
+              {% assign nav_link_page = nav_pages | where: 'translation_key', link.translation_key | first %}
+              {% assign nav_link_url = nav_link_page.url | default: link.url %}
             {% endif %}
-            <li class="masthead__menu-item {% if page.url contains link.url and link.url != '/' %}selected{% endif %}">
-              <a href="{{ domain }}{{ link.url }}">{{ link.title }}</a>
+            {% if nav_link_url contains '://' %}
+              {% assign nav_link_href = nav_link_url %}
+            {% else %}
+              {% assign nav_link_href = nav_link_url | relative_url %}
+            {% endif %}
+            <li class="masthead__menu-item {% if page.url == nav_link_url %}selected{% endif %}">
+              <a href="{{ nav_link_href | escape }}"{% if page.url == nav_link_url %} aria-current="page"{% endif %}>{{ nav_ui[link.label] | escape }}</a>
             </li>
           {% endfor %}
         </ul>
-        <ul class="hidden-links hidden"></ul>
+        <ul id="navigation-overflow" class="hidden-links hidden"></ul>
       </nav>
-      <span class="masthead__updated">
-        Last updated in <time datetime="{{ 'now' | date: '%Y-%m-%d' }}">{{ 'now' | date: '%b %Y' }}</time>
+      <span class="masthead__updated" lang="en">
+        {{ site.data.i18n.en.last_updated | escape }} <time datetime="{{ 'now' | date: '%Y-%m-%d' }}">{{ 'now' | date: site.data.i18n.en.month_format }}</time>
       </span>
       <div class="masthead__actions">
-        <a class="masthead__action" href="{{ '/terminal/' | relative_url }}" aria-label="Terminal" title="？？？"{% if page.url == '/terminal/' %} aria-current="page"{% endif %}>
+        {% if page.translation_key %}
+          {% assign translations = site.pages | where: 'translation_key', page.translation_key %}
+          {% for translation in translations %}
+            {% assign translation_ui = site.data.i18n[translation.lang] %}
+            {% if translation.lang != nav_lang and translation_ui.language_label %}
+        <a class="masthead__action masthead__action--language" href="{{ translation.url | relative_url }}" lang="{{ translation.lang | escape }}" hreflang="{{ translation.lang | escape }}" aria-label="{{ translation_ui.switch_language | escape }}" title="{{ translation_ui.switch_language | escape }}">{{ translation_ui.language_label | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        <a class="masthead__action" href="{{ '/terminal/' | relative_url }}" aria-label="{{ nav_ui.terminal | escape }}" title="{{ nav_ui.terminal_hint | escape }}"{% if page.url == '/terminal/' %} aria-current="page"{% endif %}>
           <i class="fa-solid fa-terminal" aria-hidden="true"></i>
         </a>
-        <a class="masthead__action masthead__action--rss" href="{{ '/feed.xml' | relative_url }}" target="_blank" aria-label="Subscribe via RSS" title="Subscribe via RSS">
+        <a class="masthead__action masthead__action--rss" href="{{ '/feed.xml' | relative_url }}" target="_blank" aria-label="{{ nav_ui.subscribe_rss | escape }}" title="{{ nav_ui.subscribe_rss | escape }}">
           <i class="fa-solid fa-rss" aria-hidden="true"></i>
         </a>
-        <button id="theme-toggle" class="masthead__action" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+        <button id="theme-toggle" class="masthead__action" type="button" aria-label="{{ nav_ui.toggle_theme | escape }}" title="{{ nav_ui.toggle_theme | escape }}">
           <i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true"></i>
         </button>
       </div>

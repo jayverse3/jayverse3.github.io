@@ -86,7 +86,7 @@ function enqueue(task: () => Promise<void>): void {
   queue = queue.then(task).catch(error => {
     console.error('Terminal error:', error);
     state.hidden = false;
-    state.textContent = 'Terminal interrupted. Reload, or use the regular homepage.';
+    state.textContent = 'Terminal interrupted. Reload, or use the homepage.';
   });
 }
 async function beginPrompt(): Promise<void> {
@@ -136,7 +136,7 @@ async function submit(value = line): Promise<void> {
   if (!command) { await beginPrompt(); return; }
   history.add(command);
   const result = execute(command, sections, history.entries);
-  if (result.action === 'gui') {
+  if (result.action === 'home') {
     // Leave a complete input state for browser back/forward-cache restoration.
     await beginPrompt();
     location.assign(app.dataset.home || '/');
@@ -162,7 +162,7 @@ async function handleInput(data: string): Promise<void> {
     line = ''; caret = 0; await beginPrompt(); return;
   }
   if (data === '\x0c') { await redraw(true); return; }
-  if (data === '\x04' && !line) { await submit('gui'); return; }
+  if (data === '\x04' && !line) { await submit('home'); return; }
   if (data === '\t') {
     const matches = complete(line);
     if (matches.length === 1) { line = matches[0] + ' '; caret = line.length; await redraw(); }
@@ -249,4 +249,4 @@ async function start(): Promise<void> {
     resizeFrame = requestAnimationFrame(() => enqueue(async () => { fit.fit(); await redraw(); }));
   }).observe(output);
 }
-start().catch(error => { console.error('Terminal failed to start:', error); state.textContent = 'Unable to start. Reload or return to the regular homepage.'; });
+start().catch(error => { console.error('Terminal failed to start:', error); state.textContent = 'Unable to start. Reload or return to the homepage.'; });

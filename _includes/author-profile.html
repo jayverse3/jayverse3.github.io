@@ -1,37 +1,39 @@
 {% include base_path %}
 {% assign author = site.author %}
+{% assign author_copy = site.data.profile.author[page.lang] | default: site.data.profile.author.en %}
+{% assign author_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
 
 <div itemscope itemtype="http://schema.org/Person">
   <div class="author__avatar">
     {% if author.avatar contains "://" %}
-      <img src="{{ author.avatar }}" alt="{{ author.name }}" fetchpriority="high" />
+      <img src="{{ author.avatar }}" alt="{{ author_copy.name | escape }}" fetchpriority="high" />
     {% else %}
-      <img src="{{ author.avatar | prepend: "/images/" | prepend: base_path }}" class="author__avatar" alt="{{ author.name }}" fetchpriority="high" />
+      <img src="{{ author.avatar | prepend: "/images/" | prepend: base_path }}" class="author__avatar" alt="{{ author_copy.name | escape }}" fetchpriority="high" />
     {% endif %}
   </div>
 
   <div class="author__content">
-    <h3 class="author__name">{{ author.name }}</h3>
-    {% if author.bio %}<p class="author__bio">{{ author.bio }}</p>{% endif %}
+    <h3 class="author__name">{{ author_copy.name | escape }}</h3>
+    {% if author_copy.bio %}<p class="author__bio">{{ author_copy.bio }}</p>{% endif %}
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Links</button>
-    <ul class="author__urls social-icons">
-      {% if author.location %}
-        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>{{ author.location }}</li>
+    <button class="btn btn--inverse" type="button" aria-controls="author-links" aria-expanded="false">{{ author_ui.links | escape }}</button>
+    <ul id="author-links" class="author__urls social-icons">
+      {% if author_copy.location %}
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>{{ author_copy.location | escape }}</li>
       {% endif %}
-      {% if author.employer %}
-        <li class="author__desktop"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author.employer }}</li>
+      {% if author_copy.employer %}
+        <li class="author__desktop"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author_copy.employer | escape }}</li>
       {% endif %}
       {% if author.email %}
-        <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+        <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>{{ author_ui.email | escape }}</a></li>
       {% endif %}
       {% if author.googlescholar %}
-        <li><a href="{{ author.googlescholar }}" target="_blank"><i class="ai ai-google-scholar ai-fw icon-pad-right"></i>Google Scholar</a></li>
+        <li><a href="{{ author.googlescholar }}" target="_blank"><i class="ai ai-google-scholar ai-fw icon-pad-right"></i>{{ author_ui.scholar | escape }}</a></li>
       {% endif %}
       {% if author.github %}
-        <li><a href="https://github.com/{{ author.github }}" target="_blank"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+        <li><a href="https://github.com/{{ author.github }}" target="_blank"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>{{ author_ui.github | escape }}</a></li>
       {% endif %}
     </ul>
   </div>

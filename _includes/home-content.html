@@ -1,0 +1,24 @@
+{%- assign home_lang = include.lang | default: 'en' -%}
+{%- assign home_ui = site.data.i18n[home_lang] | default: site.data.i18n.en -%}
+<h2 class="home-section-title" id="about">{{ home_ui.sections.about | escape }}</h2>
+
+{{ site.data.profile.about[home_lang] | default: site.data.profile.about.en | markdownify }}
+
+<h2 class="home-section-title" id="news">{{ home_ui.sections.news | escape }}</h2>
+
+<ul>
+  {% for item in site.data.profile.news %}
+  <li>🔥 <strong>[{{ item.date }}]</strong> {{ item[home_lang] | default: item.en | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+  {% endfor %}
+</ul>
+
+{% assign card_sections = 'education,experience,research' | split: ',' %}
+{% for section in card_sections %}
+<h2 class="home-section-title" id="{{ section }}">{{ home_ui.sections[section] | escape }}</h2>
+
+<div class="profile-cards">
+  {% for entry in site.data.profile[section] %}
+    {% include profile-card.html entry=entry kind=section lang=home_lang ui=home_ui %}
+  {% endfor %}
+</div>
+{% endfor %}

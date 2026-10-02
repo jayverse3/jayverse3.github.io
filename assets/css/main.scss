@@ -8,6 +8,28 @@
    sorted by the dependencies. Also, the first two lines of the file are required by Jekyll.
  */
 
+/* Font choices and webfont resources are configured in _data/typography.yml. */
+{% assign latin_font_family = site.data.typography.en.family | remove: ', sans-serif' %}
+:root {
+  --font-family: {{ site.data.typography.en.family }};
+  --welcome-font-family: {{ site.data.typography.en.welcome_family }};
+}
+
+{% for language_fonts in site.data.typography %}
+{% unless language_fonts[0] == 'en' %}
+html[lang="{{ language_fonts[0] }}"] {
+  /* Match English letters and digits first; keep the generic fallback last. */
+  --font-family: {{ latin_font_family }}, {{ language_fonts[1].family }};
+  {% if language_fonts[1].ui_family %}
+  --ui-font-family: {{ latin_font_family }}, {{ language_fonts[1].ui_family }};
+  {% endif %}
+  {% if language_fonts[1].welcome_family %}
+  --welcome-font-family: {{ language_fonts[1].welcome_family }};
+  {% endif %}
+}
+{% endunless %}
+{% endfor %}
+
 @import
     "vendor/breakpoint/breakpoint",
 

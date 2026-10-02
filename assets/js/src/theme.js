@@ -8,8 +8,6 @@ $(function () {
     try { return localStorage.getItem("theme"); }
     catch (error) { return preference; } // Storage is optional.
   }
-  preference = readPreference();
-
   function applyTheme(theme) {
     const dark = theme === "dark";
     if (dark) $("html").attr("data-theme", "dark");
@@ -17,10 +15,15 @@ $(function () {
     $("#theme-icon").toggleClass("fa-moon", dark).toggleClass("fa-sun", !dark);
   }
 
-  applyTheme(preference === "light" || preference === "dark" ? preference : systemTheme.matches ? "dark" : "light");
-  systemTheme.addEventListener("change", function (event) {
+  function refreshTheme() {
     preference = readPreference();
-    if (!preference) applyTheme(event.matches ? "dark" : "light");
+    applyTheme(preference === "light" || preference === "dark" ? preference : systemTheme.matches ? "dark" : "light");
+  }
+
+  refreshTheme();
+  systemTheme.addEventListener("change", refreshTheme);
+  window.addEventListener("storage", function (event) {
+    if (event.key === "theme" || event.key === null) refreshTheme();
   });
 
   $("#theme-toggle").on("click", function () {

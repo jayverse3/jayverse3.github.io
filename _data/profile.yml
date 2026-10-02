@@ -1,0 +1,140 @@
+# Homepage / Terminal content and shared site author details; web CV content lives in cv.yml.
+# Language-independent facts live outside en / zh-Hans blocks.
+# Localized prose is Markdown; %MODEL% inserts the name, %MODEL_LOGO% the optional logo.
+# Spaces around either placeholder belong to the prose, not the template or CSS.
+author:
+  en:
+    name: Yingjie Yang
+    bio: "M.S. student in Computer Science.<br>Working on LLM Post-Training, Agentic RL, and Data Synthesis."
+    location: Beijing, China
+    employer: Peking University
+  zh-Hans:
+    name: 杨迎杰
+    bio: "计算机科学与技术硕士研究生<br>研究方向：大语言模型后训练、智能体强化学习与数据合成"
+    location: 中国北京
+    employer: 北京大学
+
+welcome:
+  en:
+    - "🤗 Hi there, I'm Yingjie Yang."
+  zh-Hans:
+    - "🤗 Hi 你好，我是杨迎杰。"
+
+about:
+  en: >-
+    I am a master's student in the School of Computer Science at **Peking University**.
+    My research interests include **LLM post-training**, **agentic reinforcement learning**, and **data synthesis**.
+    I am currently a research intern at **UniPat AI** and previously interned at **ByteDance** and **Baidu**.
+    My long-term goal is to advance AI from assisting humans to autonomously solving problems.
+  zh-Hans: >-
+    我在**北京大学**计算机学院攻读硕士学位，研究兴趣包括**大语言模型后训练**、**智能体强化学习**与**数据合成**。我目前在 **UniPat AI** 实习，此前曾在**字节跳动**和**百度**实习。我的长期目标是推动 AI 从辅助人类走向自主解决问题。
+
+news:
+  - date: "2026.06"
+    en: >-
+      We released **[Seed2.1](https://seed.bytedance.com/en/seed2_1){:target="_blank"}**,
+      advancing general agent, coding, and multimodal capabilities for real-world productivity.
+    zh-Hans: >-
+      我们发布了 **[Seed2.1](https://seed.bytedance.com/en/seed2_1){:target="_blank"}**，
+      提升通用智能体、编程与多模态能力，服务真实场景中的生产力需求。
+
+education:
+  - id: pku
+    start: "2025-09"
+    end: "2028-06"
+    logo: /images/peking-university.svg
+    logo_dark: /images/peking-university-white.svg
+    en:
+      name: Peking University
+      degree: M.S.
+      major: Computer Science and Technology
+    zh-Hans:
+      name: 北京大学
+      degree: 理学硕士
+      major: 计算机科学与技术
+  - id: nwafu
+    start: "2020-09"
+    end: "2024-06"
+    logo: /images/northwest-af-university.svg
+    logo_dark: /images/northwest-af-university-white.svg
+    en:
+      name: Northwest A&F University
+      degree: B.Eng.
+      major: Software Engineering
+    zh-Hans:
+      name: 西北农林科技大学
+      degree: 工学学士
+      major: 软件工程
+
+experience:
+  - id: unipat
+    start: "2026-10"
+    logo: /images/unipat.svg
+    logo_dark: /images/unipat-white.svg
+    en:
+      name: UniPat AI
+      role: Research Intern
+      summary: Work on high-quality training data synthesis and benchmark development for frontier coding agents.
+    zh-Hans:
+      name: UniPat AI
+      role: 算法研究实习生
+      summary: 聚焦前沿 Coding Agent 的高质量训练数据合成与评测基准构建。
+  - id: baidu
+    start: "2026-09"
+    end: "2026-10"
+    logo: /images/baidu.svg
+    logo_dark: /images/baidu-white.svg
+    model_logo: /images/wenxin.svg
+    model_logo_dark: /images/wenxin-white.svg
+    en:
+      name: Baidu
+      role: Research Intern
+      program: Top Internship Program
+      department: Basic Model R&D Department
+      model: ERNIE’s
+      summary: >-
+        Contributed to %MODEL_LOGO% %MODEL% post-training,
+        focusing on improving its performance in terminal environments and on Terminal-Bench.
+    zh-Hans:
+      name: 百度
+      role: 大模型算法研究员
+      program: Top 实习计划
+      department: 基础模型研发部
+      model: 文心
+      summary: 参与 %MODEL_LOGO% %MODEL%基模的后训练，重点优化其在终端场景与 Terminal-Bench 评测中的表现。
+  - id: bytedance
+    start: "2026-02"
+    end: "2026-08"
+    logo: /images/bytedance.svg
+    logo_dark: /images/bytedance-white.svg
+    model_logo: /images/doubao.svg
+    model_logo_dark: /images/doubao-white.svg
+    en:
+      name: ByteDance
+      role: Research Intern
+      department: AI Data & Safety
+      model: Seed models’
+      summary: >-
+        **Collaborated with the Seed team** to improve %MODEL_LOGO% %MODEL% agentic coding and GUI capabilities
+        by synthesizing **high-quality mid-training and post-training data**.
+    zh-Hans:
+      name: 字节跳动
+      role: 后训练数据算法实习生
+      department: AI 数据与安全
+      model: Seed 系列模型
+      summary: >-
+        **与 Seed 团队协作**，通过合成**高质量 Mid-training 与 Post-training 数据**，
+        提升 %MODEL_LOGO% %MODEL%的 Coding Agent 与 GUI Agent 能力。
+
+research:
+  - id: seed21
+    title: "Seed2.1 Model Card: Agentic Intelligence for Productivity"
+    date: "2026-06"
+    type: technical_report
+    url: https://seed.bytedance.com/en/seed2_1
+    en:
+      team: ByteDance Seed
+      link_label: Seed2.1 project page
+    zh-Hans:
+      team: ByteDance Seed
+      link_label: Seed2.1 project page

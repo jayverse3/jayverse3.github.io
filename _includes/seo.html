@@ -1,20 +1,42 @@
-{% assign seo_url = site.url | append: site.baseurl %}
-{% assign canonical_url = page.url | prepend: seo_url | replace: "/index.html", "/" %}
-{% assign seo_title = site.title %}
+{% assign seo_lang = page.lang | default: "en" %}
+{% assign seo_localized = site.data.i18n[seo_lang].seo %}
+{% assign seo_site_title = seo_localized.title | default: site.title %}
+{% assign seo_locale = seo_localized.locale | default: site.locale | replace: "-", "_" %}
+{% assign canonical_url = page.url | replace: "/index.html", "/" | absolute_url %}
+{% assign seo_title = seo_site_title %}
 {% if page.title %}
-  {% assign seo_title = page.title | append: " " | append: site.title_separator | append: " " | append: site.title %}
+  {% assign seo_title = page.title | append: " " | append: site.title_separator | append: " " | append: seo_site_title %}
 {% endif %}
-{% assign seo_description = page.description | default: page.excerpt | default: site.description | markdownify | strip_html | strip_newlines | escape_once %}
+{% assign seo_title = seo_title | markdownify | strip_html | strip_newlines | escape_once %}
+{% assign seo_description = page.description | default: page.excerpt | default: seo_localized.description | default: site.description | markdownify | strip_html | strip_newlines | escape_once %}
 
-<title>{{ seo_title | markdownify | strip_html | strip_newlines | escape_once }}</title>
+<title>{{ seo_title }}</title>
 <meta name="description" content="{{ seo_description }}">
-<link rel="canonical" href="{{ canonical_url }}">
+<link rel="canonical" href="{{ canonical_url | escape }}">
 
-<meta property="og:locale" content="{{ site.locale }}">
-<meta property="og:site_name" content="{{ site.title }}">
-<meta property="og:title" content="{{ page.title | default: site.title | markdownify | strip_html | strip_newlines | escape_once }}">
+{% if page.translation_key %}
+  {% assign seo_translations = site.pages | where: "translation_key", page.translation_key %}
+  {% if seo_translations.size > 1 %}
+    {% for translation in seo_translations %}
+<link rel="alternate" hreflang="{{ translation.lang | escape }}" href="{{ translation.url | absolute_url | escape }}">
+      {% if translation.lang == "en" %}
+<link rel="alternate" hreflang="x-default" href="{{ translation.url | absolute_url | escape }}">
+      {% endif %}
+      {% if translation.lang != seo_lang %}
+        {% assign alternate_locale = site.data.i18n[translation.lang].seo.locale %}
+        {% if alternate_locale %}
+<meta property="og:locale:alternate" content="{{ alternate_locale | escape }}">
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+<meta property="og:locale" content="{{ seo_locale | escape }}">
+<meta property="og:site_name" content="{{ seo_site_title | escape_once }}">
+<meta property="og:title" content="{{ seo_title }}">
 <meta property="og:description" content="{{ seo_description }}">
-<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:url" content="{{ canonical_url | escape }}">
 <meta property="og:type" content="website">
 
 <script type="application/ld+json">
@@ -22,6 +44,6 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": {{ site.name | jsonify }},
-    "url": {{ seo_url | jsonify }}
+    "url": {{ "/" | absolute_url | jsonify }}
   }
 </script>

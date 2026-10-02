@@ -11,6 +11,7 @@
     "uglify-js": "^3.19.3"
   },
   "scripts": {
+    "test:analytics": "node --test scripts/site-analytics.test.cjs",
     "build:js": "uglifyjs node_modules/jquery/dist/jquery.min.js assets/js/src/navigation.js assets/js/src/theme.js assets/js/src/profile-menu.js -c -m --comments \"/^!/\" -o assets/js/main.min.js",
     "watch:js": "onchange \"assets/js/src/*.js\" -- npm run build:js"
   }

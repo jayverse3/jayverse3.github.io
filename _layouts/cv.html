@@ -2,6 +2,7 @@
 layout: default
 ---
 
+{% assign cv_header_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
 <div id="main" role="main">
   {% include sidebar.html %}
 
@@ -9,9 +10,9 @@ layout: default
     <header class="cv-page__header">
       <h1 class="page__title">{{ page.title }}</h1>
       {% if page.pdf %}
-        <a class="cv-page__download" href="{{ page.pdf | relative_url }}" download aria-label="Download CV as PDF (English)">
+        <a class="cv-page__download" href="{{ page.pdf | relative_url }}" download aria-label="{{ cv_header_ui.download_pdf_label | escape }}">
           <i class="fas fa-download" aria-hidden="true"></i>
-          <span>Download PDF</span>
+          <span>{{ cv_header_ui.download_pdf | escape }}</span>
         </a>
       {% endif %}
     </header>

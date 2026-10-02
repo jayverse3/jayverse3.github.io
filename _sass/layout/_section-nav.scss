@@ -8,7 +8,7 @@
   z-index: 10;
   width: 10rem;
   transform: translateY(-50%);
-  font-family: $sans-serif;
+  font-family: $global-font-family;
 
   @media (min-width: $x-large) and (min-height: 400px) {
     display: block;

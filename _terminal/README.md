@@ -35,17 +35,18 @@ npm --prefix _terminal run watch
 | 文件 | 职责 |
 | --- | --- |
 | [../_pages/terminal.md](../_pages/terminal.md) | 页面入口与 permalink |
-| [../_layouts/terminal.html](../_layouts/terminal.html) | 布局、启动提示、站点链接、初始主题和 Home 模板 |
+| [../_layouts/terminal.html](../_layouts/terminal.html) | 布局、启动提示、站点链接、初始主题，固定注入英文 Home 内容 |
+| [../_data/profile.yml](../_data/profile.yml)、[../_includes/home-content.html](../_includes/home-content.html) | 与主页共用的个人资料及首页内容模板 |
 | [src/content.ts](src/content.ts) | 提取章节，保留加粗范围，拆分句子 |
 | [src/shell.ts](src/shell.ts) | 命令注册、参数解析、补全、历史、执行结果；不操作 DOM |
 | [src/formatting.ts](src/formatting.ts) | 可单测的 ANSI 颜色、链接标签、折行和加粗 |
 | [src/main.ts](src/main.ts) | xterm 初始化、输入编辑、命令分派、滚动、主题和返回恢复 |
 | [src/links.ts](src/links.ts) | 链接校验、OSC 8 超链接编码 |
 | [src/banner.ts](src/banner.ts) | 预生成 ANSI Shadow 字样、窄屏回退和主题渐变 |
-| [src/style.css](src/style.css) | Terminal 专属样式，GUI 不加载 |
+| [src/style.css](src/style.css) | Terminal 专属样式，其他页面不加载 |
 | [vite.config.ts](vite.config.ts) | 库模式构建与发布文件名 |
 
-Home 内容先经 Jekyll 渲染并放入 `#terminal-content`，再经 readContent 转换。只改 [_pages/home.md](../_pages/home.md) 的文字/加粗，不用重建 JS；改 DOM 或提取规则时要同时检查两端。
+主页和 Terminal 都由 Jekyll 调用 `home-content.html`。Terminal 显式指定 `lang="en"`，将结果放入 `#terminal-content`，再经 readContent 转换；不依赖其他页面的渲染顺序。只改 `_data/profile.yml` 的英文文字/加粗，不用重建 JS；改 DOM 或提取规则时要同时检查两端。主页的中文版本不会改变 Terminal 的语言。
 
 ## 修改命令
 
@@ -60,10 +61,11 @@ Home 内容先经 Jekyll 渲染并放入 `#terminal-content`，再经 readConten
 
 - 命令按字母序显示，保留 /command 别名、Tab 补全和 ↑/↓ 历史。
 - About、News、卡片简介按句起行，长句自然折行，保留 Home 加粗。
+- research 展示 Home 的 Research 卡片，包括论文、技术报告和研究型博客等成果。
 - contact 提供 mailto，profiles 提供 GitHub / Scholar。
-- gui 返回 GUI；空输入时 Ctrl+D 同义。前进/后退缓存恢复时保留会话并恢复输入；完整重载时历史不持久化。
+- home 返回英文主页 `/`；空输入时 Ctrl+D 同义。cv 链接英文网页 CV 与英文 PDF，不随进入 Terminal 前的 GUI 语言变化。前进/后退缓存恢复时保留会话并恢复输入；完整重载时历史不持久化。
 - Ctrl+L 清屏但保留回看/草稿；clear 清屏并清除回看；二者均保留命令历史。
-- theme 与 GUI 共用本地存储键，system 取消显式偏好；历史和输入不写入持久存储。
+- theme 与主页/CV 共用本地存储键，system 取消显式偏好；历史和输入不写入持久存储。
 - 滚动条在滚动/悬停/拖动时显示，闲置淡出，不禁用滚轮或触控板。
 - welcome 使用预生成横幅，不在线下载 FIGlet 生成器；没有手机访问封禁。
 

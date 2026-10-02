@@ -23,8 +23,8 @@ $(function () {
       while ($visibleLinks.width() > availableSpace && $visibleLinks.children(":not(.persist)").length) {
         widthThresholds.push($visibleLinks.width());
         $visibleLinks.children(":not(.persist)").last().prependTo($hiddenLinks);
-        availableSpace = availableWidth();
         $menuButton.removeClass("hidden");
+        availableSpace = availableWidth();
       }
     } else {
       while (widthThresholds.length && availableSpace > widthThresholds[widthThresholds.length - 1]) {
@@ -32,7 +32,7 @@ $(function () {
         widthThresholds.pop();
       }
       if (!widthThresholds.length) {
-        $menuButton.addClass("hidden").removeClass("close");
+        $menuButton.addClass("hidden").removeClass("close").attr("aria-expanded", "false");
         $hiddenLinks.addClass("hidden");
       }
     }
@@ -48,6 +48,7 @@ $(function () {
   $menuButton.on("click", function () {
     $hiddenLinks.toggleClass("hidden");
     $menuButton.toggleClass("close");
+    $menuButton.attr("aria-expanded", String(!$hiddenLinks.hasClass("hidden")));
   });
   updateNavigation();
 });

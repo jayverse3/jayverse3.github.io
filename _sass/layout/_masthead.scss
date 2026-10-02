@@ -28,7 +28,7 @@
     @include container;
     @include clearfix;
     padding: 0.5em 1em;
-    font-family: $sans-serif-narrow;
+    font-family: $global-font-family;
 
     @include breakpoint($x-large) {
       max-width: $x-large;
@@ -106,6 +106,12 @@
   font: inherit;
   line-height: 1;
   cursor: pointer;
+
+  &--language {
+    font-size: $type-size-6;
+    font-weight: 600;
+    white-space: nowrap;
+  }
 
   &:active {
     color: var(--global-masthead-link-color-hover);

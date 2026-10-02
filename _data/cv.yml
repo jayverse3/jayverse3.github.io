@@ -1,0 +1,126 @@
+# Web CV content, maintained independently from the homepage in profile.yml.
+# Dates and links are shared only between this CV's language versions.
+# Summaries and highlights are plain Markdown, without homepage logo placeholders.
+education:
+  - id: pku
+    start: "2025-09"
+    end: "2028-06"
+    en:
+      name: Peking University
+      degree: M.S.
+      major: Computer Science and Technology
+    zh-Hans:
+      name: 北京大学
+      degree: 理学硕士
+      major: 计算机科学与技术
+  - id: nwafu
+    start: "2020-09"
+    end: "2024-06"
+    en:
+      name: Northwest A&F University
+      degree: B.Eng.
+      major: Software Engineering
+    zh-Hans:
+      name: 西北农林科技大学
+      degree: 工学学士
+      major: 软件工程
+
+experience:
+  - id: unipat
+    start: "2026-10"
+    en:
+      name: UniPat AI
+      role: Research Intern
+      summary: Work on high-quality training data synthesis and benchmark development for frontier coding agents.
+    zh-Hans:
+      name: UniPat AI
+      role: 算法研究实习生
+      summary: 聚焦前沿 Coding Agent 的高质量训练数据合成与评测基准构建。
+  - id: baidu
+    start: "2026-09"
+    end: "2026-10"
+    en:
+      name: Baidu
+      role: Research Intern
+      program: Top Internship Program
+      department: Basic Model R&D Department
+      summary: >-
+        Contributed to ERNIE’s post-training,
+        focusing on improving its performance in terminal environments and on Terminal-Bench.
+    zh-Hans:
+      name: 百度
+      role: 大模型算法研究员
+      program: Top 实习计划
+      department: 基础模型研发部
+      summary: 参与文心基模的后训练，重点优化其在终端场景与 Terminal-Bench 评测中的表现。
+  - id: bytedance
+    start: "2026-02"
+    end: "2026-08"
+    en:
+      name: ByteDance
+      role: Research Intern
+      department: AI Data & Safety
+      cv_groups:
+        - title: Coding Agent
+          highlights:
+            - >-
+              **Verifiable Task Synthesis:** Built an automated pipeline to synthesize verifiable coding tasks
+              from shell scripts and Python source code, helping improve Seed models’ score on Terminal-Bench 2.1
+              from **53.6 to 71.0**.
+            - >-
+              **Targeted Data Synthesis:** Used rollout analysis to synthesize targeted tasks for RFT,
+              helping improve Seed models’ score on Terminal-Bench 2.1 from **71.0 to 84.7**.
+        - title: GUI Agent
+          highlights:
+            - >-
+              **GUI-Diver:** Built an automated pipeline to synthesize verifiable GUI tasks from real-world websites,
+              helping improve Seed models’ score on OSWorld-Verified from **61.9 to 78.8**.
+    zh-Hans:
+      name: 字节跳动
+      role: 后训练数据算法实习生
+      department: AI 数据与安全
+      cv_groups:
+        - title: Coding Agent
+          highlights:
+            - >-
+              **可验证任务合成：**搭建自动化流水线，基于 Shell 脚本与 Python 源代码合成可验证的编程任务，
+              支撑 Seed 系列模型在 Terminal-Bench 2.1 上由 **53.6 分提升至 71.0 分**。
+            - >-
+              **定向数据合成：**通过 rollout 轨迹分析开展定向任务合成，用于 RFT，
+              支撑 Seed 系列模型在 Terminal-Bench 2.1 上由 **71.0 分提升至 84.7 分**。
+        - title: GUI Agent
+          highlights:
+            - >-
+              **GUI-Diver：**搭建自动化流水线，基于真实网站合成可验证的 GUI 任务，
+              支撑 Seed 系列模型在 OSWorld-Verified 上由 **61.9 分提升至 78.8 分**。
+
+research:
+  - id: seed21
+    title: "Seed2.1 Model Card: Agentic Intelligence for Productivity"
+    date: "2026-06"
+    type: technical_report
+    url: https://seed.bytedance.com/en/seed2_1
+    en:
+      team: ByteDance Seed
+      link_label: Seed2.1 project page
+    zh-Hans:
+      team: ByteDance Seed
+      link_label: Seed2.1 project page
+
+awards:
+  - competition: "LLMs - You Can't Please Them All"
+    year: 2025
+    label: silver_medal_kaggle
+  - competition: Learning Agency Lab - Automated Essay Scoring 2.0
+    year: 2024
+    label: silver_medal_kaggle
+
+skills:
+  - id: programming_languages
+    items: [Python, C++, TypeScript, Bash]
+  - id: post_training
+    items: [RLHF/RLVR, Process Reward Modeling, PPO, GRPO, DAPO, On-Policy Distillation]
+  - id: framework
+    items: [PyTorch, Transformers, LLaMA-Factory, verl, slime, Harbor]
+  - id: tools
+    items: [LaTeX, Git, Docker, Codex, Claude Code]

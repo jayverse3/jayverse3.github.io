@@ -1,10 +1,11 @@
-<nav class="section-nav" aria-label="On this page">
+{% assign section_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
+<nav class="section-nav" aria-label="{{ section_ui.on_this_page | escape }}">
   <ul>
     {% for item in page.section_nav %}
       <li>
-        <a href="#{{ item.id | escape }}">
+        <a href="#{{ item | escape }}">
           <span class="section-nav__line" aria-hidden="true"></span>
-          <span class="section-nav__label">{{ item.title | escape }}</span>
+          <span class="section-nav__label">{{ section_ui.sections[item] | escape }}</span>
         </a>
       </li>
     {% endfor %}

@@ -3,7 +3,10 @@
 # Changing the order here will adjust the order and you can also add additional
 # links. Removing a link prevents it from showing in the header, but does not
 # prevent it from being included in the site.
+# label refers to a website translation key in _data/i18n.yml.
+# translation_key optionally resolves a page in the current language; url is the fallback.
 
 main:
-  - title: "CV"
+  - label: cv
+    translation_key: cv
     url: /cv/

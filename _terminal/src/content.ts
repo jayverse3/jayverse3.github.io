@@ -79,7 +79,7 @@ export function readContent(source: DocumentFragment, settings: DOMStringMap): R
         if (subtitle.text) lines.push(subtitle);
         const description = contentLine(card.querySelector('.profile-card__description'));
         if (description.text) lines.push({ text: '' }, ...sentenceLines([description]));
-        if (id === 'publications') {
+        if (id === 'research') {
           for (const detail of card.querySelectorAll('p.profile-card__detail')) lines.push({ ...contentLine(detail), style: 'muted' });
           lines.push(contentLine(card.querySelector('.profile-card__tag')));
           for (const link of card.querySelectorAll<HTMLAnchorElement>('.profile-card__links a')) {
@@ -99,7 +99,7 @@ export function readContent(source: DocumentFragment, settings: DOMStringMap): R
     news: { title: 'News', lines: sentenceLines(sectionNodes('news').flatMap(node => [...node.querySelectorAll('li')].map(item => contentLine(item, /^🔥\s*/)))) },
     education: { title: 'Education', lines: cards('education') },
     experience: { title: 'Experience', lines: cards('experience') },
-    publications: { title: 'Publications', lines: cards('publications') },
+    research: { title: 'Research', lines: cards('research') },
     cv: { title: 'Curriculum Vitae', lines: [
       { text: url(settings.cv), link: { label: 'Web CV', href: url(settings.cv) } },
       { text: url(settings.pdf), link: { label: 'PDF', href: url(settings.pdf) } },

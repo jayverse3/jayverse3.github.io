@@ -1,0 +1,34 @@
+{%- assign card = include.entry -%}
+{%- assign card_copy = card[include.lang] | default: card.en -%}
+<article class="profile-card profile-card--{{ include.kind }}" aria-labelledby="{{ include.kind }}-{{ card.id }}">
+  {% if card.logo %}
+  <div class="profile-card__logo{% if include.kind == 'experience' %} profile-card__logo--company{% endif %}">
+    <img class="profile-card__logo-light" src="{{ card.logo | relative_url }}" alt="" width="64" height="64" loading="lazy">
+    <img class="profile-card__logo-dark" src="{{ card.logo_dark | relative_url }}" alt="" width="64" height="64" loading="lazy">
+  </div>
+  {% endif %}
+  <div class="profile-card__body">
+    {% if include.kind == 'research' %}
+    <h3 id="research-{{ card.id }}">{{ card.title | escape }}</h3>
+    <p class="profile-card__detail">{{ card_copy.team | escape }}</p>
+    <p class="profile-card__detail"><time datetime="{{ card.date }}">{{ card.date | append: '-01' | date: include.ui.month_format }}</time></p>
+    <div class="profile-card__links">
+      <span class="profile-card__tag">{{ include.ui[card.type] | escape }}</span>
+      <a href="{{ card.url | escape }}" target="_blank" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.project_page | escape }} <span aria-hidden="true">↗</span></a>
+    </div>
+    {% else %}
+    <div class="profile-card__header">
+      <h3 id="{{ include.kind }}-{{ card.id }}">{{ card_copy.name | escape }}</h3>
+      <p class="profile-card__dates">{% include date-range.html start=card.start end=card.end ui=include.ui %}</p>
+    </div>
+    {% if include.kind == 'education' %}
+    <p class="profile-card__subtitle">{{ card_copy.degree | escape }} <span class="profile-card__detail">· {{ card_copy.major | escape }}</span></p>
+    {% else %}
+    <p class="profile-card__subtitle"><span class="profile-card__role">{{ card_copy.role | escape }}{% if card_copy.program %}{% if include.lang == 'zh-Hans' %}<strong>（{{ card_copy.program | escape }}）</strong>{% else %} <strong>({{ card_copy.program | escape }})</strong>{% endif %}{% endif %}</span>{% if card_copy.department %} <span class="profile-card__detail"><span class="profile-card__separator" aria-hidden="true">· </span>{{ card_copy.department | escape }}</span>{% endif %}</p>
+    {% endif %}
+    {% endif %}
+  </div>
+  {% if include.kind == 'experience' %}
+  <p class="profile-card__description">{% include experience-summary.html entry=card lang=include.lang %}</p>
+  {% endif %}
+</article>

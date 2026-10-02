@@ -9,12 +9,12 @@ url: "https://jayverse3.github.io"
 baseurl: ""
 repository: "jayverse3/jayverse3.github.io"
 
+# GoatCounter account name (not an API key). Leave blank to disable analytics.
+goatcounter_code: "jayverse3"
+
 author:
   avatar: "hachiware.jpg"
   name: "Yingjie Yang"
-  bio: "M.S. student in Computer Science.<br>Working on LLM post-training."
-  location: "Beijing, China"
-  employer: "Peking University"
   email: "thejayverse3@gmail.com"
   googlescholar: "https://scholar.google.com/citations?user=F_VWpx4AAAAJ"
   github: "jayverse3"
