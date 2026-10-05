@@ -5,13 +5,14 @@ _site/
 # Ignore the directory for local files during development
 local/
 
+# Local writing / layout samples. Only _posts contains publishable articles.
+_drafts/
+
 # Ignore the Gemfile that is generated
 Gemfile.lock
 
 # Ignore files created by npm
 node_modules
-package-lock.json
-!_terminal/package-lock.json
 
 # Ignore the vendor file at root level and bundle for alternative installation
 /vendor/

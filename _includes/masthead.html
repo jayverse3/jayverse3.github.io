@@ -23,8 +23,8 @@
             {% else %}
               {% assign nav_link_href = nav_link_url | relative_url %}
             {% endif %}
-            <li class="masthead__menu-item {% if page.url == nav_link_url %}selected{% endif %}">
-              <a href="{{ nav_link_href | escape }}"{% if page.url == nav_link_url %} aria-current="page"{% endif %}>{{ nav_ui[link.label] | escape }}</a>
+            <li class="masthead__menu-item {% if page.url == nav_link_url or page.nav_section == link.translation_key %}selected{% endif %}">
+              <a href="{{ nav_link_href | escape }}"{% if page.url == nav_link_url %} aria-current="page"{% elsif page.nav_section == link.translation_key %} aria-current="location"{% endif %}>{{ nav_ui[link.label] | escape }}</a>
             </li>
           {% endfor %}
         </ul>
@@ -34,14 +34,27 @@
         {{ site.data.i18n.en.last_updated | escape }} <time datetime="{{ 'now' | date: '%Y-%m-%d' }}">{{ 'now' | date: site.data.i18n.en.month_format }}</time>
       </span>
       <div class="masthead__actions">
+        {% assign translation_candidates = site.pages %}
+        {% assign has_translation = false %}
+        {% if page.layout == 'post' %}
+          {% assign translation_candidates = site.posts %}
+        {% endif %}
         {% if page.translation_key %}
-          {% assign translations = site.pages | where: 'translation_key', page.translation_key %}
+          {% assign translations = translation_candidates | where: 'translation_key', page.translation_key %}
           {% for translation in translations %}
             {% assign translation_ui = site.data.i18n[translation.lang] %}
             {% if translation.lang != nav_lang and translation_ui.language_label %}
+              {% assign has_translation = true %}
         <a class="masthead__action masthead__action--language" href="{{ translation.url | relative_url }}" lang="{{ translation.lang | escape }}" hreflang="{{ translation.lang | escape }}" aria-label="{{ translation_ui.switch_language | escape }}" title="{{ translation_ui.switch_language | escape }}">{{ translation_ui.language_label | escape }}</a>
             {% endif %}
           {% endfor %}
+        {% endif %}
+        {% if page.layout == 'post' and has_translation == false %}
+          {% assign missing_language = 'zh-Hans' %}
+          {% if nav_lang == 'zh-Hans' %}{% assign missing_language = 'en' %}{% endif %}
+          {% assign missing_ui = site.data.i18n[missing_language] %}
+        <button type="button" class="masthead__action masthead__action--language" lang="{{ missing_language }}" aria-label="{{ missing_ui.switch_language | escape }}" title="{{ missing_ui.translation_unavailable | escape }}" data-translation-unavailable="{{ missing_ui.translation_unavailable | escape }}" disabled>{{ missing_ui.language_label | escape }}</button>
+        <span id="translation-notice" class="masthead__translation-notice" role="status" aria-live="polite" aria-atomic="true" lang="{{ missing_language }}"></span>
         {% endif %}
         <a class="masthead__action" href="{{ '/terminal/' | relative_url }}" aria-label="{{ nav_ui.terminal | escape }}" title="{{ nav_ui.terminal_hint | escape }}"{% if page.url == '/terminal/' %} aria-current="page"{% endif %}>
           <i class="fa-solid fa-terminal" aria-hidden="true"></i>

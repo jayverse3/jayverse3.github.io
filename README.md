@@ -3,20 +3,21 @@
 个人主页，基于 Academic Pages / Minimal Mistakes，使用 Jekyll 发布到 GitHub Pages。
 
 - 线上地址：[jayverse3.github.io](https://jayverse3.github.io/)
-- 页面：中英文 Home / HTML CV、英文 Terminal / 404，附带两种语言的 PDF、RSS、sitemap 和旧地址重定向。
+- 页面：中英文 Home / Blog / HTML CV、英文 Terminal / 404，附带两种语言的 PDF、RSS、sitemap 和旧地址重定向。Blog 无文章时显示 Coming soon。
 - 代码助手先读：[AGENTS.md](AGENTS.md)。
 - Terminal 专项说明：[_terminal/README.md](_terminal/README.md)。
 
 ### 中英文页面
 
-主页和 CV 使用独立语言网址，共用布局和样式；Terminal 仅提供英文。
+主页、Blog 和 CV 使用独立语言网址，共用布局和样式；Terminal 仅提供英文。
 
 | 页面 | 英文 | 简体中文 | `translation_key` |
 | --- | --- | --- | --- |
 | 首页 | `/` | `/zh/` | `home` |
+| Blog | `/blog/` | `/zh/blog/` | `blog` |
 | HTML CV | `/cv/` | `/zh/cv/` | `cv` |
 
-顶部语言入口在英文页显示「中文」、中文页显示「EN」，跳转到另一语言的对应页面；首页/CV 导航保持当前语言。切换使用普通链接，不依赖 JavaScript，不自动检测语言、跳转或保存语言偏好。没有对应译文的页面（如 404）不显示切换入口，Terminal 保持英文独立页面。
+顶部语言入口在英文页显示「中文」、中文页显示「EN」，跳转到另一语言的对应页面；首页/Blog/CV 导航保持当前语言。有译文时使用普通链接，不依赖 JavaScript，不自动检测语言、跳转或保存语言偏好。文章页始终保留语言入口：没有译文时使用按钮，点击显示 3.5 秒轻提示，重复点击重新计时，Escape 可关闭；不改变网址、正文或滚动位置，也不抢走按钮的焦点。无 JS 时该按钮保持可见但禁用，title 说明暂无译文。有译文时不启用提示交互。普通页面（如 404）没有对应译文时仍不显示入口，Terminal 保持英文独立页面。
 
 中英文 CV 分别下载对应语言的 PDF；Terminal 的 `home` / `cv` 命令仍使用英文主页、网页 CV 和英文 PDF。英文网址及旧地址重定向保持不变。顶部「Last updated in」在两种语言下均保留英文；页面内日期使用各语言的显示格式。
 
@@ -37,7 +38,7 @@
 | Git | 克隆、版本管理和推送 |
 | Ruby | 已验证 3.3.12，建议使用 3.3.x 系列建立本项目环境 |
 | Bundler | 已验证 2.5.22，用于安装 Gemfile 依赖 |
-| Node.js / npm | 已验证 Node 24.21.0 / npm 11.19.0，用于编译浏览器脚本 |
+| Node.js / npm | 已验证 Node 24.21.0 / npm 11.19.0，用于编译浏览器脚本和构建博客代码块 |
 | Jekyll | 已验证 3.10.0，由 Gemfile 的 `github-pages` 间接安装，不单独安装最新 Jekyll |
 
 Windows：
@@ -69,7 +70,7 @@ cd jayverse3.github.io
 gem install bundler -v 2.5.22
 bundle config set --local path vendor/bundle
 bundle install
-npm install
+npm ci
 npm --prefix _terminal ci
 ```
 
@@ -79,11 +80,11 @@ npm --prefix _terminal ci
 
 | 位置 | 安装方式 | 锁文件约定 |
 | --- | --- | --- |
-| 根目录 | `npm install` | 根 `package-lock.json` 被忽略，不使用 `npm ci` |
+| 根目录 | `npm ci` | 根 `package-lock.json` 必须纳入 Git，与 package.json 同步 |
 | `_terminal/` | `npm --prefix _terminal ci` | `_terminal/package-lock.json` 必须纳入 Git，与 package.json 同步 |
 | Ruby | `bundle install` | 本地生成的 `Gemfile.lock` 当前被忽略 |
 
-根 npm 和 Ruby 依赖不是完全锁定的，首次安装或显式更新后需要重新验证。不要把旧机器的 `node_modules`、`vendor`、`.bundle` 直接复制到另一个系统，也不要把依赖升级混在普通内容修改里。
+两套 npm 依赖均使用锁文件；Ruby 依赖尚未完全锁定，首次安装或显式更新后需要重新验证。不要把旧机器的 `node_modules`、`vendor`、`.bundle` 直接复制到另一个系统，也不要把依赖升级混在普通内容修改里。
 
 ### 首次构建与预览
 
@@ -94,7 +95,7 @@ npm --prefix _terminal run build
 bundle exec jekyll serve --host 127.0.0.1 --port 4000
 ```
 
-打开英文首页 <http://localhost:4000/>、英文 CV <http://localhost:4000/cv/>、中文首页 <http://localhost:4000/zh/>、中文 CV <http://localhost:4000/zh/cv/>；另检查 <http://localhost:4000/terminal/> 和 <http://localhost:4000/404.html>。
+打开英文首页 <http://localhost:4000/>、英文 CV <http://localhost:4000/cv/>、中文首页 <http://localhost:4000/zh/>、中文 CV <http://localhost:4000/zh/cv/>；另检查 Blog 占位页 <http://localhost:4000/blog/> / <http://localhost:4000/zh/blog/>、<http://localhost:4000/terminal/> 和 <http://localhost:4000/404.html>。
 
 按 Ctrl+C 停止预览。不要双击 Markdown / HTML 文件，也不要只启动 Vite：Terminal 需要 Jekyll 生成的布局和内容模板。无需为了本地预览修改 `_config.yml` 的线上 `url`。
 
@@ -104,7 +105,7 @@ bundle exec jekyll serve --host 127.0.0.1 --port 4000
 $env:JEKYLL_ENV = 'development'
 ```
 
-macOS / Linux 对应 `export JEKYLL_ENV=development`。Windows 文件修改未被监听时，在 serve 命令末尾添加 `--force_polling`。修改 `_config.yml` 后重启 Jekyll。本地预览原理见 [GitHub 官方指南](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll)。
+macOS / Linux 对应 `export JEKYLL_ENV=development`。Windows 文件修改未被监听时，在 serve 命令末尾添加 `--force_polling`。修改 `_config.yml` 或 `_plugins/` 后重启 Jekyll。构建博客代码块需要 Node 在 PATH 中；不要使用 `--safe`，它会禁用本地插件。本地预览原理见 [GitHub 官方指南](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll)。
 
 ## 2. 日常开发：修改哪里
 
@@ -116,6 +117,7 @@ macOS / Linux 对应 `export JEKYLL_ENV=development`。Windows 文件修改未�
 | 网页界面标签、章节名称、日期显示格式 | [_data/i18n.yml](_data/i18n.yml) |
 | 页面标题、描述、canonical、语言对应链接 | [_includes/seo.html](_includes/seo.html)、[_data/i18n.yml](_data/i18n.yml) 的 `seo`、页面 front matter |
 | 中英文页面配置 | [_pages/home.md](_pages/home.md)、[_pages/cv.md](_pages/cv.md)、[_pages/zh/](_pages/zh/) |
+| 中英文 Blog 占位页 | [_pages/blog.md](_pages/blog.md)、[_pages/zh/blog.md](_pages/zh/blog.md) |
 | 首页内容与卡片模板 | [_includes/home-content.html](_includes/home-content.html)、[_includes/profile-card.html](_includes/profile-card.html) |
 | HTML CV 内容与条目模板 | [_includes/cv-content.html](_includes/cv-content.html)、[_includes/cv-entry.html](_includes/cv-entry.html) |
 | 可下载英文简历 | [files/yingjie-yang-cv.pdf](files/yingjie-yang-cv.pdf) |
@@ -136,7 +138,7 @@ HTML CV 和 PDF 不会自动同步。PDF 的 RenderCV 源码不在本仓库；�
 
 网页字体统一在 `_data/typography.yml` 配置：`family` 控制正文及默认继承的字体，`ui_family` 指定中文标题、导航、按钮、日期等界面文字的字体，`welcome_family` 单独控制欢迎语，未设置时继承英文欢迎语字体，也可以用 CSS 变量复用已有字体。中文页面的正文和界面字体栈会自动前置英文页的具体字体（去掉末尾的通用 `sans-serif`，避免它提前接管汉字），让英文和数字优先沿用英文页字体；中文欢迎语通过 `var(--ui-font-family)` 复用界面字体，汉字使用思源黑体，英文使用英文页的无衬线字体。自定义网页字体还需在 `stylesheets` 中提供 CSS 资源地址；只改字体名称无法为未安装字体的访客提供字体文件。资源仅在对应语言页面加载：中文正文用思源宋体，标题、界面文字和欢迎语用思源黑体，均采用分片网页字体；英文页配置保持不变。修改此数据文件后 Jekyll 自动重建，无需修改各组件或重启服务。Terminal 和 PDF 不受此配置影响。
 
-CV 的 LaTeX 标志由 `assets/js/cv.js` 调用 KaTeX 渲染；固定版本的 CSS/JS 仅在 CV 页面加载，配置位于 `_includes/head.html`。CDN 不可用时保留普通 `LaTeX` 文本，不影响阅读。
+CV 的 LaTeX 标志由 `assets/js/cv.js` 调用 KaTeX 渲染。固定版本的 KaTeX CSS/JS 由 CV 和博客文章共用，配置位于 `_includes/head.html`；博客文章另加载官方 auto-render 扩展。主页和博客列表不加载公式库。CDN 不可用时，CV 保留普通 `LaTeX` 文本，文章保留 TeX 源文本，不影响其余正文。
 
 ### 哪些修改需要重建
 
@@ -150,7 +152,104 @@ Terminal 与主页共用 `home-content.html`，Terminal 固定读取 `_data/prof
 
 主页经历的 `summary` 支持 Markdown 加粗；`experience-summary.html` 将 `%MODEL%` 替换为对应语言的模型名，将 `%MODEL_LOGO%` 替换为浅/深色 Logo。Logo 模板和样式不添加间距，两侧空格直接写在主页正文中，例如 `参与 %MODEL_LOGO% %MODEL%基模`。网页 CV 不调用这个模板；在 `_data/cv.yml` 直接编写普通 Markdown 摘要（例如 `参与文心基模的后训练……`），详细工作内容使用 `cv_groups`，没有详细条目时显示 CV 自己的 `summary`。主页中的 Logo、措辞或间距修改不会改变 CV 正文。PDF 下载地址仍由各 CV 页面的 `pdf` 字段控制，不因新增中文页面自动公开其他 PDF。
 
+### Blog 与本地草稿预览
+
+列表采用与主页一致的单列卡片：默认背景、边框透明，鼠标悬停时显示淡背景与柔和阴影，其余卡片轻微淡出；触屏不启用悬停效果。点击卡片正文或留白进入详情页，标签独立点击筛选。链接使用原生 HTML 和 CSS 扩展点击区域，不以 JavaScript 模拟跳转；键盘可聚焦标题链接。目前没有正式文章，预览样稿已清理，中英文列表分别显示 Coming soon / 敬请期待；博客阅读功能和测试保留。
+
+顶部导航为 Home / Blog / CV。`/blog/` 与 `/zh/blog/` 通过 `_includes/blog-index.html` 显示相同文章列表，界面标签随语言切换，不自动翻译文章。没有文章时显示 Coming soon / 敬请期待；有文章时显示日期、摘要和标签筛选。筛选保存在 URL 的 `#tag=...` 中，支持刷新、前进和后退；禁用 JavaScript 时保留完整文章列表，不显示筛选工具栏。详情页使用 `_layouts/post.html`，样式为 `_sass/layout/_blog.scss`，筛选脚本为 `assets/js/blog.js`，无需新框架或插件。
+
+正式文章放在 `_posts/YYYY-MM-DD-slug.md`，包含 `title`、`lang`、`description`、`tags` 等 front matter；默认文章路径为 `/blog/:year/:month/:day/:title/`。
+
+#### 文章发布与分享信息
+
+例如 `_posts/2026-10-05-post-training-notes.md` 的开头可以这样写，日期与内容换成真实信息：
+
+```yaml
+---
+title: "大语言模型后训练学习笔记"
+date: 2026-10-05T10:00:00+08:00
+lang: zh-Hans
+translation_key: post-training-notes # 同一文章的中英文版本共用；不要使用列表页的 blog 键
+description: "这篇文章讨论的具体问题、实验范围和主要结论。"
+tags: [LLM, Post-Training]
+# author: "Yingjie Yang"          # 可省略，默认使用站点作者；这里只支持姓名字符串
+# image: /images/my-post-cover.png # 可省略；填写前先将对应图片加入仓库
+# image_alt: "文章分享图的文字说明"
+---
+```
+
+`date` 是首次发布日期，建议显式填写时区；以后修改文章不改这个字段。`description` 应写文章自己的摘要，未填写时会使用正文摘录。`layout: post` 已由站点默认配置提供，无需每篇重复写。文章模板会输出 `og:type: article`、作者和发布时间，以及 `BlogPosting` 结构化数据；普通主页、列表、CV 和 Terminal 仍保持 `website`，不会混入文章字段。列表卡片和正文页头统一显示带标签的发布日期与预计阅读时长，例如 `Date: October 5, 2026 | Estimated Reading Time: 8 min`；中文标签与日期格式在 `_data/i18n.yml`。窄屏分两行，不显示分隔线。不在这行展示作者，作者仍保留在 SEO 中；引用示例的来源署名不删除。
+
+文章译文分别维护为两份 Markdown，设置相同的 `translation_key`、不同的 `lang: en` / `zh-Hans` 与不同网址（使用不同文件 slug 或明确的 `permalink`）。同一键在同一语言中只对应一篇文章；不要把不同文章配成译文。导航与 SEO 在文章集合 `site.posts` 中查找配对，普通页面仍在 `site.pages` 中查找。有配对时直接切换到对应文章，并生成双方的 hreflang；没有时只提供轻提示，不输出虚假的译文网址或跳回列表。本文不自动生成或在线翻译正文；仅预览的草稿不会进入生产构建的译文链接。两个博客列表目前仍显示全部文章，不自动按语言过滤或去重。
+
+分享图：主页及未配图的页面使用 `_config.yml` 的 `og_image`（当前为 `images/social-preview.png`）；替换该图片即可更换默认设计。文章可在 front matter 设置 `image: /images/my-post-cover.png` 和可选的 `image_alt: 图片说明`，不填写或留空时回退到主页图；`image` 使用单个路径字符串或完整 HTTPS 地址。建议使用 1200 × 630 的 PNG/JPEG。分享标题和摘要仍使用当前页面内容，不因图片回退而变成个人简介；这项配置不在页面正文自动插入封面。仅文章自己指定的图片写入 `BlogPosting.image`，默认个人名片只用于分享预览，不作为文章内容插图。上线后可用分享预览工具检查；平台可能缓存旧图，改用新文件名并更新配置可区分新版本。
+
+文章修改日期由 `_plugins/post_modified_at.rb` 在构建时读取该文章文件最后一次 Git 提交的时间，写入内存中的 `last_modified_at`，不回写 Markdown。手动填写的 `last_modified_at` 优先；没有提交记录的草稿、借用标题的 `preview_sample`、无法读取 Git 历史时不自动生成。它代表已提交版本的更新时间，不使用本地文件修改时间或构建时间；发布日仍使用文章的 `date`。部署的 checkout 必须保留 `fetch-depth: 0`，以便读取旧文章的历史。此日期供文章 SEO、RSS 和 sitemap 使用；每篇文章末尾始终用小字显示 `Last updated:`（中英文页面统一使用英文标签，日期格式仍随文章语言），没有更新日期时回退到发布日期，也不显示早于发布日期的更新时间。因此首次发布时两个日期相同，后续更新只改变文末日期。列表与正文页头仍仅显示首次发布日期，列表继续按发布日期排序；不改变顶部全站 Last updated。预览样稿的日期只用于排版展示，不代表所引用原文章的真实更新记录。重要内容更新可由作者在正文开头写明具体补充，不自动生成更新说明。
+
+通常不填写 `last_modified_at`；需要手动覆盖时使用与 `date` 相同的带时区格式。本地未提交的正文编辑不会更新 Git 日期，提交并重新构建后才会更新；修改其他文件不会刷新这篇文章的日期。浅克隆、缺少 Git 或仓库无法被当前用户读取时，应先处理历史/权限问题，不要用构建时间伪装成修改时间。改 `_config.yml` 或日期插件后需要重启本地 Jekyll 才能应用新配置。
+
+发布前检查：
+
+1. 从自己的草稿创建正式文章，去掉仅用于预览的 `noindex`、`sitemap: false`、`preview_sample`、`source_author`、`source_url` 和 `/blog/preview/` 地址；正文中的正常引用仍保留。不要直接发布借用标题的排版示例。
+2. 用不带 `--drafts` 的生产构建检查输出 HTML 的 `<head>`：标题/摘要属于该文章，canonical 是正式地址，`og:image` 是可访问的完整图片 URL，作者与日期准确，JSON-LD 可解析。图片未配置时应使用默认图；已填写但路径错误不会自动检测或回退，需要修正路径。
+3. 检查中英文 Home/Blog/CV 的 canonical 与 hreflang 未改变；检查文章列表、`feed.xml`、`sitemap.xml` 和输出目录均无本地预览示例。文档、素材来源说明和临时测试不能进入发布产物。
+4. 部署后，用 [Meta Tags](https://metatags.io/) 输入公开页面 URL 查看分享模拟，用 [Google Rich Results Test](https://search.google.com/test/rich-results) 检查文章结构化数据。本地也可以在工具中手动填标题/摘要并上传图片，但这只预览外观，不能验证线上是否正确接入；外部工具无法抓取 `localhost`。平台实际展示和搜索收录不由这些标签保证。
+
+#### 文章正文与阅读功能
+
+正文交给现有的 Kramdown 处理，构建后由 Expressive Code 替换文章内的代码块，所有文章自动获得以下阅读功能，不需要 `math: true` 或每篇复制脚本：
+
+- **公式**：KaTeX 官方 auto-render 统一识别公式并跳过代码块。推荐 Kramdown 原生语法：正文内写 `$$x_i$$`，独立公式在上下各一行写 `$$`；也支持简单的 `$x$` 行内公式。复杂公式优先用双美元符号，避免 Markdown 把下划线或星号当作强调。公式只在自身区域横向滚动。
+- **代码**：正常写带语言名的 Markdown 围栏代码块，Expressive Code 在构建时使用 GitHub Light / GitHub Dark（不带 Default）高亮并生成复制按钮。浏览器只加载本站生成的 CSS 和少量交互脚本，不下载高亮器；浅深切换沿用网站的 `data-theme`，无 JS 仍保留完整高亮。未指定或不支持的语言回退纯文本。默认不显示行号；无文件名的普通代码块不显示空标题栏。复制使用组件内置行为，保留缩进和 Shell 注释，不复制行号或增删标记。
+- **目录**：自动读取二、三级标题生成章节链接；至少两个标题才显示目录。1536px 及以上为左侧粘性目录，放在正文左侧留白中，滚动高亮当前章节；更窄时为正文上方可折叠目录，不挤占正文宽度。文章正文最大宽度为 45.5rem（当前桌面字号下约 820px）；1280px 及以上沿用主页内容列的左侧对齐线，使用同一 Susy 网格计算，不手写像素偏移；更窄时仍居中。标题、来源提示和文末与正文对齐，右侧留白，不改变首页、列表或 CV 布局。标题旁的 `#` 提供段落直达链接，不在滚动时修改网址。作者无需手写目录；可选的 `{:toc}` 保留为无 JS 回退，启用 JS 后由侧边目录替代，不重复展示。
+- **阅读时长与进度**：列表和文章页头在构建时自动显示预计时长，无需手填，也不依赖浏览器 JS。`_plugins/reading_time.rb` 按中文约 300 字/分钟、其他文字约 200 词/分钟相加并向上取整，最低 1 分钟；不计 HTML、脚本或重复目录，代码正文计入一次。这只是篇幅估算，不代表理解公式、图表或代码所需的时间。文章页的 2px 主题色进度线位于导航栏下方，只计算正文的滚动范围，正文末尾进入视口时达到 100%，不计页脚；整篇短文可见时直接完成。缩放、图片/公式加载、折叠内容和浏览器返回会更新进度，无 JS 或打印时不显示进度线。新增/修改 Ruby 插件后需重启 Jekyll。
+- **其他排版**：支持 Markdown 表格、脚注和原生 `<details markdown="1">` 折叠补充内容。长表格/代码在内部滚动，打印时隐藏目录和复制按钮。
+
+公式和目录在 `assets/js/blog-post.js`；代码块由 `_plugins/expressive_code.rb` 调用 `scripts/render-code-blocks.mjs` 构建，只处理文章正文。代码块主题、默认选项与组件中文提示在该 Node 脚本中，其他界面词条仍在 `_data/i18n.yml`。复制成功时按钮短暂显示对勾，不弹出文字浮层；`_sass/layout/_blog.scss` 复用组件的 `.feedback.show` 状态切换图标，保留读屏提示，不另写复制逻辑或定时器。对勾直接使用 `images/heroicons-check.svg`（Heroicons v2.2.0 原始图形，文件内保留来源和 MIT 许可），不需要安装图标库。生成的哈希资源位于构建目录的 `assets/expressive-code/`，不提交源码仓库。首页、CV 和 Terminal 不加载这套资源。归档和全文搜索仍按实际写作需要再加。
+
+#### Expressive Code 写法速查
+
+无标题、非终端的代码块会在右上角自动显示完整语言名，不强制大写或用省略号截断。构建脚本读取 Shiki 自带的语言与别名表，统一显示名称（`ts` / `typescript` → `TypeScript`、`js` / `javascript` → `JavaScript`、`cpp` / `c++` → `C++`）；未指定语言、纯文本与不支持的语言显示 `Plain Text`。Shiki 已是 Expressive Code 的高亮器，作为直接构建依赖声明以便读取这张表，不增加浏览器资源。构建时添加 `data-language-label`，样式在 `_sass/layout/_blog.scss`，不在浏览器识别语言。有文件名或终端标题时不重复显示；电脑端鼠标移入或键盘聚焦时标签隐藏，触屏端标签与复制按钮并排。语言别名、复制内容、代码标记与折叠由 `npm run test:code-blocks` 验证；需要检查视觉效果时，可自行创建本地草稿。
+
+所有代码块都使用 Expressive Code。普通代码只写三个反引号和语言名即可；高级功能直接写在**开头的语言名后面**，与官网示例一致：
+
+````markdown
+```python title="hello.py" showLineNumbers {2}
+def greet(name):
+    return f"Hello, {name}"
+```
+````
+
+使用 [Expressive Code 官方选项](https://expressive-code.com/key-features/text-markers/)，无需额外属性行，也无需转义 `{}`。语言名与各选项之间用空格分隔。
+
+| 想要的效果 | 写在语言名后面的选项 |
+| --- | --- |
+| 文件名 | `title="train.py"` |
+| 行号 / 从第 20 行开始 | `showLineNumbers` / `showLineNumbers startLineNumber=20` |
+| 强调第 2–4 行 | `{2-4}` |
+| 增加行 / 删除行 | `ins={2} del={1}` |
+| 强调某个词 | `"verified"` |
+| 折叠第 1–4 行，可再次收起 | `collapse={1-4}` |
+| 长行自动换行 | `wrap` |
+| 不显示外框标题 | `frame="none"` |
+
+`bash` / `sh` 代码自动使用终端外框。选项可组合，日常只需普通代码，必要时加文件名与重点行。复制仍包含折叠的全部代码。安装了行号和折叠两个官方插件；其他插件（例如交互式编辑器）未默认引入。完整功能见 [官方文档](https://expressive-code.com/)。
+
+实现上，`_plugins/expressive_code.rb` 中的 `GFMWithCodeMeta` 只扩展原有 GFM 解析器的代码围栏参数，保留引用、列表和其他 Markdown 规则；参数作为内部 HTML 属性交给 Expressive Code，不需要作者手写这些属性。`_config.yml` 的 `kramdown.input` 选择该扩展。运行 `npm run test:code-blocks` 会同时检查真实的 Jekyll Markdown 解析和代码块渲染，因此测试也需要先安装 Ruby / Bundler 依赖。
+
+本地草稿可放在 `_drafts/`，该目录已被 Git 忽略；当前不附带预览样稿。**草稿只在显式开启预览时加载，不设置全局 `show_drafts: true`，也不要将临时排版示例移入 `_posts`**：
+
+```sh
+bundle exec jekyll serve --host 127.0.0.1 --port 4000 --drafts
+```
+
+新增临时排版样稿时，设置 `noindex: true` / `sitemap: false`，不提交；正式发布前移除临时示例，再用不带 `--drafts` 的生产构建确认 Blog、RSS、sitemap 与输出目录没有示例。原生草稿机制和 Git 忽略是发布隔离措施，不能仅依赖 noindex。引用他人内容时保留来源，不转载无授权全文，也不将样稿当成自己的研究内容。
+
 ### 维护双语内容
+
+研究成果的中英标签统一放在 `_data/i18n.yml` 各语言的 `research` 下：`types` 是成果类型，`badges` 是额外标注，`links` 是资源链接名称。英文键在两种语言下保持一致；论文标题、团队署名、会议名称和年份仍在内容文件中维护。`Spotlight`、`BibTeX`、`PDF`、`arXiv`、`DOI`、`GitHub`、`Hugging Face` 保留原名。主页和网页 CV 共用词表，但各自的成果内容仍独立维护；Terminal 读取英文标签。
+
+词表只是可选文案，不会自动生成标签、链接或占位按钮。当前成果模板仍使用条目的 `type` 和项目主页 `url`；额外标注与其他资源名称先作为备用词条，后续使用时再接入对应内容字段和模板。相同资源不要同时用 Code / Repository / GitHub 等不同名称重复展示。
 
 1. **改正文**：主页/Terminal 编辑 `_data/profile.yml`，网页 CV 编辑 `_data/cv.yml`，在相应条目的 `en` / `zh-Hans` 下修改文案。每份数据内的公共字段在中英文间只改一处；同时涉及主页和 CV 的日期或内容变更，需要分别维护，不能假定修改一份会自动同步另一份。只改中文不会影响英文 Terminal。部分模板有同一数据文件内的英文回退，但正式中文页面应补齐译文。
 2. **改界面和搜索信息**：通用标签、日期格式及中文 SEO 默认值在 `_data/i18n.yml`；单页标题/描述在页面 front matter，英文 SEO 默认值仍在 `_config.yml`。
@@ -191,6 +290,8 @@ npm --prefix _terminal run watch
 ```sh
 npm run build:js
 npm run test:analytics
+npm run test:theme
+npm run test:code-blocks
 npm --prefix _terminal test
 npm --prefix _terminal run build
 git diff --check
@@ -202,18 +303,18 @@ PowerShell：
 
 ```powershell
 $env:JEKYLL_ENV = 'production'
-bundle exec jekyll build --safe --strict_front_matter
+bundle exec jekyll build --strict_front_matter
 ```
 
 macOS / Linux：
 
 ```sh
-JEKYLL_ENV=production bundle exec jekyll build --safe --strict_front_matter
+JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter
 ```
 
 默认输出在 `_site/`。自动化检查可用 `--destination` 指定新建的独立临时目录，不能指向源码或已有用户文件目录。构建后还需检查：
 
-- 英文与中文 Home/CV、英文 404：浅深色、手机和桌面宽度；无横向溢出、破图，短页面页脚位于底部。
+- 英文与中文 Home/Blog/CV、英文 404：浅深色、手机和桌面宽度；无横向溢出、破图，短页面页脚位于底部。
 - 语言切换对应当前页面，导航保持语言，刷新与前进/后退正常；键盘和禁用 JavaScript 时仍能使用语言链接。
 - 各语言的标题、描述、canonical、hreflang 和 sitemap 对应正确；Terminal 不生成中文地址。
 - Links 打开/外部点击关闭，缩放到桌面后链接可见；Feed 返回不残留触屏悬停色。
@@ -222,13 +323,13 @@ JEKYLL_ENV=production bundle exec jekyll build --safe --strict_front_matter
 - 两种语言的 CV 下载对应 PDF；Feed、图标和 manifest 有效，产物没有 `localhost` 链接、未渲染 Liquid、开发依赖或私有文件。
 - 两种语言的 GUI 页脚显示同一个 `site-visit` 计数，仅标签翻译；延迟、失败或超时不阻塞页面，Terminal 不显示计数。自动化检查应模拟或拦截统计请求，不污染线上访问量。
 
-已有 Terminal 的 Vitest 单元测试和 `npm run test:analytics`（Node 内置测试）。目前没有纳入仓库的一键网页浏览器回归脚本；上述浏览器检查需手动执行或使用当前可用工具，不依赖历史临时脚本。临时测试脚本、截图、浏览器配置目录和测试构建应放在系统临时目录，不提交或发布。Chrome 移动视口模拟不等同于手机真机或 Safari 验证，应在交付时说明实际覆盖范围。
+已有 Terminal 的 Vitest 单元测试，以及 `npm run test:analytics`、`npm run test:theme` 和 `npm run test:code-blocks`（Node 内置测试）。主题测试包含系统偏好、存储不可用及从 Terminal 返回时的页面缓存恢复。目前没有纳入仓库的一键网页浏览器回归脚本；上述浏览器检查需手动执行或使用当前可用工具，不依赖历史临时脚本。临时测试脚本、截图、浏览器配置目录和测试构建应放在系统临时目录，不提交或发布。Chrome 移动视口模拟不等同于手机真机或 Safari 验证，应在交付时说明实际覆盖范围。
 
 ## 4. 部署到 GitHub Pages
 
-本项目采用源码分支发布，约定为 **master → /(root)**，不是上传本地 `_site/`。首次配置：仓库 **Settings → Pages → Build and deployment → Deploy from a branch**，选择 `master` 与 `/(root)`。参见 [GitHub Pages 发布源文档](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
+发布流程在 [.github/workflows/pages.yml](.github/workflows/pages.yml)。首次启用需要将仓库 **Settings → Pages → Build and deployment → Source** 改成 **GitHub Actions**；本地代码不能替代这项仓库设置。参见 [GitHub Pages 自定义工作流文档](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
 
-仓库没有自定义部署 workflow。GitHub 会运行内置 Jekyll 构建，但不会执行本项目的 npm 构建，修改 JS 时必须先提交对应浏览器产物。不要添加 `.nojekyll`，也不要擅自切到 `docs/`、`gh-pages` 或自定义 Actions 发布方式。
+推送 `master` 或在该分支手动运行 workflow 后，Actions 安装 Node 24 / Ruby 3.3 依赖，执行测试与 GUI/Terminal 脚本构建，再运行 Jekyll（包括 Expressive Code 插件），最后把生成的 `_site/` 作为 Pages artifact 部署。PR 只构建验证，不部署。不使用 `--safe`、`--drafts`，不上传本地 `_site/`，也无需 `gh-pages` 分支或 `.nojekyll`。博客代码块需要本地插件，不能继续用原来 master / root 的内置 Jekyll 发布源。
 
 发布步骤：
 
@@ -237,7 +338,7 @@ JEKYLL_ENV=production bundle exec jekyll build --safe --strict_front_matter
 3. 用 `git add --` 明确选择本次文件，不盲目暂存所有已有改动；源码和编译产物一起提交。
 4. 确认目标提交位于 `master` 后推送 `origin/master`。其他开发分支先按维护者要求合并，不用强制重置覆盖工作。
 5. 在 GitHub Actions / Pages 状态中核对**目标提交**的构建和部署成功；push 成功不等于部署成功。
-6. 验收线上 `/`、`/cv/`、`/zh/`、`/zh/cv/`、`/terminal/`、两份 PDF、Feed 及不存在的地址（如 `/cas`），确认语言切换、主题和资源正常。新页面、数据文件、共用模板与中文 PDF 必须一同纳入提交，不仅提交已有文件的修改。
+6. 验收线上 `/`、`/blog/`、`/cv/`、`/zh/`、`/zh/blog/`、`/zh/cv/`、`/terminal/`、两份 PDF、Feed 及不存在的地址（如 `/cas`），确认语言切换、主题和资源正常。新页面、数据文件、共用模板与中文 PDF 必须一同纳入提交，不仅提交已有文件的修改。
 
 仅提交本文档的示例；其他任务请替换为实际改动文件：
 
@@ -255,10 +356,10 @@ Fork 或更换域名时，除了 Pages 设置和配置，还要检查 Terminal �
 - `_config.yml` 的 exclude 控制发布；`.gitignore` 只控制版本管理，两者不互相替代。
 - `_site/`、`.sass-cache/` 是可重建的输出/缓存，不手工维护或提交；清理前停止相关进程。
 - 两个 `node_modules/`、`vendor/bundle/` 是可重装依赖；`.bundle/` 是本机配置，不提交机器专用路径。
-- `assets/js/main.min.js`、`assets/terminal/*` 是本发布模式必须提交的生成资源，不作为“冗余文件”删除。
+- `assets/js/main.min.js`、`assets/terminal/*` 仍按现有约定提交，供本地预览使用；Actions 发布前也会重建，不作为“冗余文件”删除。`assets/expressive-code/*` 仅生成在构建输出目录，不需要提交。
 - `images/manifest.liquid` 输出为 `/images/manifest.json`；网页引用后者。
 - `images/*-source.md` 留在 Git 保存素材出处和许可证，不作为网页发布；保留根 LICENSE 和第三方声明。
-- 博客尚未启用，`_posts` 被排除；不要默认恢复已删除的博客布局、MathJax、Plotly、Mermaid 等集成。
+- Blog 支持文章列表、标签筛选和详情页；无正式文章时显示占位文案。`_drafts/` 仅用于本地写作和排版预览，不提交；发布正文放 `_posts/`。不要默认恢复 MathJax、Plotly、Mermaid 等集成。
 
 ## 6. 常见问题
 
@@ -266,7 +367,7 @@ Fork 或更换域名时，除了 Pages 设置和配置，还要检查 Terminal �
 | --- | --- |
 | 找不到 ruby / bundle / node / npm | 安装与 PATH，重新打开终端，使用已验证的工具系列 |
 | 原生 gem 编译失败 | Windows 的 Ruby+Devkit / MSYS2；不要先随意升级所有 gem |
-| 根目录 npm ci 失败 | 根目录没有纳入版本管理的锁文件，应运行 npm install |
+| 根目录 npm ci 失败 | Node、网络、package-lock.json 是否已提交且与 package.json 一致；依赖变更时才用 npm install 更新锁文件 |
 | Terminal npm ci 失败 | Node、网络、锁文件是否缺失/失配；不要通过删锁文件绕过 |
 | 修改脚本后仍是旧效果 | 源码路径、对应 npm 构建、产物是否提交，然后再检查浏览器缓存 |
 | 配置修改未生效 | 重启 Jekyll，检查命令是否在仓库根目录执行 |

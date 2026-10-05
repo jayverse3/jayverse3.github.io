@@ -1,8 +1,8 @@
-<script type="module" src="{{ base_path }}/assets/js/main.min.js"></script>
+<script type="module" src="{{ '/assets/js/main.min.js' | relative_url }}"></script>
 
 {% if page.welcome %}
 <script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" integrity="sha384-cMrTlShXEGSdSFA359p+3aVUxK/R+0TAfbRZMcTlAn8yqzxEDj05QsS65nTFMMj4" crossorigin="anonymous"></script>
-<script defer src="{{ base_path }}/assets/js/welcome.js"></script>
+<script defer src="{{ '/assets/js/welcome.js' | relative_url }}"></script>
 {% endif %}
 
 {% if page.section_nav %}

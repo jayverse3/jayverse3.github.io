@@ -10,31 +10,25 @@ $(function () {
   const $menuButton = $navigation.find("button");
   const $visibleLinks = $navigation.find(".visible-links");
   const $hiddenLinks = $navigation.find(".hidden-links");
-  const widthThresholds = [];
   const menuGap = 30;
 
-  function availableWidth() {
-    return $navigation.width() - ($menuButton.hasClass("hidden") ? 0 : $menuButton.width() + menuGap);
-  }
-
   function updateNavigation() {
-    let availableSpace = availableWidth();
-    if ($visibleLinks.width() > availableSpace) {
+    // Measure all links first; reserve a menu button only when they overflow.
+    // Remeasure on resize because link spacing changes between desktop and mobile.
+    $visibleLinks.append($hiddenLinks.children());
+    $menuButton.addClass("hidden");
+
+    if ($visibleLinks.width() > $navigation.width()) {
+      $menuButton.removeClass("hidden");
+      const availableSpace = $navigation.width() - $menuButton.outerWidth() - menuGap;
       while ($visibleLinks.width() > availableSpace && $visibleLinks.children(":not(.persist)").length) {
-        widthThresholds.push($visibleLinks.width());
         $visibleLinks.children(":not(.persist)").last().prependTo($hiddenLinks);
-        $menuButton.removeClass("hidden");
-        availableSpace = availableWidth();
       }
-    } else {
-      while (widthThresholds.length && availableSpace > widthThresholds[widthThresholds.length - 1]) {
-        $hiddenLinks.children().first().appendTo($visibleLinks);
-        widthThresholds.pop();
-      }
-      if (!widthThresholds.length) {
-        $menuButton.addClass("hidden").removeClass("close").attr("aria-expanded", "false");
-        $hiddenLinks.addClass("hidden");
-      }
+    }
+
+    if (!$hiddenLinks.children().length) {
+      $menuButton.addClass("hidden").removeClass("close").attr("aria-expanded", "false");
+      $hiddenLinks.addClass("hidden");
     }
 
     // Match content offsets to the rendered header, including a wrapped date row.

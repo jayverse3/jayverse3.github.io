@@ -1,0 +1,399 @@
+/* Blog lists and articles share the website's typography and theme. */
+.blog-index__intro {
+  color: var(--global-text-color);
+}
+
+.blog-preview-note {
+  margin: 1.25rem 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--global-link-color);
+  background: rgba(120, 166, 190, 0.08);
+  font-size: 0.8em;
+  line-height: 1.6;
+}
+
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+  font-family: var(--ui-font-family, var(--font-family));
+}
+
+.blog-tags[hidden],
+.blog-card[hidden] {
+  display: none;
+}
+
+.page__content a.blog-tag {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--global-border-color);
+  border-radius: $border-radius;
+  font-size: 0.75em;
+  text-decoration: none;
+
+  span { margin-left: 0.25rem; opacity: 0.65; }
+
+  &[aria-current],
+  &:focus-visible {
+    color: var(--global-link-color);
+    border-color: var(--global-link-color);
+    background: rgba(120, 166, 190, 0.12);
+  }
+
+  @include interactive-state { border-color: var(--global-link-color); }
+}
+
+.blog-posts {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.blog-card {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  @include card-interaction;
+
+  // The title remains a native link, extended to the whole card without JS.
+  &__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+  }
+
+  &__link:focus-visible::after {
+    outline: 2px solid var(--global-link-color);
+    outline-offset: 3px;
+    border-radius: 12px;
+  }
+
+  // Tag links stay above the article link and continue to filter the list.
+  .blog-card__tags a { position: relative; z-index: 1; }
+
+  .blog-card__title {
+    margin: 0 0 0.6rem;
+    padding: 0;
+    border: 0;
+    line-height: 1.35;
+    font-size: 1.125rem;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  .blog-card__excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: $small) { padding: 0.75rem 1rem; }
+}
+
+// Like the homepage, dim siblings only while the pointer is over a card.
+@media (hover: hover) and (pointer: fine) {
+  .blog-posts:has(> .blog-card:hover) > .blog-card:not(:hover):not(:focus-within) {
+    opacity: 0.65;
+  }
+}
+
+.blog-card__meta,
+.blog-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.85rem;
+  font-family: var(--ui-font-family, var(--font-family));
+  font-size: 0.75em;
+  line-height: 1.6;
+}
+
+.blog-card__meta { opacity: 0.75; }
+.blog-card__tags { margin-top: 0.65rem; }
+
+.blog-reading-time { white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .blog-card__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .blog-meta-separator { display: none; }
+}
+
+.blog-reading-progress {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background: transparent;
+  color: var(--global-link-color);
+  pointer-events: none;
+
+  &[hidden] { display: none; }
+  &::-webkit-progress-bar { background: transparent; }
+  &::-webkit-progress-value { background: var(--global-link-color); }
+  &::-moz-progress-bar { background: var(--global-link-color); }
+}
+
+.blog-card__tags a {
+  color: var(--global-link-color);
+  text-decoration: none;
+  @include interactive-state { text-decoration: underline; }
+}
+
+// Article pages have their own reading width; lists, Home and CV are unchanged.
+#main.blog-post-shell { max-width: $x-large; }
+
+.blog-post {
+  max-width: 45.5rem;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+
+  @include breakpoint($x-large) {
+    // Match .page's inner left edge: right-aligned 10-column span + its prefix.
+    margin-left: 100% - span(10 of 12) + span(0.5 wide of 12);
+  }
+
+  &__back { font-size: 0.85em; }
+
+  &__header {
+    margin: 1.5rem 0;
+    h1 { font-size: 2em; line-height: 1.2; }
+  }
+
+  &__body {
+    // Inline code follows the GitHub palettes; block styles come from Expressive Code.
+    --global-code-background-color: #ffffff;
+    --global-code-text-color: #24292e;
+    min-width: 0;
+    line-height: 1.8;
+    h2, h3, [id^="fn"] { scroll-margin-top: var(--blog-heading-offset, 7rem); }
+    .expressive-code { margin: 1.5rem 0; min-width: 0; }
+    table { display: block; width: 100%; overflow-x: auto; margin: 1.5rem 0; border-collapse: collapse; font-size: 0.85em; }
+    th, td { padding: 0.55rem; text-align: left; border-bottom: 1px solid var(--global-border-color); }
+    th { background: var(--global-thead-color); }
+    img { display: block; max-width: 100%; height: auto; margin: 1.5rem auto; }
+    #markdown-toc {
+      padding: 1rem 1rem 1rem 2.25rem;
+      border: 1px solid var(--global-border-color);
+      border-radius: $border-radius;
+      font-size: 0.85em;
+    }
+  }
+
+  &__footer {
+    clear: both;
+    padding-top: 2rem;
+    border-top: 1px solid var(--global-border-color);
+  }
+
+  &__updated {
+    margin: 0 0 1rem;
+    font-family: var(--ui-font-family, var(--font-family));
+    font-size: 0.75rem;
+    opacity: 0.75;
+  }
+}
+
+html[data-theme="dark"] .blog-post__body {
+  --global-code-background-color: #24292e;
+  --global-code-text-color: #e1e4e8;
+}
+
+// Match the site's light/dark accent without changing GitHub syntax colors.
+.blog-post__body .expressive-code .frame.has-title:not(.is-terminal) {
+  --ec-frm-edActTabIndTopCol: var(--global-link-color);
+}
+
+// Canonical display names are added at build time; no browser script or title bar.
+.blog-post__body .expressive-code .frame:not(.has-title):not(.is-terminal) {
+  // :where keeps later hover/touch overrides simple.
+  > :where(pre[data-language-label]) {
+    &::before {
+      content: attr(data-language-label);
+      position: absolute;
+      z-index: 2;
+      top: 0.5rem;
+      right: 0.5rem;
+      box-sizing: border-box;
+      width: max-content;
+      max-width: calc(100% - 1rem);
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.25rem;
+      background: var(--ec-frm-edTabBarBg);
+      color: var(--ec-frm-edActTabFg);
+      font-family: var(--ec-codeFontFml);
+      font-size: 0.6rem;
+      font-weight: 600;
+      line-height: 1.5;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      pointer-events: none;
+      user-select: none;
+      transition: opacity 150ms ease;
+    }
+
+    // Reserve room on the first line, including for names like TypeScript.
+    :nth-child(1 of .ec-line) .code {
+      padding-inline-end: calc(6rem + var(--ec-codePadInl));
+    }
+
+    @media (hover: none) {
+      :nth-child(1 of .ec-line) .code {
+        padding-inline-end: calc(9rem + var(--ec-codePadInl));
+      }
+    }
+  }
+
+  &:focus-within > pre::before,
+  &:has(.feedback.show) > pre::before { opacity: 0; }
+
+  @media (hover: hover) {
+    &:hover > pre::before { opacity: 0; }
+  }
+
+  @media (hover: none) {
+    // Touch devices always show the copy button, so put the badge to its left.
+    > pre::before {
+      right: calc(3rem + var(--ec-uiPadInl) / 2);
+      max-width: calc(100% - 3.5rem - var(--ec-uiPadInl) / 2);
+    }
+    > pre:active::before { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    > pre::before { transition: none; }
+  }
+}
+
+// Reuse EC's success state and timer; keep its live announcement for screen readers.
+.blog-post__body .expressive-code .copy {
+  [aria-live] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &:has(.feedback.show) button {
+    // Official Heroicons outline/check; URL is relative to assets/css/main.css.
+    $success-icon: url("../../images/heroicons-check.svg");
+    --ec-frm-copyIcon: #{$success-icon};
+    opacity: 1;
+
+    &::after {
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .blog-post__header h1 { font-size: 1.55em; }
+}
+
+.blog-reading-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.blog-toc {
+  font-family: var(--ui-font-family, var(--font-family));
+  font-size: 0.8rem;
+  line-height: 1.5;
+  border: 1px solid var(--global-border-color);
+  border-radius: $border-radius;
+
+  &[hidden] { display: none; }
+  summary { padding: 0.75rem 1rem; font-weight: 600; cursor: pointer; }
+  nav { padding: 0 1rem 0.75rem; }
+  ol { margin: 0; padding: 0; list-style: none; }
+  ol ol { padding-left: 0.9rem; }
+  li { margin: 0; }
+  a {
+    display: block;
+    padding: 0.35rem 0.6rem;
+    border-left: 2px solid transparent;
+    color: var(--global-text-color);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    &[aria-current] { color: var(--global-link-color); border-color: currentColor; }
+    @include interactive-state { color: var(--global-link-color); }
+  }
+}
+
+// The TOC occupies the left margin without changing the body's alignment or width.
+// Keep generous viewport gutters around the article and the side TOC.
+@media screen and (min-width: 1536px) {
+  .blog-post--has-toc .blog-reading-layout {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 2rem;
+    margin-left: -15rem;
+  }
+  .blog-toc {
+    position: sticky;
+    top: var(--blog-heading-offset, 7rem);
+    align-self: start;
+    max-height: calc(100vh - var(--blog-heading-offset, 7rem) - 1rem);
+    overflow-y: auto;
+    border: 0;
+    summary { padding: 0 0.6rem 0.75rem; }
+    nav { padding: 0; }
+  }
+}
+
+.page__content .blog-heading-link {
+  margin-left: 0.5em;
+  font-size: 0.8em;
+  font-weight: normal;
+  text-decoration: none;
+  color: var(--global-link-color);
+  opacity: 0.6;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .blog-post__body h2, .blog-post__body h3 {
+    .blog-heading-link { opacity: 0; }
+    &:hover .blog-heading-link, &:focus-within .blog-heading-link { opacity: 1; }
+  }
+}
+
+.blog-post__body .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+  margin: 1.5rem 0;
+  > .katex { text-align: left; }
+}
+
+@media print {
+  .blog-post--has-toc .blog-reading-layout { display: block; }
+  .blog-toc, .blog-heading-link, .expressive-code .copy, .blog-reading-progress { display: none; }
+}

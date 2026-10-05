@@ -79,7 +79,7 @@ test("published home keeps page tracking and displays the shared visit event, no
   assert.equal(timers.size, 0);
 });
 
-for (const path of ["/cv/", "/404.html", "/zh/", "/zh/cv/"]) {
+for (const path of ["/blog/", "/cv/", "/404.html", "/zh/", "/zh/blog/", "/zh/cv/"]) {
   test("page footer displays the same site-wide counter on " + path, async () => {
     const { counter, requests, scripts } = await render({ url: "https://example.github.io" + path });
     assert.equal(JSON.parse(scripts[0].dataset.goatcounterSettings).path, path);
@@ -105,8 +105,8 @@ test("a translated display label does not change the shared event identity or ti
   assert.equal(requests[0].address, "https://example.goatcounter.com/counter/site-visit.json");
 });
 
-test("home, CV, Terminal, and refreshes use the same session-enabled deduplication key", async () => {
-  const paths = ["/", "/cv/", "/terminal/", "/", "/terminal/"];
+test("home, blog, CV, Terminal, and refreshes use the same session-enabled deduplication key", async () => {
+  const paths = ["/", "/blog/", "/zh/blog/", "/cv/", "/terminal/", "/", "/terminal/"];
   const eventPaths = [];
   for (const path of paths) {
     const { scripts, events } = await render({ url: "https://example.github.io" + path });

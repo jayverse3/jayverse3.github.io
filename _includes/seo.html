@@ -12,11 +12,17 @@
 
 <title>{{ seo_title }}</title>
 <meta name="description" content="{{ seo_description }}">
+{% if page.noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
 <link rel="canonical" href="{{ canonical_url | escape }}">
 
 {% if page.translation_key %}
-  {% assign seo_translations = site.pages | where: "translation_key", page.translation_key %}
-  {% if seo_translations.size > 1 %}
+  {% assign seo_translation_candidates = site.pages %}
+  {% if page.layout == 'post' %}
+    {% assign seo_translation_candidates = site.posts %}
+  {% endif %}
+  {% assign seo_translations = seo_translation_candidates | where: "translation_key", page.translation_key %}
+  {% assign seo_other_translations = seo_translations | where_exp: "translation", "translation.lang != seo_lang" %}
+  {% if seo_other_translations.size > 0 %}
     {% for translation in seo_translations %}
 <link rel="alternate" hreflang="{{ translation.lang | escape }}" href="{{ translation.url | absolute_url | escape }}">
       {% if translation.lang == "en" %}
@@ -37,8 +43,63 @@
 <meta property="og:title" content="{{ seo_title }}">
 <meta property="og:description" content="{{ seo_description }}">
 <meta property="og:url" content="{{ canonical_url | escape }}">
-<meta property="og:type" content="website">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
 
+{% assign seo_page_image = page.image | default: "" | strip %}
+{% assign seo_image = seo_page_image | default: site.og_image %}
+{% if seo_image %}
+  {% assign seo_image_url = seo_image | absolute_url %}
+  {% assign seo_image_alt = site.name %}
+  {% if seo_page_image != empty %}
+    {% assign seo_image_alt = page.image_alt | default: page.title | default: site.name %}
+  {% endif %}
+<meta property="og:image" content="{{ seo_image_url | escape }}">
+<meta property="og:image:alt" content="{{ seo_image_alt | escape }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ seo_image_url | escape }}">
+<meta name="twitter:image:alt" content="{{ seo_image_alt | escape }}">
+{% endif %}
+
+{% if page.layout == 'post' %}
+  {% unless page.preview_sample %}
+    {% assign seo_author = page.author | default: site.name %}
+    {% assign seo_article_description = page.description | default: page.excerpt | default: seo_localized.description | default: site.description | strip_html | normalize_whitespace %}
+<meta name="author" content="{{ seo_author | escape }}">
+    {% if seo_author == site.name %}
+<meta property="article:author" content="{{ '/' | absolute_url | escape }}">
+    {% endif %}
+    {% if page.date %}
+<meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+    {% endif %}
+    {% if page.last_modified_at %}
+<meta property="article:modified_time" content="{{ page.last_modified_at | date_to_xmlschema }}">
+    {% endif %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ page.title | jsonify | replace: '<', '\u003c' }},
+    "description": {{ seo_article_description | jsonify | replace: '<', '\u003c' }},
+    "url": {{ canonical_url | jsonify }},
+    "inLanguage": {{ seo_lang | jsonify }},
+    {% if seo_page_image != empty %}
+    "image": {{ seo_image_url | jsonify | replace: '<', '\u003c' }},
+    {% endif %}
+    {% if page.date %}
+    "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+    {% endif %}
+    {% if page.last_modified_at %}
+    "dateModified": {{ page.last_modified_at | date_to_xmlschema | jsonify }},
+    {% endif %}
+    "author": {
+      "@type": "Person",
+      "name": {{ seo_author | jsonify | replace: '<', '\u003c' }}{% if seo_author == site.name %},
+      "url": {{ '/' | absolute_url | jsonify }}{% endif %}
+    }
+  }
+</script>
+  {% endunless %}
+{% else %}
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,3 +108,4 @@
     "url": {{ "/" | absolute_url | jsonify }}
   }
 </script>
+{% endif %}

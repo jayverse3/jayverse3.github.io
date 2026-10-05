@@ -1,6 +1,6 @@
 .greedy-nav {
   position: relative;
-  min-width: 250px;
+  min-width: 0;
   background: var(--global-bg-color);
 
   a {
@@ -58,6 +58,11 @@
 
     a {
       position: relative;
+
+      @media (max-width: $small) {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
 
       &:before {
         content: "";

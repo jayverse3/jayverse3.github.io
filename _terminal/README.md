@@ -77,4 +77,4 @@ npm --prefix _terminal run watch
 - [../assets/terminal/terminal.css](../assets/terminal/terminal.css)
 - [../assets/terminal/THIRD_PARTY_NOTICES.md](../assets/terminal/THIRD_PARTY_NOTICES.md)
 
-_terminal 是源码目录，不作为网页发布。GitHub Pages 只发布生成资源，不会运行 npm；提交前执行正式构建，再按根 README 部署。
+_terminal 是源码目录，不作为网页发布。提交前执行正式构建；GitHub Actions 也会运行 Terminal 测试和构建，再将生成的静态站点发布到 Pages。完整流程见根 README。

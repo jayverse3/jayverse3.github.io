@@ -12,9 +12,12 @@
     <h3 id="research-{{ card.id }}">{{ card.title | escape }}</h3>
     <p class="profile-card__detail">{{ card_copy.team | escape }}</p>
     <p class="profile-card__detail"><time datetime="{{ card.date }}">{{ card.date | append: '-01' | date: include.ui.month_format }}</time></p>
+    {% if card_copy.summary %}
+    <p class="profile-card__description">{{ card_copy.summary | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+    {% endif %}
     <div class="profile-card__links">
-      <span class="profile-card__tag">{{ include.ui[card.type] | escape }}</span>
-      <a href="{{ card.url | escape }}" target="_blank" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.project_page | escape }} <span aria-hidden="true">↗</span></a>
+      <span class="profile-card__tag">{{ include.ui.research.types[card.type] | escape }}</span>
+      <a href="{{ card.url | escape }}" target="_blank" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }} <span aria-hidden="true">↗</span></a>
     </div>
     {% else %}
     <div class="profile-card__header">

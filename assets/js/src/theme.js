@@ -17,11 +17,16 @@ $(function () {
 
   function refreshTheme() {
     preference = readPreference();
-    applyTheme(preference === "light" || preference === "dark" ? preference : systemTheme.matches ? "dark" : "light");
+    let theme = preference;
+    if (theme !== "light" && theme !== "dark") {
+      theme = systemTheme.matches ? "dark" : "light";
+    }
+    applyTheme(theme);
   }
 
   refreshTheme();
   systemTheme.addEventListener("change", refreshTheme);
+  window.addEventListener("pageshow", refreshTheme);
   window.addEventListener("storage", function (event) {
     if (event.key === "theme" || event.key === null) refreshTheme();
   });

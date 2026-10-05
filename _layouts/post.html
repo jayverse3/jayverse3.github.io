@@ -1,0 +1,50 @@
+---
+layout: default
+---
+{% assign post_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
+{% assign blog_page = site.pages | where: 'translation_key', 'blog' | where: 'lang', page.lang | first %}
+{% assign blog_url = blog_page.url | default: '/blog/' %}
+<main id="main" class="blog-post-shell">
+  <progress class="blog-reading-progress" value="0" max="100" aria-label="{{ post_ui.blog_reading_progress | escape }}" hidden></progress>
+  <article class="blog-post" data-blog-post
+    data-section-link="{{ post_ui.blog_section_link | escape }}">
+    <a class="blog-post__back" href="{{ blog_url | relative_url }}">← {{ post_ui.blog_back }}</a>
+    <header class="blog-post__header">
+      <h1>{{ page.title | escape }}</h1>
+      <div class="blog-card__meta">
+        <span>{{ post_ui.blog_date }} <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: post_ui.blog_date_format }}</time></span>
+        <span class="blog-meta-separator" aria-hidden="true">|</span>
+        {% include reading-time.html html=content ui=post_ui %}
+      </div>
+      <div class="blog-card__tags">
+        {% for tag in page.tags %}<a href="{{ blog_url | relative_url }}#tag={{ tag | uri_escape | escape }}">{{ tag | escape }}</a>{% endfor %}
+      </div>
+    </header>
+    {% if page.preview_sample %}
+    <aside class="blog-preview-note">
+      {{ post_ui.blog_preview }}<br>
+      {{ post_ui.blog_sample }} {{ page.source_author | escape }} · <a href="{{ page.source_url | escape }}">{{ post_ui.blog_original }} ↗</a>
+    </aside>
+    {% endif %}
+    <div class="blog-reading-layout">
+      <aside class="blog-toc" hidden>
+        <details>
+          <summary>{{ post_ui.on_this_page }}</summary>
+          <nav aria-label="{{ post_ui.on_this_page | escape }}"></nav>
+        </details>
+      </aside>
+      <div class="page__content blog-post__body">{{ content }}</div>
+    </div>
+    <footer class="blog-post__footer">
+      {% assign updated_at = page.last_modified_at | default: page.date %}
+      {% assign published_timestamp = page.date | date: '%s' | plus: 0 %}
+      {% assign updated_timestamp = updated_at | date: '%s' | plus: 0 %}
+      {% if updated_timestamp < published_timestamp %}
+        {% assign updated_at = page.date %}
+      {% endif %}
+      <p class="blog-post__updated">{{ post_ui.blog_last_updated }} <time datetime="{{ updated_at | date_to_xmlschema }}">{{ updated_at | date: post_ui.blog_date_format }}</time></p>
+      <a href="{{ blog_url | relative_url }}">← {{ post_ui.blog_back }}</a>
+    </footer>
+  </article>
+</main>
+<script defer src="{{ '/assets/js/blog-post.js' | relative_url }}"></script>

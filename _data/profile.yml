@@ -134,7 +134,9 @@ research:
     url: https://seed.bytedance.com/en/seed2_1
     en:
       team: ByteDance Seed
+      summary: Contributed to mid-training and post-training data synthesis for Seed2.1, supporting improvements in its coding and GUI capabilities.
       link_label: Seed2.1 project page
     zh-Hans:
       team: ByteDance Seed
+      summary: 参与 Seed2.1 中训练与后训练阶段的数据合成，支持其 Coding 与 GUI 能力提升。
       link_label: Seed2.1 project page

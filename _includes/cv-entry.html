@@ -33,7 +33,7 @@
   {% elsif include.kind == 'research' %}
   <div class="cv-entry__body">
     <p>{{ cv_copy.team | escape }}</p>
-    <p>{{ include.ui[cv_entry.type] | escape }} &middot; <a href="{{ cv_entry.url | escape }}" target="_blank" aria-label="{{ cv_copy.link_label | escape }}">{{ include.ui.project_page | escape }}</a></p>
+    <p>{{ include.ui.research.types[cv_entry.type] | escape }} &middot; <a href="{{ cv_entry.url | escape }}" target="_blank" aria-label="{{ cv_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }}</a></p>
   </div>
   {% endif %}
 </article>

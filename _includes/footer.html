@@ -1,8 +1,7 @@
 {% assign footer_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
-{% assign footer_author = site.data.profile.author[page.lang] | default: site.data.profile.author.en %}
-<div class="page__footer-copyright">
-  &copy; {{ site.time | date: '%Y' }} {{ footer_author.name | escape }}
-  &middot; {{ footer_ui.powered_by | escape }} <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>
+<div class="page__footer-copyright" lang="en">
+  &copy; {{ site.time | date: '%Y' }} {{ site.name | escape }}
+  &middot; Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>
   &amp; <a href="https://academicpages.github.io/" target="_blank">Academic&nbsp;Pages</a>
 </div>
 <div class="page__footer-visits" data-site-visits data-label="{{ footer_ui.site_visits | escape }}" hidden></div>

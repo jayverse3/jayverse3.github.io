@@ -1,0 +1,75 @@
+name: Build and deploy website
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    env:
+      JEKYLL_ENV: production
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Article modification dates need each file's Git history.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            _terminal/package-lock.json
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Install JavaScript dependencies
+        run: |
+          npm ci
+          npm --prefix _terminal ci
+      - name: Test and build JavaScript
+        run: |
+          npm run test:analytics
+          npm run test:theme
+          npm run test:code-blocks
+          npm --prefix _terminal test
+          npm run build:js
+          npm --prefix _terminal run build
+      - name: Build Jekyll and Expressive Code
+        # Do not use --safe: the local plugin runs the code-block build step.
+        run: bundle exec jekyll build --strict_front_matter
+      - name: Check that local preview articles are not published
+        run: |
+          if [ -d _site/blog/preview ]; then
+            echo 'Local preview articles must not be published.'
+            exit 1
+          fi
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
