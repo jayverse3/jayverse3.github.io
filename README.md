@@ -152,6 +152,8 @@ Terminal 与主页共用 `home-content.html`，Terminal 固定读取 `_data/prof
 
 主页经历的 `summary` 支持 Markdown 加粗；`experience-summary.html` 将 `%MODEL%` 替换为对应语言的模型名，将 `%MODEL_LOGO%` 替换为浅/深色 Logo。Logo 模板和样式不添加间距，两侧空格直接写在主页正文中，例如 `参与 %MODEL_LOGO% %MODEL%基模`。网页 CV 不调用这个模板；在 `_data/cv.yml` 直接编写普通 Markdown 摘要（例如 `参与文心基模的后训练……`），详细工作内容使用 `cv_groups`，没有详细条目时显示 CV 自己的 `summary`。主页中的 Logo、措辞或间距修改不会改变 CV 正文。PDF 下载地址仍由各 CV 页面的 `pdf` 字段控制，不因新增中文页面自动公开其他 PDF。
 
+主页教育与实习卡片的 `url` 指向学校或公司官网：有独立语言入口时分别放在 `en.url` / `zh-Hans.url`，否则使用条目公共 `url`（如 UniPat AI）；模板优先读取当前语言的地址，再回退公共地址。仅名称链接在新标签页打开，Logo、描述和卡片留白不参与跳转。名称默认沿用标题颜色，悬停或键盘聚焦时显示链接颜色与下划线；未配置地址时仍显示普通标题。Terminal 继续提取名称文本，不额外输出官网地址。
+
 ### Blog 与本地草稿预览
 
 列表采用与主页一致的单列卡片：默认背景、边框透明，鼠标悬停时显示淡背景与柔和阴影，其余卡片轻微淡出；触屏不启用悬停效果。点击卡片正文或留白进入详情页，标签独立点击筛选。链接使用原生 HTML 和 CSS 扩展点击区域，不以 JavaScript 模拟跳转；键盘可聚焦标题链接。目前没有正式文章，预览样稿已清理，中英文列表分别显示 Coming soon / 敬请期待；博客阅读功能和测试保留。
@@ -273,13 +275,13 @@ npm --prefix _terminal run watch
 ### 访问统计（GoatCounter）
 
 - `_config.yml` 的 `goatcounter_code` 填注册的账号名（不含域名），留空完全禁用。无需密码或 API Key。
-- 在 GoatCounter 的站点设置开启 **Allow adding visitor counts on your website**，网页公共页脚才能读取并显示 `Site visits`；后台不需要设为公开。
+- 在 GoatCounter 的站点设置开启 **Allow adding visitor counts on your website**，网页公共页脚才能读取并显示 `Total visits` / `访问总量`；后台不需要设为公开。
 - 主页/CV 与 Terminal 共用 `_includes/analytics.html` / `assets/js/site-analytics.js`，仅在生产构建且当前域名与配置一致时启用统计。页面以 `location.pathname` 归类；官方脚本仍会发送查询参数及来源等默认统计字段。不记录 Terminal 命令或点击事件。
 - 各页面保留原有浏览记录，并在页面可见时发送同一个 `site-visit` 事件。Home、CV、404 等常规网页共用页脚，统一读取该事件的累计计数，不读取相加各页面的 `TOTAL`；Terminal 参与统计但不显示计数。同一会话中首页 → CV → Terminal 或反复刷新，全站计数只增加 1。
 - 保持 **Settings → Data collection → Sessions** 开启，由 GoatCounter 按约 8 小时窗口去重；不是永久去重的人数。更换网络或浏览器可能另算一次。机制见 [Sessions and visitors](https://www.goatcounter.com/help/sessions)。不额外使用 Cookie / localStorage 标识访客。
 - 后台查看全站访问时选择 `site-visit` / `Site visits`；只查看各页面时用 `is:pageview` 过滤。不要把事件和页面数字相加当作人数。新口径从部署后开始累积，不将旧 `TOTAL` 当作历史去重人数。
 - 公开数字可能缓存至多四小时，不是实时跳数。普通本地预览仅查询已有计数，不增加访问；接口明确返回缺失路径的 JSON `count: "0"` 时显示 0，未启用公开计数、接口超时或请求被拦截时隐藏该行，不填占位数字。
-- 常规网页不等待计数：页脚初始隐藏该行，后台请求最多 5 秒，成功后直接显示，无需刷新页面。显示标签由 `_data/i18n.yml` 通过页脚 `data-label` 提供，统计事件的 `site-visit` 标识及 `Site visits` 标题保持固定。Terminal 不请求公开计数，也不等待或显示数字；仅保留生产环境的访问记录。
+- 常规网页不等待计数：页脚初始隐藏该行，后台请求最多 5 秒，成功后直接显示，无需刷新页面。显示标签连同冒号、空格由 `_data/i18n.yml` 通过页脚 `data-label` 提供（`Total visits: ` / `访问总量：`），统计事件的 `site-visit` 标识及 `Site visits` 标题保持固定。Terminal 不请求公开计数，也不等待或显示数字；仅保留生产环境的访问记录。
 - 排除自己的线上访问可在网站地址后加 `#toggle-goatcounter` 并按提示操作。说明见 [GoatCounter 文档](https://www.goatcounter.com/help/skip-dev)。
 - 修改统计逻辑后运行 `npm run test:analytics`（Node 内置测试，所有请求均为模拟，不污染线上数据），再检查 Jekyll 构建与网页公共页脚。
 

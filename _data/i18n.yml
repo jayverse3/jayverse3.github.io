@@ -39,7 +39,7 @@ en:
   email: Email
   scholar: Google Scholar
   github: GitHub
-  site_visits: Site visits
+  site_visits: "Total visits: "
   back_to_top: Back to top
   on_this_page: On this page
   download_pdf: Download PDF
@@ -137,7 +137,7 @@ zh-Hans:
   email: 电子邮箱
   scholar: Google Scholar
   github: GitHub
-  site_visits: 全站访问量
+  site_visits: "访问总量："
   back_to_top: 返回顶部
   on_this_page: 本页导航
   download_pdf: 下载 PDF

@@ -74,7 +74,7 @@ test("published home keeps page tracking and displays the shared visit event, no
   assert.deepEqual(events, [{ path: "site-visit", title: "Site visits", event: true }]);
   assert.equal(requests[0].address, "https://example.goatcounter.com/counter/site-visit.json");
   assert.equal(requests[0].init.credentials, "omit");
-  assert.equal(counter.textContent, "Site visits: 1,234");
+  assert.equal(counter.textContent, "Total visits: 1,234");
   assert.equal(counter.hidden, false);
   assert.equal(timers.size, 0);
 });
@@ -85,7 +85,7 @@ for (const path of ["/blog/", "/cv/", "/404.html", "/zh/", "/zh/blog/", "/zh/cv/
     assert.equal(JSON.parse(scripts[0].dataset.goatcounterSettings).path, path);
     assert.equal(requests.length, 1);
     assert.equal(requests[0].address, "https://example.goatcounter.com/counter/site-visit.json");
-    assert.equal(counter.textContent, "Site visits: 1,234");
+    assert.equal(counter.textContent, "Total visits: 1,234");
     assert.equal(counter.hidden, false);
   });
 }
@@ -98,12 +98,17 @@ test("Terminal uses its page pathname, disables automatic click binding, and sha
   assert.deepEqual(events, [{ path: "site-visit", title: "Site visits", event: true }]);
 });
 
-test("a translated display label does not change the shared event identity or title", async () => {
-  const { counter, events, requests } = await render({ counterLabel: "访问量", url: "https://example.github.io/zh/" });
-  assert.equal(counter.textContent, "访问量: 1,234");
-  assert.deepEqual(events, [{ path: "site-visit", title: "Site visits", event: true }]);
-  assert.equal(requests[0].address, "https://example.goatcounter.com/counter/site-visit.json");
-});
+for (const [path, label, expected] of [
+  ["/", "Total visits: ", "Total visits: 1,234"],
+  ["/zh/", "访问总量：", "访问总量：1,234"]
+]) {
+  test("display label and punctuation do not change the analytics event on " + path, async () => {
+    const { counter, events, requests } = await render({ counterLabel: label, url: "https://example.github.io" + path });
+    assert.equal(counter.textContent, expected);
+    assert.deepEqual(events, [{ path: "site-visit", title: "Site visits", event: true }]);
+    assert.equal(requests[0].address, "https://example.goatcounter.com/counter/site-visit.json");
+  });
+}
 
 test("home, blog, CV, Terminal, and refreshes use the same session-enabled deduplication key", async () => {
   const paths = ["/", "/blog/", "/zh/blog/", "/cv/", "/terminal/", "/", "/terminal/"];
@@ -174,13 +179,13 @@ test("empty or malformed account codes make no network requests", async () => {
 
 test("real zero is shown, not replaced with a fabricated count", async () => {
   const result = await render({ data: { count: "0" } });
-  assert.equal(result.counter.textContent, "Site visits: 0");
+  assert.equal(result.counter.textContent, "Total visits: 0");
   assert.equal(result.counter.hidden, false);
 });
 
 test("GoatCounter's missing-path JSON zero is displayed without inventing visits", async () => {
   const result = await render({ ok: false, status: 404, data: { count: "0", count_unique: "0" } });
-  assert.equal(result.counter.textContent, "Site visits: 0");
+  assert.equal(result.counter.textContent, "Total visits: 0");
   assert.equal(result.counter.hidden, false);
 });
 

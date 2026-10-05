@@ -46,10 +46,12 @@ education:
     logo_dark: /images/peking-university-white.svg
     en:
       name: Peking University
+      url: https://english.pku.edu.cn/
       degree: M.S.
       major: Computer Science and Technology
     zh-Hans:
       name: 北京大学
+      url: https://www.pku.edu.cn/
       degree: 理学硕士
       major: 计算机科学与技术
   - id: nwafu
@@ -59,15 +61,18 @@ education:
     logo_dark: /images/northwest-af-university-white.svg
     en:
       name: Northwest A&F University
+      url: https://en.nwsuaf.edu.cn/
       degree: B.Eng.
       major: Software Engineering
     zh-Hans:
       name: 西北农林科技大学
+      url: https://www.nwafu.edu.cn/
       degree: 工学学士
       major: 软件工程
 
 experience:
   - id: unipat
+    url: https://www.unipat.ai/
     start: "2026-10"
     logo: /images/unipat.svg
     logo_dark: /images/unipat-white.svg
@@ -88,6 +93,7 @@ experience:
     model_logo_dark: /images/wenxin-white.svg
     en:
       name: Baidu
+      url: https://ir.baidu.com/
       role: Research Intern
       program: Top Internship Program
       department: Basic Model R&D Department
@@ -97,6 +103,7 @@ experience:
         focusing on improving its performance in terminal environments and on Terminal-Bench.
     zh-Hans:
       name: 百度
+      url: https://home.baidu.com/
       role: 大模型算法研究员
       program: Top 实习计划
       department: 基础模型研发部
@@ -111,6 +118,7 @@ experience:
     model_logo_dark: /images/doubao-white.svg
     en:
       name: ByteDance
+      url: https://www.bytedance.com/en/
       role: Research Intern
       department: AI Data & Safety
       model: Seed models’
@@ -119,6 +127,7 @@ experience:
         by synthesizing **high-quality mid-training and post-training data**.
     zh-Hans:
       name: 字节跳动
+      url: https://www.bytedance.com/zh/
       role: 后训练数据算法实习生
       department: AI 数据与安全
       model: Seed 系列模型
@@ -131,12 +140,13 @@ research:
     title: "Seed2.1 Model Card: Agentic Intelligence for Productivity"
     date: "2026-06"
     type: technical_report
-    url: https://seed.bytedance.com/en/seed2_1
     en:
+      url: https://seed.bytedance.com/en/seed2_1
       team: ByteDance Seed
       summary: Contributed to mid-training and post-training data synthesis for Seed2.1, supporting improvements in its coding and GUI capabilities.
       link_label: Seed2.1 project page
     zh-Hans:
+      url: https://seed.bytedance.com/zh/seed2_1
       team: ByteDance Seed
       summary: 参与 Seed2.1 中训练与后训练阶段的数据合成，支持其 Coding 与 GUI 能力提升。
       link_label: Seed2.1 project page

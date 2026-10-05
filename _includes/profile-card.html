@@ -1,5 +1,6 @@
 {%- assign card = include.entry -%}
 {%- assign card_copy = card[include.lang] | default: card.en -%}
+{%- assign card_url = card_copy.url | default: card.url -%}
 <article class="profile-card profile-card--{{ include.kind }}" aria-labelledby="{{ include.kind }}-{{ card.id }}">
   {% if card.logo %}
   <div class="profile-card__logo{% if include.kind == 'experience' %} profile-card__logo--company{% endif %}">
@@ -17,11 +18,11 @@
     {% endif %}
     <div class="profile-card__links">
       <span class="profile-card__tag">{{ include.ui.research.types[card.type] | escape }}</span>
-      <a href="{{ card.url | escape }}" target="_blank" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }} <span aria-hidden="true">↗</span></a>
+      <a href="{{ card_url | escape }}" target="_blank" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }} <span aria-hidden="true">↗</span></a>
     </div>
     {% else %}
     <div class="profile-card__header">
-      <h3 id="{{ include.kind }}-{{ card.id }}">{{ card_copy.name | escape }}</h3>
+      <h3 id="{{ include.kind }}-{{ card.id }}">{% if card_url %}<a href="{{ card_url | escape }}" target="_blank" rel="noopener noreferrer">{{ card_copy.name | escape }}</a>{% else %}{{ card_copy.name | escape }}{% endif %}</h3>
       <p class="profile-card__dates">{% include date-range.html start=card.start end=card.end ui=include.ui %}</p>
     </div>
     {% if include.kind == 'education' %}

@@ -61,7 +61,7 @@
       if (!/^\d[\d,.\s]*$/.test(count)) return;
       // A missing path has a documented JSON zero response; errors are not zero.
       if (!response.ok && count !== "0") return;
-      counter.textContent = (counter.dataset.label || counterLabel) + ": " + count;
+      counter.textContent = (counter.dataset.label || "Total visits: ") + count;
       counter.hidden = false;
     } catch (error) {
       // Disabled public counts, blockers and outages should leave no placeholder.

@@ -117,7 +117,7 @@ awards:
 
 skills:
   - id: programming_languages
-    items: [Python, C++, TypeScript, Bash]
+    items: [Python, C++, TypeScript]
   - id: post_training
     items: [RLHF/RLVR, Process Reward Modeling, PPO, GRPO, DAPO, On-Policy Distillation]
   - id: framework
