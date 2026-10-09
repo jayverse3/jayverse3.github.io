@@ -1,7 +1,10 @@
 {%- assign card = include.entry -%}
 {%- assign card_copy = card[include.lang] | default: card.en -%}
 {%- assign card_url = card_copy.url | default: card.url -%}
-<article class="profile-card profile-card--{{ include.kind }}" aria-labelledby="{{ include.kind }}-{{ card.id }}">
+<article class="profile-card profile-card--{{ include.kind }}{% if include.kind == 'research' and card.image %} profile-card--with-cover{% endif %}" aria-labelledby="{{ include.kind }}-{{ card.id }}">
+  {% if include.kind == 'research' and card.image %}
+  <img class="profile-card__cover" src="{{ card.image | relative_url }}" alt="" width="1920" height="1080" loading="lazy" decoding="async">
+  {% endif %}
   {% if card.logo %}
   <div class="profile-card__logo{% if include.kind == 'experience' %} profile-card__logo--company{% endif %}">
     <img class="profile-card__logo-light" src="{{ card.logo | relative_url }}" alt="" width="64" height="64" loading="lazy">
@@ -11,14 +14,17 @@
   <div class="profile-card__body">
     {% if include.kind == 'research' %}
     <h3 id="research-{{ card.id }}">{{ card.title | escape }}</h3>
-    <p class="profile-card__detail">{{ card_copy.team | escape }}</p>
+    <p class="profile-card__detail">{{ card.team | escape }}</p>
     <p class="profile-card__detail"><time datetime="{{ card.date }}">{{ card.date | append: '-01' | date: include.ui.month_format }}</time></p>
     {% if card_copy.summary %}
     <p class="profile-card__description">{{ card_copy.summary | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
     {% endif %}
     <div class="profile-card__links">
-      <span class="profile-card__tag">{{ include.ui.research.types[card.type] | escape }}</span>
-      <a href="{{ card_url | escape }}" target="_blank" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }} <span aria-hidden="true">↗</span></a>
+      <span class="profile-card__tag">{{ card.tag | default: include.ui.research.types[card.type] | escape }}</span>
+      <a href="{{ card_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ card_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }} <span aria-hidden="true">↗</span></a>
+      {% if card.model_card_url %}
+      <a href="{{ card.model_card_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ include.ui.research.links.model_card | escape }} — {{ card.title | escape }}">{{ include.ui.research.links.model_card | escape }} <span aria-hidden="true">↗</span></a>
+      {% endif %}
     </div>
     {% else %}
     <div class="profile-card__header">
@@ -28,7 +34,7 @@
     {% if include.kind == 'education' %}
     <p class="profile-card__subtitle">{{ card_copy.degree | escape }} <span class="profile-card__detail">· {{ card_copy.major | escape }}</span></p>
     {% else %}
-    <p class="profile-card__subtitle"><span class="profile-card__role">{{ card_copy.role | escape }}{% if card_copy.program %}{% if include.lang == 'zh-Hans' %}<strong>（{{ card_copy.program | escape }}）</strong>{% else %} <strong>({{ card_copy.program | escape }})</strong>{% endif %}{% endif %}</span>{% if card_copy.department %} <span class="profile-card__detail"><span class="profile-card__separator" aria-hidden="true">· </span>{{ card_copy.department | escape }}</span>{% endif %}</p>
+    <p class="profile-card__subtitle"><span class="profile-card__role">{{ card_copy.role | markdownify | remove: '<p>' | remove: '</p>' | strip }}</span>{% if card_copy.department %} <span class="profile-card__detail"><span class="profile-card__separator" aria-hidden="true">· </span>{{ card_copy.department | escape }}</span>{% endif %}</p>
     {% endif %}
     {% endif %}
   </div>

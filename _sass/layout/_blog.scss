@@ -3,15 +3,6 @@
   color: var(--global-text-color);
 }
 
-.blog-preview-note {
-  margin: 1.25rem 0;
-  padding: 0.8rem 1rem;
-  border-left: 3px solid var(--global-link-color);
-  background: rgba(120, 166, 190, 0.08);
-  font-size: 0.8em;
-  line-height: 1.6;
-}
-
 .blog-tags {
   display: flex;
   flex-wrap: wrap;
@@ -122,6 +113,7 @@
 .blog-card__meta { opacity: 0.75; }
 .blog-card__tags { margin-top: 0.65rem; }
 
+.blog-word-count,
 .blog-reading-time { white-space: nowrap; }
 
 @media (max-width: 600px) {
@@ -324,27 +316,116 @@ html[data-theme="dark"] .blog-post__body {
 }
 
 .blog-toc {
+  --blog-toc-scrollbar-thumb: color-mix(in srgb, var(--global-text-color) 12%, transparent);
   font-family: var(--ui-font-family, var(--font-family));
   font-size: 0.8rem;
   line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  max-height: 50vh;
   border: 1px solid var(--global-border-color);
   border-radius: $border-radius;
 
+  @include interactive-state {
+    --blog-toc-scrollbar-thumb: color-mix(in srgb, var(--global-text-color) 60%, transparent);
+  }
+  &:focus-within {
+    --blog-toc-scrollbar-thumb: color-mix(in srgb, var(--global-text-color) 60%, transparent);
+  }
+
+  .blog-toc__list {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--blog-toc-scrollbar-thumb) transparent;
+
+    // Native scrollbar colors override these pseudo-elements in Chromium.
+    // Leave forced-colors mode native; other engines use the standard properties above.
+    @media (forced-colors: none) {
+      // Interpolation passes modern selector() syntax through Ruby Sass.
+      @supports #{'selector(::-webkit-scrollbar)'} {
+        scrollbar-width: auto;
+        scrollbar-color: auto;
+        &::-webkit-scrollbar { width: 6px; height: 6px; }
+        &::-webkit-scrollbar-track { background: transparent; }
+        &::-webkit-scrollbar-thumb {
+          background: var(--blog-toc-scrollbar-thumb);
+          border-radius: 3px;
+        }
+        &::-webkit-scrollbar-button { display: none; }
+      }
+    }
+  }
+
   &[hidden] { display: none; }
-  summary { padding: 0.75rem 1rem; font-weight: 600; cursor: pointer; }
-  nav { padding: 0 1rem 0.75rem; }
+  nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0.75rem 1rem;
+  }
+  .blog-toc__title {
+    display: none;
+    flex-shrink: 0;
+    margin: 0 0 0.5rem;
+    padding: 0 0.6rem;
+    font-size: inherit;
+    font-weight: 600;
+    line-height: inherit;
+  }
+  .blog-toc__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    gap: 1rem;
+    width: 100%;
+    margin: 0;
+    padding: 0 0.6rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      width: 0.4rem;
+      height: 0.4rem;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg);
+    }
+    &[aria-expanded="true"] {
+      margin-bottom: 0.5rem;
+      &::after { transform: rotate(225deg); }
+    }
+    &[aria-expanded="false"] + .blog-toc__list { display: none; }
+    &:focus-visible {
+      outline: 2px solid var(--global-link-color);
+      outline-offset: 4px;
+    }
+  }
   ol { margin: 0; padding: 0; list-style: none; }
   ol ol { padding-left: 0.9rem; }
   li { margin: 0; }
   a {
     display: block;
-    padding: 0.35rem 0.6rem;
-    border-left: 2px solid transparent;
-    color: var(--global-text-color);
+    padding: 0.3rem 0.6rem;
+    font-weight: 500;
+    color: color-mix(in srgb, var(--global-text-color) 80%, var(--global-bg-color));
     text-decoration: none;
     overflow-wrap: anywhere;
-    &[aria-current] { color: var(--global-link-color); border-color: currentColor; }
+    &[aria-current] { color: var(--global-link-color); }
     @include interactive-state { color: var(--global-link-color); }
+  }
+  ol ol a {
+    padding-block: 0.15rem;
+    font-size: 0.9em;
+    font-weight: 400;
   }
 }
 
@@ -356,16 +437,25 @@ html[data-theme="dark"] .blog-post__body {
     grid-template-columns: 13rem minmax(0, 1fr);
     gap: 2rem;
     margin-left: -15rem;
+
+    // The fixed TOC is out of flow; keep the article in its original column.
+    .blog-post__body { grid-column: 2; }
   }
   .blog-toc {
-    position: sticky;
-    top: var(--blog-heading-offset, 7rem);
+    position: fixed;
+    // Place 40% of the spare reading-area height above the TOC and 60% below.
+    top: calc(40% + var(--blog-heading-offset, 7rem) * 0.6 - 0.4rem);
+    transform: translateY(-40%);
+    width: 13rem;
     align-self: start;
-    max-height: calc(100vh - var(--blog-heading-offset, 7rem) - 1rem);
-    overflow-y: auto;
+    max-height: min(60vh, calc(100vh - var(--blog-heading-offset, 7rem) - 1rem));
     border: 0;
-    summary { padding: 0 0.6rem 0.75rem; }
     nav { padding: 0; }
+    .blog-toc__title { display: block; }
+    .blog-toc__toggle {
+      display: none;
+      &[aria-expanded="false"] + .blog-toc__list { display: block; }
+    }
   }
 }
 

@@ -4,10 +4,6 @@
 {% else %}
 <div class="blog-index" data-blog-index>
   <p class="blog-index__intro">{{ blog_ui.blog_intro }}</p>
-  {% assign preview_posts = site.posts | where: 'preview_sample', true %}
-  {% if preview_posts.size > 0 %}
-  <aside class="blog-preview-note">{{ blog_ui.blog_preview }} <a href="https://lilianweng.github.io/">Lil’Log ↗</a></aside>
-  {% endif %}
   <nav class="blog-tags" aria-label="{{ blog_ui.blog_tags | escape }}" data-blog-filters hidden>
     <a class="blog-tag" href="#all" data-blog-filter="" aria-current="true">{{ blog_ui.blog_all }} <span>{{ site.posts.size }}</span></a>
     {% assign blog_tags = site.tags | sort %}
@@ -24,8 +20,7 @@
         <span>{{ blog_ui.blog_date }} <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: blog_ui.blog_date_format }}</time></span>
         <span class="blog-meta-separator" aria-hidden="true">|</span>
         {% assign reading_html = post.content | markdownify %}
-        {% include reading-time.html html=reading_html ui=blog_ui %}
-        {% if post.source_author %}<span>{{ blog_ui.blog_sample }} {{ post.source_author | escape }}</span>{% endif %}
+        {% include reading-stats.html html=reading_html ui=blog_ui %}
       </div>
       <div class="blog-card__tags">
         {% for tag in post.tags %}<a href="#tag={{ tag | uri_escape | escape }}">{{ tag | escape }}</a>{% endfor %}

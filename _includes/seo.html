@@ -29,7 +29,7 @@
 <link rel="alternate" hreflang="x-default" href="{{ translation.url | absolute_url | escape }}">
       {% endif %}
       {% if translation.lang != seo_lang %}
-        {% assign alternate_locale = site.data.i18n[translation.lang].seo.locale %}
+        {% assign alternate_locale = site.data.i18n[translation.lang].seo.locale | default: site.locale | replace: "-", "_" %}
         {% if alternate_locale %}
 <meta property="og:locale:alternate" content="{{ alternate_locale | escape }}">
         {% endif %}
@@ -61,19 +61,18 @@
 {% endif %}
 
 {% if page.layout == 'post' %}
-  {% unless page.preview_sample %}
-    {% assign seo_author = page.author | default: site.name %}
-    {% assign seo_article_description = page.description | default: page.excerpt | default: seo_localized.description | default: site.description | strip_html | normalize_whitespace %}
+  {% assign seo_author = page.author | default: site.name %}
+  {% assign seo_article_description = page.description | default: page.excerpt | default: seo_localized.description | default: site.description | strip_html | normalize_whitespace %}
 <meta name="author" content="{{ seo_author | escape }}">
-    {% if seo_author == site.name %}
+  {% if seo_author == site.name %}
 <meta property="article:author" content="{{ '/' | absolute_url | escape }}">
-    {% endif %}
-    {% if page.date %}
+  {% endif %}
+  {% if page.date %}
 <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
-    {% endif %}
-    {% if page.last_modified_at %}
+  {% endif %}
+  {% if page.last_modified_at %}
 <meta property="article:modified_time" content="{{ page.last_modified_at | date_to_xmlschema }}">
-    {% endif %}
+  {% endif %}
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -98,7 +97,6 @@
     }
   }
 </script>
-  {% endunless %}
 {% else %}
 <script type="application/ld+json">
   {

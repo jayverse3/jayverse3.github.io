@@ -45,9 +45,11 @@
   function setupTableOfContents() {
     const headings = [...body.querySelectorAll('h2, h3')];
     const aside = post.querySelector('.blog-toc');
-    const details = aside.querySelector('details');
     const nav = aside.querySelector('nav');
+    const toggle = aside.querySelector('.blog-toc__toggle');
     const list = document.createElement('ol');
+    list.className = 'blog-toc__list';
+    list.id = 'blog-toc-list';
     const links = [];
     let parentItem;
     let nestedList;
@@ -91,10 +93,20 @@
     nav.append(list);
     aside.hidden = false;
     post.classList.add('blog-post--has-toc');
-    let wasDesktop;
     let framePending = false;
     let offset = 100;
     let activeIndex = -1;
+    let layoutChanged = false;
+
+    function revealActiveLink() {
+      // Scroll only the fixed sidebar, never the article or the inline mobile TOC.
+      if (getComputedStyle(aside).position !== 'fixed') return;
+      const bounds = list.getBoundingClientRect();
+      const linkBounds = links[activeIndex].getBoundingClientRect();
+      const center = bounds.top + list.clientTop + list.clientHeight / 2;
+      // Native clamping keeps the list at its start/end near the first/last sections.
+      list.scrollTop += linkBounds.top + linkBounds.height / 2 - center;
+    }
 
     function updateActiveHeading() {
       framePending = false;
@@ -105,10 +117,12 @@
       if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
         current = headings.length - 1;
       }
-      if (current === activeIndex) return;
+      if (current === activeIndex && !layoutChanged) return;
       links[activeIndex]?.removeAttribute('aria-current');
       links[current].setAttribute('aria-current', 'location');
       activeIndex = current;
+      layoutChanged = false;
+      revealActiveLink();
     }
 
     function scheduleUpdate() {
@@ -120,15 +134,32 @@
     function updateLayout() {
       offset = (document.querySelector('.masthead')?.offsetHeight || 70) + 24;
       post.style.setProperty('--blog-heading-offset', offset + 'px');
-      const desktop = getComputedStyle(aside).position === 'sticky';
-      if (desktop !== wasDesktop) details.open = desktop;
-      wasDesktop = desktop;
+      layoutChanged = true;
       scheduleUpdate();
     }
 
-    nav.addEventListener('click', event => {
-      if (event.target.closest('a') && !wasDesktop) details.open = false;
+    toggle.addEventListener('click', () => {
+      toggle.setAttribute('aria-expanded', toggle.getAttribute('aria-expanded') !== 'true');
+      updateLayout();
     });
+
+    nav.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      const index = links.indexOf(event.target.closest('a'));
+      if (index === -1) return;
+
+      // Keep real anchors for copying/new tabs, but normal clicks don't alter the URL.
+      event.preventDefault();
+      const heading = headings[index];
+      if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+      heading.focus({ preventScroll: true });
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + heading.getBoundingClientRect().top - offset),
+        behavior: 'auto'
+      });
+      scheduleUpdate();
+    });
+
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', updateLayout);
     window.addEventListener('pageshow', updateLayout);
@@ -140,7 +171,7 @@
     const progress = document.querySelector('.blog-reading-progress');
     const masthead = document.querySelector('.masthead');
     if (!progress || !masthead) return;
-    // Keep the line under the existing header, including its mobile second row.
+    // Anchor the line to the header so it follows responsive height changes.
     masthead.append(progress);
     progress.hidden = false;
     let framePending = false;
@@ -170,7 +201,8 @@
     post.addEventListener('toggle', scheduleUpdate, true);
     if (window.ResizeObserver) {
       const observer = new ResizeObserver(scheduleUpdate);
-      observer.observe(body);
+      // Include layout changes above the body, such as expanding the inline TOC.
+      observer.observe(post);
       observer.observe(masthead);
     }
     scheduleUpdate();

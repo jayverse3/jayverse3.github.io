@@ -5,12 +5,12 @@
 # Non-English body/UI stacks are prefixed with English fonts, before the generic fallback.
 # welcome_family can reuse a shared CSS font variable.
 en:
-  family: '-apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif'
-  welcome_family: 'Georgia, Times, serif'
+  family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif'
+  welcome_family: 'Georgia, serif'
 
 zh-Hans:
-  family: '"Source Han Serif SC VF", "Source Han Serif SC", "Songti SC", SimSun, serif'
-  ui_family: '"Source Han Sans SC VF", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif'
+  family: '"Source Han Serif SC VF", serif'
+  ui_family: '"Source Han Sans SC VF", sans-serif'
   welcome_family: 'var(--ui-font-family)'
   # SIL OFL fonts, loaded as on-demand WOFF2 subsets; versions are pinned.
   stylesheets:

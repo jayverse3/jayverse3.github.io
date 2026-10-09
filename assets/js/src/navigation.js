@@ -1,36 +1,44 @@
-/* Responsive overflow navigation, adapted from Luke Jackson's Greedy Navigation.
- * Original: http://codepen.io/lukejacksonn/pen/PwmwWV
- */
+/* Responsive header and compact mobile navigation. */
 $(function () {
   "use strict";
 
-  const $navigation = $("#site-nav");
-  if (!$navigation.length) return;
+  if (!$("#site-nav").length) return;
 
-  const $menuButton = $navigation.find("button");
-  const $visibleLinks = $navigation.find(".visible-links");
-  const $hiddenLinks = $navigation.find(".hidden-links");
-  const menuGap = 30;
+  const toggle = document.getElementById("site-menu-toggle");
+  const menu = document.getElementById("site-menu");
 
-  function updateNavigation() {
-    // Measure all links first; reserve a menu button only when they overflow.
-    // Remeasure on resize because link spacing changes between desktop and mobile.
-    $visibleLinks.append($hiddenLinks.children());
-    $menuButton.addClass("hidden");
+  function closeMenu() {
+    if (!menu || !toggle) return;
+    menu.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+  }
 
-    if ($visibleLinks.width() > $navigation.width()) {
-      $menuButton.removeClass("hidden");
-      const availableSpace = $navigation.width() - $menuButton.outerWidth() - menuGap;
-      while ($visibleLinks.width() > availableSpace && $visibleLinks.children(":not(.persist)").length) {
-        $visibleLinks.children(":not(.persist)").last().prependTo($hiddenLinks);
+  if (toggle && menu) {
+    document.documentElement.classList.add("site-menu-ready");
+    toggle.addEventListener("click", function () {
+      menu.hidden = !menu.hidden;
+      toggle.setAttribute("aria-expanded", String(!menu.hidden));
+    });
+    menu.addEventListener("click", function (event) {
+      if (event.target.closest("a")) closeMenu();
+    });
+    function closeOutside(event) {
+      if (!menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+    }
+    document.addEventListener("click", closeOutside);
+    document.addEventListener("focusin", closeOutside);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !menu.hidden) {
+        closeMenu();
+        toggle.focus();
       }
-    }
+    });
+    window.addEventListener("pagehide", closeMenu);
+  }
 
-    if (!$hiddenLinks.children().length) {
-      $menuButton.addClass("hidden").removeClass("close").attr("aria-expanded", "false");
-      $hiddenLinks.addClass("hidden");
-    }
-
+  function updateHeaderOffsets() {
+    // CSS owns the breakpoint; do not leave the mobile panel open on desktop.
+    if (!$(toggle).is(":visible")) closeMenu();
     // Match content offsets to the rendered header, including a wrapped date row.
     const mastheadHeight = $(".masthead").height();
     $("body").css("padding-top", mastheadHeight + "px");
@@ -38,11 +46,6 @@ $(function () {
     $(".sidebar").css("padding-top", profileButtonVisible ? "" : mastheadHeight + "px");
   }
 
-  $(window).on("resize", updateNavigation);
-  $menuButton.on("click", function () {
-    $hiddenLinks.toggleClass("hidden");
-    $menuButton.toggleClass("close");
-    $menuButton.attr("aria-expanded", String(!$hiddenLinks.hasClass("hidden")));
-  });
-  updateNavigation();
+  $(window).on("resize", updateHeaderOffsets);
+  updateHeaderOffsets();
 });

@@ -99,21 +99,27 @@ research:
     title: "Seed2.1 Model Card: Agentic Intelligence for Productivity"
     date: "2026-06"
     type: technical_report
-    url: https://seed.bytedance.com/en/seed2_1
+    model_card_url: https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/seed2.1/Seed2_1_Model_Card.pdf
     en:
+      url: https://seed.bytedance.com/en/seed2_1
       team: ByteDance Seed
       link_label: Seed2.1 project page
     zh-Hans:
+      url: https://seed.bytedance.com/zh/seed2_1
       team: ByteDance Seed
-      link_label: Seed2.1 project page
+      link_label: Seed2.1 项目主页
 
 awards:
-  - competition: "LLMs - You Can't Please Them All"
+  - platform: Kaggle
+    competition: "LLMs - You Can't Please Them All"
+    url: https://www.kaggle.com/competitions/llms-you-cant-please-them-all
     year: 2025
-    label: silver_medal_kaggle
-  - competition: Learning Agency Lab - Automated Essay Scoring 2.0
+    label: silver_medal
+  - platform: Kaggle
+    competition: Learning Agency Lab - Automated Essay Scoring 2.0
+    url: https://www.kaggle.com/competitions/learning-agency-lab-automated-essay-scoring-2
     year: 2024
-    label: silver_medal_kaggle
+    label: silver_medal
 
 skills:
   - id: programming_languages

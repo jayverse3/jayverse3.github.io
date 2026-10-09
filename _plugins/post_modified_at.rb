@@ -4,7 +4,7 @@ require 'time'
 # Populate dates before templates, the feed, and the sitemap read post metadata.
 Jekyll::Hooks.register :site, :post_read do |site|
   site.posts.docs.each do |post|
-    next if post.data['preview_sample'] || post.data['last_modified_at']
+    next if post.data['last_modified_at']
 
     timestamp, _errors, status = Open3.capture3(
       'git', '--literal-pathspecs', 'log', '-1', '--format=%cI', '--', post.relative_path,

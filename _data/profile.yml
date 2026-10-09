@@ -1,7 +1,7 @@
 # Homepage / Terminal content and shared site author details; web CV content lives in cv.yml.
 # Language-independent facts live outside en / zh-Hans blocks.
-# Localized prose is Markdown; %MODEL% inserts the name, %MODEL_LOGO% the optional logo.
-# Spaces around either placeholder belong to the prose, not the template or CSS.
+# Localized prose is Markdown; model names are plain text, %MODEL_LOGO% inserts the optional logo.
+# Spaces around the logo placeholder belong to the prose, not the template or CSS.
 author:
   en:
     name: Yingjie Yang
@@ -35,7 +35,7 @@ news:
       We released **[Seed2.1](https://seed.bytedance.com/en/seed2_1){:target="_blank"}**,
       advancing general agent, coding, and multimodal capabilities for real-world productivity.
     zh-Hans: >-
-      我们发布了 **[Seed2.1](https://seed.bytedance.com/en/seed2_1){:target="_blank"}**，
+      我们发布了 **[Seed2.1](https://seed.bytedance.com/zh/seed2_1){:target="_blank"}**，
       提升通用智能体、编程与多模态能力，服务真实场景中的生产力需求。
 
 education:
@@ -94,21 +94,17 @@ experience:
     en:
       name: Baidu
       url: https://ir.baidu.com/
-      role: Research Intern
-      program: Top Internship Program
+      role: "Research Intern **(Top Internship Program)**"
       department: Basic Model R&D Department
-      model: ERNIE’s
       summary: >-
-        Contributed to %MODEL_LOGO% %MODEL% post-training,
+        Contributed to %MODEL_LOGO% ERNIE’s post-training,
         focusing on improving its performance in terminal environments and on Terminal-Bench.
     zh-Hans:
       name: 百度
       url: https://home.baidu.com/
-      role: 大模型算法研究员
-      program: Top 实习计划
+      role: "大模型算法研究员**（Top 实习计划）**"
       department: 基础模型研发部
-      model: 文心
-      summary: 参与 %MODEL_LOGO% %MODEL%基模的后训练，重点优化其在终端场景与 Terminal-Bench 评测中的表现。
+      summary: 参与 %MODEL_LOGO% 文心基模的后训练，重点优化其在终端场景与 Terminal-Bench 评测中的表现。
   - id: bytedance
     start: "2026-02"
     end: "2026-08"
@@ -121,32 +117,31 @@ experience:
       url: https://www.bytedance.com/en/
       role: Research Intern
       department: AI Data & Safety
-      model: Seed models’
       summary: >-
-        **Collaborated with the Seed team** to improve %MODEL_LOGO% %MODEL% agentic coding and GUI capabilities
-        by synthesizing **high-quality mid-training and post-training data**.
+        Collaborated with the Seed team to improve %MODEL_LOGO% Seed models’ agentic coding and GUI capabilities
+        by synthesizing high-quality mid-training and post-training data.
     zh-Hans:
       name: 字节跳动
       url: https://www.bytedance.com/zh/
       role: 后训练数据算法实习生
       department: AI 数据与安全
-      model: Seed 系列模型
       summary: >-
-        **与 Seed 团队协作**，通过合成**高质量 Mid-training 与 Post-training 数据**，
-        提升 %MODEL_LOGO% %MODEL%的 Coding Agent 与 GUI Agent 能力。
+        与 Seed 团队协作，通过合成高质量 Mid-training 与 Post-training 数据，
+        提升 %MODEL_LOGO% Seed 系列模型的 Coding Agent 与 GUI Agent 能力。
 
 research:
   - id: seed21
     title: "Seed2.1 Model Card: Agentic Intelligence for Productivity"
     date: "2026-06"
     type: technical_report
+    team: ByteDance Seed
+    image: /images/seed21-cover.png
+    model_card_url: https://lf3-static.bytednsdoc.com/obj/eden-cn/lapzild-tss/ljhwZthlaukjlkulzlp/seed2.1/Seed2_1_Model_Card.pdf
     en:
       url: https://seed.bytedance.com/en/seed2_1
-      team: ByteDance Seed
       summary: Contributed to mid-training and post-training data synthesis for Seed2.1, supporting improvements in its coding and GUI capabilities.
       link_label: Seed2.1 project page
     zh-Hans:
       url: https://seed.bytedance.com/zh/seed2_1
-      team: ByteDance Seed
-      summary: 参与 Seed2.1 中训练与后训练阶段的数据合成，支持其 Coding 与 GUI 能力提升。
-      link_label: Seed2.1 project page
+      summary: 参与 Seed2.1 的 Mid-training 与 Post-training 数据合成，支持其 Coding 与 GUI 能力提升。
+      link_label: Seed2.1 项目主页

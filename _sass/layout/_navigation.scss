@@ -1,11 +1,26 @@
-.greedy-nav {
-  position: relative;
+.site-nav {
   min-width: 0;
-  background: var(--global-bg-color);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--global-border-color) transparent;
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: max-content;
+
+    @media (max-width: $small) {
+      gap: 1rem;
+    }
+
+    li {
+      flex: 0 0 auto;
+    }
+  }
 
   a {
     display: block;
-    margin: 0 1rem;
+    position: relative;
     padding: 0.5rem 0;
     color: var(--global-masthead-link-color);
     text-decoration: none;
@@ -13,142 +28,130 @@
     @include interactive-state {
       color: var(--global-masthead-link-color-hover);
     }
-  }
-
-  button {
-    position: absolute;
-    height: 2.5rem;
-    right: 0;
-    padding: 0 0.5rem;
-    border: 0;
-    outline: none;
-    background-color: var(--global-bg-color);
-    color: var(--global-text-color);
-    cursor: pointer;
-    z-index: 100;
 
     &:focus-visible {
       outline: 2px solid var(--global-link-color);
-      outline-offset: 2px;
-    }
-  }
-
-  .visible-links {
-    display: table;
-
-    li {
-      display: table-cell;
-      vertical-align: middle;
-
-      &:first-child {
-        font-weight: bold;
-        text-wrap: wrap;
-
-        a {
-          margin-left: 0;
-        }
-      }
-
-      &:last-child {
-        a {
-          margin-right: 0;
-        }
-      }
+      outline-offset: -2px;
     }
 
-    a {
-      position: relative;
+    // Current pages/sections already have the selected item's border underline.
+    &:not([aria-current]):before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      background: var(--global-border-color);
+      width: 100%;
+      transition: transform $transition-timing, background-color $transition-timing;
+      transform: scaleX(0);
+    }
 
-      @media (max-width: $small) {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-      }
+    &:active:before {
+      transform: scaleX(1);
+    }
 
-      &:before {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 4px;
-        background: var(--global-border-color);
-        width: 100%;
-        transition: transform $transition-timing, background-color $transition-timing;
-        -webkit-transform: scaleX(0);
-            -ms-transform: scaleX(0);
-                transform: scaleX(0); /* hide*/
-      }
-
-      &:active:before {
-        -webkit-transform: scaleX(1);
-            -ms-transform: scaleX(1);
-                transform: scaleX(1); /* reveal*/
-      }
-
-      @media (hover: hover) and (pointer: fine) {
-        &:hover:before {
-          -webkit-transform: scaleX(1);
-              -ms-transform: scaleX(1);
-                  transform: scaleX(1);
-        }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:before {
+        transform: scaleX(1);
       }
     }
   }
+}
 
-  .hidden-links {
+// Two fine strokes become a close icon while the popover is expanded.
+.menu-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+
+  &::before,
+  &::after {
+    content: '';
     position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 15px;
-    padding: 5px;
-    border: 1px solid var(--global-border-color);
-    border-radius: $border-radius;
+    left: 0;
+    top: 8px;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+  &::before { transform: translateY(-3px); }
+  &::after { transform: translateY(3px); }
+}
+
+#site-menu-toggle[aria-expanded="true"] .menu-icon {
+  &::before { transform: rotate(45deg); }
+  &::after { transform: rotate(-45deg); }
+}
+
+.site-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 1rem;
+  z-index: 12;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.375rem;
+  border: 1px solid var(--global-border-color);
+  border-radius: $border-radius;
+  box-shadow: 0 0 10px rgba(#000, 0.25);
+  background: var(--global-bg-color);
+  color: var(--global-text-color);
+  font-family: var(--ui-font-family, var(--font-family));
+
+  &[hidden] { display: none; }
+  &::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    width: 14px;
+    height: 14px;
+    border-top: 1px solid var(--global-border-color);
+    border-left: 1px solid var(--global-border-color);
     background: var(--global-bg-color);
-    box-shadow: 0 0 10px rgba(#000, 0.25);
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
 
+  &__navigation {
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    .site-nav__links {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      width: 100%;
+    }
+    ul { margin: 0; padding: 0; list-style: none; }
+    li { margin: 0; white-space: normal; }
     a {
-      margin: 0;
-      padding: 10px 20px;
-      font-size: $type-size-5;
-
+      display: block;
+      padding: 0.375rem 0.625rem;
+      border-radius: 4px;
+      color: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.5;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+      -webkit-tap-highlight-color: transparent;
       @include interactive-state {
-        color: var(--global-masthead-link-color-hover);
-        background: var(--global-border-color);
+        color: var(--global-link-color);
+        background: rgba(120, 166, 190, 0.12);
       }
+      &:focus-visible { outline: 2px solid var(--global-link-color); outline-offset: -2px; }
     }
-
-    &:before {
-      content: "";
-      position: absolute;
-      top: -11px;
-      right: 10px;
-      width: 0;
-      border-style: solid;
-      border-width: 0 10px 10px;
-      border-color: var(--global-border-color) transparent;
-      display: block;
-      z-index: 0;
-    }
-
-    &:after {
-      content: "";
-      position: absolute;
-      top: -10px;
-      right: 10px;
-      width: 0;
-      border-style: solid;
-      border-width: 0 10px 10px;
-      border-color: var(--global-bg-color) transparent;
-      display: block;
-      z-index: 1;
-    }
-
-    li {
-      display: block;
-      border-bottom: 1px solid var(--global-border-color);
-
-      &:last-child {
-        border-bottom: none;
-      }
+    .selected a {
+      border: 0;
+      color: var(--global-link-color);
+      pointer-events: auto;
+      cursor: pointer;
     }
   }
 }

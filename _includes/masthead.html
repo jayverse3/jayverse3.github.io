@@ -3,13 +3,9 @@
 {% assign nav_pages = site.pages | where: 'lang', nav_lang %}
 {% assign nav_home = nav_pages | where: 'translation_key', 'home' | first %}
 {% assign nav_home_url = nav_home.url | default: '/' %}
-<div class="masthead">
-  <div class="masthead__inner-wrap">
-    <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav">
-        <button type="button" aria-label="{{ nav_ui.toggle_navigation | escape }}" aria-controls="navigation-overflow" aria-expanded="false"><span class="navicon" aria-hidden="true"></span></button>
-        <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg persist {% if page.url == nav_home_url %}selected{% endif %}">
+{% capture nav_links %}
+        <ul class="site-nav__links">
+          <li class="masthead__menu-item masthead__menu-item--lg {% if page.url == nav_home_url %}selected{% endif %}">
             <a href="{{ nav_home_url | relative_url }}"{% if page.url == nav_home_url %} aria-current="page"{% endif %}>{{ nav_ui.home | escape }}</a>
           </li>
           {% for link in site.data.navigation.main %}
@@ -28,7 +24,12 @@
             </li>
           {% endfor %}
         </ul>
-        <ul id="navigation-overflow" class="hidden-links hidden"></ul>
+{% endcapture %}
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="site-nav">
+        {{ nav_links }}
       </nav>
       <span class="masthead__updated" lang="en">
         {{ site.data.i18n.en.last_updated | escape }} <time datetime="{{ 'now' | date: '%Y-%m-%d' }}">{{ 'now' | date: site.data.i18n.en.month_format }}</time>
@@ -54,18 +55,28 @@
           {% if nav_lang == 'zh-Hans' %}{% assign missing_language = 'en' %}{% endif %}
           {% assign missing_ui = site.data.i18n[missing_language] %}
         <button type="button" class="masthead__action masthead__action--language" lang="{{ missing_language }}" aria-label="{{ missing_ui.switch_language | escape }}" title="{{ missing_ui.translation_unavailable | escape }}" data-translation-unavailable="{{ missing_ui.translation_unavailable | escape }}" disabled>{{ missing_ui.language_label | escape }}</button>
-        <span id="translation-notice" class="masthead__translation-notice" role="status" aria-live="polite" aria-atomic="true" lang="{{ missing_language }}"></span>
         {% endif %}
-        <a class="masthead__action" href="{{ '/terminal/' | relative_url }}" aria-label="{{ nav_ui.terminal | escape }}" title="{{ nav_ui.terminal_hint | escape }}"{% if page.url == '/terminal/' %} aria-current="page"{% endif %}>
+        <a class="masthead__action masthead__action--terminal" href="{{ '/terminal/' | relative_url }}" aria-label="{{ nav_ui.terminal | escape }}" title="{{ nav_ui.terminal_hint | escape }}"{% if page.url == '/terminal/' %} aria-current="page"{% endif %}>
           <i class="fa-solid fa-terminal" aria-hidden="true"></i>
         </a>
-        <a class="masthead__action masthead__action--rss" href="{{ '/feed.xml' | relative_url }}" target="_blank" aria-label="{{ nav_ui.subscribe_rss | escape }}" title="{{ nav_ui.subscribe_rss | escape }}">
+        <a class="masthead__action masthead__action--rss" href="{{ '/feed.xml' | relative_url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ nav_ui.subscribe_rss | escape }}" title="{{ nav_ui.subscribe_rss | escape }}">
           <i class="fa-solid fa-rss" aria-hidden="true"></i>
         </a>
         <button id="theme-toggle" class="masthead__action" type="button" aria-label="{{ nav_ui.toggle_theme | escape }}" title="{{ nav_ui.toggle_theme | escape }}">
           <i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true"></i>
         </button>
       </div>
+      <button id="site-menu-toggle" class="masthead__action masthead__menu-toggle" type="button" aria-label="{{ nav_ui.menu | escape }}" aria-expanded="false" aria-controls="site-menu">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
     </div>
+    <div id="site-menu" class="site-menu" hidden>
+      <nav class="site-menu__navigation" aria-label="{{ nav_ui.menu | escape }}">
+        {{ nav_links }}
+      </nav>
+    </div>
+    {% if page.layout == 'post' and has_translation == false %}
+    <span id="translation-notice" class="masthead__translation-notice" role="status" aria-live="polite" aria-atomic="true" lang="{{ missing_language }}"></span>
+    {% endif %}
   </div>
 </div>

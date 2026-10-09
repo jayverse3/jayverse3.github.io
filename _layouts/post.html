@@ -14,24 +14,18 @@ layout: default
       <div class="blog-card__meta">
         <span>{{ post_ui.blog_date }} <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: post_ui.blog_date_format }}</time></span>
         <span class="blog-meta-separator" aria-hidden="true">|</span>
-        {% include reading-time.html html=content ui=post_ui %}
+        {% include reading-stats.html html=content ui=post_ui %}
       </div>
       <div class="blog-card__tags">
         {% for tag in page.tags %}<a href="{{ blog_url | relative_url }}#tag={{ tag | uri_escape | escape }}">{{ tag | escape }}</a>{% endfor %}
       </div>
     </header>
-    {% if page.preview_sample %}
-    <aside class="blog-preview-note">
-      {{ post_ui.blog_preview }}<br>
-      {{ post_ui.blog_sample }} {{ page.source_author | escape }} · <a href="{{ page.source_url | escape }}">{{ post_ui.blog_original }} ↗</a>
-    </aside>
-    {% endif %}
     <div class="blog-reading-layout">
       <aside class="blog-toc" hidden>
-        <details>
-          <summary>{{ post_ui.on_this_page }}</summary>
-          <nav aria-label="{{ post_ui.on_this_page | escape }}"></nav>
-        </details>
+        <nav aria-labelledby="blog-toc-title">
+          <h2 id="blog-toc-title" class="blog-toc__title">{{ post_ui.blog_toc }}</h2>
+          <button class="blog-toc__toggle" type="button" aria-expanded="false" aria-controls="blog-toc-list">{{ post_ui.blog_toc }}</button>
+        </nav>
       </aside>
       <div class="page__content blog-post__body">{{ content }}</div>
     </div>

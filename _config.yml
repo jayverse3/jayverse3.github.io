@@ -4,7 +4,7 @@ site_theme: "default"
 title: "Yingjie Yang"
 title_separator: "-"
 name: "Yingjie Yang"
-description: "Yingjie Yang, a master's student at Peking University. Research interests: LLM post-training, agentic reinforcement learning, and data synthesis."
+description: "Master's student in Computer Science at Peking University."
 og_image: "/images/social-preview.png"
 url: "https://jayverse3.github.io"
 baseurl: ""
@@ -49,7 +49,7 @@ exclude:
 encoding: "utf-8"
 markdown: kramdown
 highlighter: rouge
-permalink: /blog/:year/:month/:day/:title/
+permalink: /blog/:title/
 timezone: Etc/UTC
 
 kramdown:

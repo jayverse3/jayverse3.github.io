@@ -17,7 +17,7 @@
       {% for award in site.data.cv.awards %}
       <li>
         <div class="cv-entry__header">
-          <span class="cv-entry__title">{{ cv_ui[award.label] | escape }} {{ award.competition | escape }}</span>
+          <span class="cv-entry__title">{% if award.platform and award.platform != empty %}{{ award.platform | escape }} {% endif %}{{ cv_ui[award.label] | escape }}{% if cv_lang == 'zh-Hans' %}：{% else %}: {% endif %}{% if award.url and award.url != empty %}<a href="{{ award.url | escape }}" target="_blank" rel="noopener noreferrer">{{ award.competition | escape }}</a>{% else %}{{ award.competition | escape }}{% endif %}</span>
           <span class="cv-entry__date">{{ award.year }}</span>
         </div>
       </li>

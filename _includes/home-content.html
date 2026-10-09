@@ -16,7 +16,7 @@
 {% for section in card_sections %}
 <h2 class="home-section-title" id="{{ section }}">{{ home_ui.sections[section] | escape }}</h2>
 
-<div class="profile-cards">
+<div class="profile-cards{% if section == 'research' %} profile-cards--research{% endif %}">
   {% for entry in site.data.profile[section] %}
     {% include profile-card.html entry=entry kind=section lang=home_lang ui=home_ui %}
   {% endfor %}

@@ -33,7 +33,7 @@
   {% elsif include.kind == 'research' %}
   <div class="cv-entry__body">
     <p>{{ cv_copy.team | escape }}</p>
-    <p>{{ include.ui.research.types[cv_entry.type] | escape }} &middot; <a href="{{ cv_entry.url | escape }}" target="_blank" aria-label="{{ cv_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }}</a></p>
+    <p>{{ cv_entry.tag | default: include.ui.research.types[cv_entry.type] | escape }} &middot; <a href="{{ cv_copy.url | default: cv_entry.url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ cv_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }}</a>{% if cv_entry.model_card_url %} &middot; <a href="{{ cv_entry.model_card_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ include.ui.research.links.model_card | escape }} — {{ cv_entry.title | escape }}">{{ include.ui.research.links.model_card | escape }}</a>{% endif %}</p>
   </div>
   {% endif %}
 </article>

@@ -157,9 +157,31 @@
   }
 }
 
-/* Research uses the full card width without a logo column. */
+/* Research responds to its available column width, including beside sidebars. */
+.profile-cards--research {
+  container-type: inline-size;
+}
+
 .page__content .profile-card--research {
   grid-template-columns: minmax(0, 1fr);
+
+  &.profile-card--with-cover {
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+
+    @container (min-width: 700px) {
+      grid-template-columns: minmax(260px, 36%) minmax(0, 1fr);
+    }
+  }
+
+  .profile-card__cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
 
   .profile-card__detail {
     margin-top: 0.4rem;

@@ -136,12 +136,6 @@
   font-family: $global-font-family;
   z-index: 10;
 
-  li:last-child {
-    a {
-      margin-bottom: 0;
-    }
-  }
-
   @include breakpoint($large) {
     display: block;
   }
@@ -209,6 +203,11 @@
 
   li {
     white-space: nowrap;
+
+    &:last-child {
+      margin-bottom: 0;
+      a { margin-bottom: 0; }
+    }
   }
 
   a {

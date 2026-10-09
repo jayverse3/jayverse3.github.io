@@ -27,6 +27,7 @@
   &__inner-wrap {
     @include container;
     @include clearfix;
+    position: relative;
     padding: 0.5em 1em;
     font-family: $global-font-family;
 
@@ -83,8 +84,8 @@
 }
 
 .masthead__actions {
-  position: relative;
   display: flex;
+  width: max-content;
   align-items: center;
   gap: 0.25rem;
 }
@@ -92,7 +93,7 @@
 .masthead__translation-notice {
   position: absolute;
   top: calc(100% + 0.5rem);
-  right: 0;
+  right: 1rem;
   z-index: 11;
   width: max-content;
   max-width: unquote("min(18rem, calc(100vw - 2rem))");
@@ -154,6 +155,30 @@
     outline: 2px solid currentColor;
     outline-offset: 2px;
   }
+}
+
+.masthead__menu-toggle {
+  display: none;
+}
+
+@media (max-width: $large) {
+  .masthead__action--terminal { display: none; }
+  .site-menu-ready .masthead {
+    &__inner-wrap { padding-block: 0.25rem; }
+    &__menu { grid-template-columns: auto minmax(0, 1fr) auto; gap: 0.25rem; }
+    &__menu-toggle { display: inline-flex; grid-column: 3; grid-row: 1; }
+    &__updated {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+    &__actions { grid-column: 1; grid-row: 1; gap: 0; }
+    &__action { width: 36px; height: 40px; }
+  }
+  .site-menu-ready #site-nav { display: none; }
 }
 
 .masthead__menu-item {
