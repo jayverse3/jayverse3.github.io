@@ -25,7 +25,7 @@
 </script>
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/main.css?v=' | append: site.github.build_revision | relative_url }}">
 
 {% assign page_typography = site.data.typography[page.lang] %}
 {% for stylesheet in page_typography.stylesheets %}
@@ -41,5 +41,5 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.18.9/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
 {% endif %}
 {% if page.layout == 'cv' %}
-<script defer src="{{ '/assets/js/cv.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/cv.js?v=' | append: site.github.build_revision | relative_url }}"></script>
 {% endif %}

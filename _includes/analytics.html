@@ -1,6 +1,6 @@
 {% assign goatcounter_code = site.goatcounter_code | default: '' | strip %}
 {% if goatcounter_code != '' %}
-<script defer src="{{ '/assets/js/site-analytics.js' | relative_url }}"
+<script defer src="{{ '/assets/js/site-analytics.js?v=' | append: site.github.build_revision | relative_url }}"
         data-goatcounter-code="{{ goatcounter_code | escape }}"
         data-site-url="{{ site.url | escape }}"
         data-production="{% if jekyll.environment == 'production' %}true{% else %}false{% endif %}"></script>

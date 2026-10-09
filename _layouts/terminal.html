@@ -15,7 +15,7 @@
       })();
     </script>
     <link rel="icon" type="image/svg+xml" href="{{ '/images/favicon.svg' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/terminal/terminal.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/terminal/terminal.css?v=' | append: site.github.build_revision | relative_url }}">
   </head>
   <body class="terminal-page">
     <div class="terminal-app" id="terminal-app" data-home="{{ '/' | relative_url }}" data-cv="{{ '/cv/' | relative_url }}" data-pdf="{{ '/files/yingjie-yang-cv.pdf' | relative_url }}" data-email="{{ site.author.email | escape }}" data-github="https://github.com/{{ site.author.github | escape }}" data-scholar="{{ site.author.googlescholar | escape }}">
@@ -28,7 +28,7 @@
       <noscript><p>This terminal needs JavaScript. You can browse the <a href="{{ '/' | relative_url }}">regular homepage</a> instead.</p></noscript>
     </div>
     <template id="terminal-content">{% include home-content.html lang="en" %}</template>
-    <script type="module" src="{{ '/assets/terminal/terminal.js' | relative_url }}"></script>
+    <script type="module" src="{{ '/assets/terminal/terminal.js?v=' | append: site.github.build_revision | relative_url }}"></script>
     {% include analytics.html %}
   </body>
 </html>

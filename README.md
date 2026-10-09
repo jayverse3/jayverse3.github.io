@@ -350,6 +350,8 @@ JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter
 
 发布流程在 [.github/workflows/pages.yml](.github/workflows/pages.yml)。首次启用需要将仓库 **Settings → Pages → Build and deployment → Source** 改成 **GitHub Actions**；本地代码不能替代这项仓库设置。参见 [GitHub Pages 自定义工作流文档](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
 
+本站固定文件名的 CSS / JS 引用使用 `?v={{ site.github.build_revision }}` 区分缓存，沿用 GitHub Pages 官方主题的做法。`jekyll-github-metadata` 已由现有依赖提供，并在 `_config.yml` 启用；Actions 通过 `JEKYLL_BUILD_REVISION` 传入本次提交 SHA，本地默认读取 Git HEAD。不手动填写版本号、不生成额外资源副本，也不修改 CDN 固定版本或 Expressive Code 已带哈希的资源。每次新提交发布后更新标识，同一次发布内正常复用缓存；本地未提交修改不会改变标识，如仍显示旧效果可强制刷新。
+
 推送 `master` 或在该分支手动运行 workflow 后，Actions 安装 Node 24 / Ruby 3.3 依赖，执行测试与 GUI/Terminal 脚本构建，再运行 Jekyll（包括 Expressive Code 插件），最后把生成的 `_site/` 作为 Pages artifact 部署。PR 只构建验证，不部署。不使用 `--safe`、`--drafts`，不上传本地 `_site/`，也无需 `gh-pages` 分支或 `.nojekyll`。博客代码块需要本地插件，不能继续用原来 master / root 的内置 Jekyll 发布源。
 
 发布步骤：

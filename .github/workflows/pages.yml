@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
     env:
       JEKYLL_ENV: production
+      JEKYLL_BUILD_REVISION: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v6
         with:

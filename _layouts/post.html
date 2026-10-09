@@ -41,4 +41,4 @@ layout: default
     </footer>
   </article>
 </main>
-<script defer src="{{ '/assets/js/blog-post.js' | relative_url }}"></script>
+<script defer src="{{ '/assets/js/blog-post.js?v=' | append: site.github.build_revision | relative_url }}"></script>
