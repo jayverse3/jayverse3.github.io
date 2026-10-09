@@ -1,29 +1,29 @@
 {% assign author = site.author %}
-{% assign author_copy = site.data.profile.author[page.lang] | default: site.data.profile.author.en %}
+{% assign author_content = site.data.profile.author[page.lang] | default: site.data.profile.author.en %}
 {% assign author_ui = site.data.i18n[page.lang] | default: site.data.i18n.en %}
 
 <div itemscope itemtype="http://schema.org/Person">
   <div class="author__avatar">
     {% if author.avatar contains "://" %}
-      <img src="{{ author.avatar }}" alt="{{ author_copy.name | escape }}" fetchpriority="high" />
+      <img src="{{ author.avatar }}" alt="{{ author_content.name | escape }}" fetchpriority="high" />
     {% else %}
-      <img src="{{ author.avatar | prepend: '/images/' | relative_url }}" class="author__avatar" alt="{{ author_copy.name | escape }}" fetchpriority="high" />
+      <img src="{{ author.avatar | prepend: '/images/' | relative_url }}" class="author__avatar" alt="{{ author_content.name | escape }}" fetchpriority="high" />
     {% endif %}
   </div>
 
   <div class="author__content">
-    <h3 class="author__name">{{ author_copy.name | escape }}</h3>
-    {% if author_copy.bio %}<p class="author__bio">{{ author_copy.bio }}</p>{% endif %}
+    <h3 class="author__name">{{ author_content.name | escape }}</h3>
+    {% if author_content.bio %}<p class="author__bio">{{ author_content.bio }}</p>{% endif %}
   </div>
 
   <div class="author__urls-wrapper">
     <button class="btn btn--inverse" type="button" aria-controls="author-links" aria-expanded="false">{{ author_ui.links | escape }}</button>
     <ul id="author-links" class="author__urls">
-      {% if author_copy.location %}
-        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>{{ author_copy.location | escape }}</li>
+      {% if author_content.location %}
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>{{ author_content.location | escape }}</li>
       {% endif %}
-      {% if author_copy.employer %}
-        <li class="author__desktop"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author_copy.employer | escape }}</li>
+      {% if author_content.affiliation %}
+        <li class="author__desktop"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author_content.affiliation | escape }}</li>
       {% endif %}
       {% if author.email %}
         <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>{{ author_ui.email | escape }}</a></li>

@@ -7,12 +7,12 @@ author:
     name: Yingjie Yang
     bio: "M.S. student in Computer Science.<br>Working on LLM Post-Training, Agentic RL, and Data Synthesis."
     location: Beijing, China
-    employer: Peking University
+    affiliation: Peking University
   zh-Hans:
     name: 杨迎杰
     bio: "计算机科学与技术硕士研究生<br>研究方向：大语言模型后训练、智能体强化学习与数据合成"
     location: 中国北京
-    employer: 北京大学
+    affiliation: 北京大学
 
 welcome:
   en:
@@ -21,22 +21,13 @@ welcome:
     - "🤗 Hi 你好，我是杨迎杰。"
 
 about:
-  en: >-
-    I am a master's student in the School of Computer Science at **Peking University**.
-    My research interests include **LLM post-training**, **agentic reinforcement learning**, and **data synthesis**.
-    I am currently a research intern at **UniPat AI** and previously interned at **ByteDance** and **Baidu**.
-    My long-term goal is to advance AI from assisting humans to autonomously solving problems.
-  zh-Hans: >-
-    我在**北京大学**计算机学院攻读硕士学位，研究兴趣包括**大语言模型后训练**、**智能体强化学习**与**数据合成**。我目前在 **UniPat AI** 实习，此前曾在**字节跳动**和**百度**实习。我的长期目标是推动 AI 从辅助人类走向自主解决问题。
+  en: I am a master's student in the School of Computer Science at **Peking University**. My research interests include **LLM post-training**, **agentic reinforcement learning**, and **data synthesis**. I am currently a research intern at **UniPat AI** and previously interned at **ByteDance** and **Baidu**. My long-term goal is to advance AI from assisting humans to autonomously solving problems.
+  zh-Hans: 我在**北京大学**计算机学院攻读硕士学位，研究兴趣包括**大语言模型后训练**、**智能体强化学习**与**数据合成**。我目前在 **UniPat AI** 实习，此前曾在**字节跳动**和**百度**实习。我的长期目标是推动 AI 从辅助人类走向自主解决问题。
 
 news:
   - date: "2026.06"
-    en: >-
-      We released **[Seed2.1](https://seed.bytedance.com/en/seed2_1){:target="_blank"}**,
-      advancing general agent, coding, and multimodal capabilities for real-world productivity.
-    zh-Hans: >-
-      我们发布了 **[Seed2.1](https://seed.bytedance.com/zh/seed2_1){:target="_blank"}**，
-      提升通用智能体、编程与多模态能力，服务真实场景中的生产力需求。
+    en: '🔥 We released **[Seed2.1](https://seed.bytedance.com/en/seed2_1){:target="_blank"}**, advancing general agent, coding, and multimodal capabilities for real-world productivity.'
+    zh-Hans: '🔥 我们发布了 **[Seed2.1](https://seed.bytedance.com/zh/seed2_1){:target="_blank"}**，提升通用智能体、编程与多模态能力，服务真实场景中的生产力需求。'
 
 education:
   - id: pku
@@ -74,8 +65,8 @@ experience:
   - id: unipat
     url: https://www.unipat.ai/
     start: "2026-10"
-    logo: /images/unipat.svg
-    logo_dark: /images/unipat-white.svg
+    logo: /images/unipat.png
+    logo_dark: /images/unipat-white.png
     en:
       name: UniPat AI
       role: Research Intern
@@ -96,9 +87,7 @@ experience:
       url: https://ir.baidu.com/
       role: "Research Intern **(Top Internship Program)**"
       department: Basic Model R&D Department
-      summary: >-
-        Contributed to %MODEL_LOGO% ERNIE’s post-training,
-        focusing on improving its performance in terminal environments and on Terminal-Bench.
+      summary: Contributed to %MODEL_LOGO% ERNIE’s post-training, focusing on improving its performance in terminal environments and on Terminal-Bench.
     zh-Hans:
       name: 百度
       url: https://home.baidu.com/
@@ -117,17 +106,13 @@ experience:
       url: https://www.bytedance.com/en/
       role: Research Intern
       department: AI Data & Safety
-      summary: >-
-        Collaborated with the Seed team to improve %MODEL_LOGO% Seed models’ agentic coding and GUI capabilities
-        by synthesizing high-quality mid-training and post-training data.
+      summary: Collaborated with the Seed team to improve %MODEL_LOGO% Seed models’ agentic coding and GUI capabilities by synthesizing high-quality mid-training and post-training data.
     zh-Hans:
       name: 字节跳动
       url: https://www.bytedance.com/zh/
       role: 后训练数据算法实习生
       department: AI 数据与安全
-      summary: >-
-        与 Seed 团队协作，通过合成高质量 Mid-training 与 Post-training 数据，
-        提升 %MODEL_LOGO% Seed 系列模型的 Coding Agent 与 GUI Agent 能力。
+      summary: 与 Seed 团队协作，通过合成高质量 Mid-training 与 Post-training 数据，提升 %MODEL_LOGO% Seed 系列模型的 Coding Agent 与 GUI Agent 能力。
 
 research:
   - id: seed21
@@ -140,8 +125,8 @@ research:
     en:
       url: https://seed.bytedance.com/en/seed2_1
       summary: Contributed to mid-training and post-training data synthesis for Seed2.1, supporting improvements in its coding and GUI capabilities.
-      link_label: Seed2.1 project page
+      link_aria_label: Seed2.1 project page
     zh-Hans:
       url: https://seed.bytedance.com/zh/seed2_1
       summary: 参与 Seed2.1 的 Mid-training 与 Post-training 数据合成，支持其 Coding 与 GUI 能力提升。
-      link_label: Seed2.1 项目主页
+      link_aria_label: Seed2.1 项目主页

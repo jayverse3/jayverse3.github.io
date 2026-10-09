@@ -42,7 +42,7 @@ en:
 
   # CV downloads
   download_pdf: Download PDF
-  download_pdf_label: Download CV as PDF (English)
+  download_pdf_label: Download CV as PDF
 
   # Dates
   # This label intentionally stays English in both GUI languages.
@@ -111,7 +111,6 @@ zh-Hans:
   # Blog
   blog_all: 全部文章
   blog_back: 返回博客
-  blog_coming_soon: 敬请期待。
   blog_date: "发布日期："
   blog_date_format: "%Y年%-m月%-d日"
   blog_intro: 学习笔记与随笔。
@@ -125,7 +124,7 @@ zh-Hans:
 
   # CV downloads
   download_pdf: 下载 PDF
-  download_pdf_label: 下载中文版 PDF 简历
+  download_pdf_label: 下载 PDF 简历
 
   # Dates
   month_format: "%Y.%m"

@@ -1,9 +1,9 @@
 import { hyperlink } from './links';
-import { plainText } from './shell';
+import { stripControlCharacters } from './shell';
 import type { Line } from './shell';
 
 export const ansi = { reset: '\x1b[0m', bold: '\x1b[1m', blue: '\x1b[34m', green: '\x1b[32m', muted: '\x1b[90m', error: '\x1b[31m' };
-export const paintText = (text: string, color: string): string => color + plainText(text) + ansi.reset;
+export const paintText = (text: string, color: string): string => color + stripControlCharacters(text) + ansi.reset;
 
 function wrapWords(text: string, width: number): string[] {
   if (!text) return [''];
@@ -24,7 +24,7 @@ export function formatLine(line: Line, columns: number): string {
   }
   const color = line.style === 'heading' ? ansi.bold : line.style === 'muted' ? ansi.muted : line.style === 'error' ? ansi.error : '';
   const width = line.wrap === 'viewport' ? columns - 2 : Math.min(100, columns - 2);
-  const text = plainText(line.text);
+  const text = stripControlCharacters(line.text);
   let offset = 0;
   return wrapWords(text, Math.max(20, width)).map(part => {
     const start = text.indexOf(part, offset);

@@ -138,7 +138,7 @@ macOS / Linux 对应 `export JEKYLL_ENV=development`。Windows 文件修改未�
 
 HTML CV 和 PDF 不会自动同步。PDF 的 RenderCV 源码不在本仓库；编辑 PDF 内容前向维护者确认源码位置，不要从 PDF 猜测或重新编造源文件。网页只存放已确认用于公开的通用简历：英文文件为 `files/yingjie-yang-cv.pdf`，中文文件为 `files/yingjie-yang-cv-zh.pdf`。更新时将对应语言的最终 PDF 同步到这些固定文件名，不上传定向投递版、YAML 或排版中间文件。Terminal 继续链接英文 PDF。
 
-网页字体统一在 `_data/typography.yml` 配置：`family` 控制正文及默认继承的字体，`ui_family` 指定中文标题、导航、按钮、日期等界面文字的字体，`welcome_family` 单独控制欢迎语，未设置时继承英文欢迎语字体，也可以用 CSS 变量复用已有字体。中文页面的正文和界面字体栈会自动前置英文页的具体字体（去掉末尾的通用 `sans-serif`，避免它提前接管汉字），让英文和数字优先沿用英文页字体；中文欢迎语通过 `var(--ui-font-family)` 复用界面字体，汉字使用思源黑体，英文使用英文页的无衬线字体。自定义网页字体还需在 `stylesheets` 中提供 CSS 资源地址；只改字体名称无法为未安装字体的访客提供字体文件。资源仅在对应语言页面加载：中文正文用思源宋体，标题、界面文字和欢迎语用思源黑体，均采用分片网页字体；英文页配置保持不变。修改此数据文件后 Jekyll 自动重建，无需修改各组件或重启服务。Terminal 和 PDF 不受此配置影响。
+网页字体统一在 `_data/typography.yml` 配置：`body_family` 控制正文及默认继承的字体，`ui_family` 指定中文标题、导航、按钮、日期等界面文字的字体，`welcome_family` 单独控制欢迎语，未设置时继承英文欢迎语字体，也可以用 CSS 变量复用已有字体。中文页面的正文和界面字体栈会自动前置英文页的具体字体（去掉末尾的通用 `sans-serif`，避免它提前接管汉字），让英文和数字优先沿用英文页字体；中文欢迎语通过 `var(--ui-font-family)` 复用界面字体，汉字使用思源黑体，英文使用英文页的无衬线字体。自定义网页字体还需在 `stylesheets` 中提供 CSS 资源地址；只改字体名称无法为未安装字体的访客提供字体文件。资源仅在对应语言页面加载：中文正文用思源宋体，标题、界面文字和欢迎语用思源黑体，均采用分片网页字体；英文页配置保持不变。修改此数据文件后 Jekyll 自动重建，无需修改各组件或重启服务。Terminal 和 PDF 不受此配置影响。
 
 CV 的 LaTeX 标志由 `assets/js/cv.js` 调用 KaTeX 渲染。固定版本的 KaTeX CSS/JS 由 CV 和博客文章共用，配置位于 `_includes/head.html`；博客文章另加载官方 auto-render 扩展。主页和博客列表不加载公式库。CDN 不可用时，CV 保留普通 `LaTeX` 文本，文章保留 TeX 源文本，不影响其余正文。
 
@@ -152,9 +152,11 @@ CV 的 LaTeX 标志由 `assets/js/cv.js` 调用 KaTeX 渲染。固定版本的 K
 
 Terminal 与主页共用 `home-content.html`，Terminal 固定读取 `_data/profile.yml` 的英文内容。只改数据文案时无需重建 Terminal JS；改标题 ID、卡片类名或 DOM 结构时，还要检查 `_terminal/src/content.ts`。语言分支尚未提供时，模板回退到英文。
 
-主页经历的 `role` 和 `summary` 支持 Markdown 加粗。项目名称直接写入对应语言的 `role`，括号、空格和加粗由正文控制，例如 `Research Intern **(Top Internship Program)**`、`大模型算法研究员**（Top 实习计划）**`，不单独维护 `program` 字段。模型名称直接写在对应语言的正文中；`experience-summary.html` 仅将 `%MODEL_LOGO%` 替换为浅/深色 Logo。Logo 模板和样式不添加间距，两侧空格直接写在主页正文中，例如 `参与 %MODEL_LOGO% 文心基模`。网页 CV 不调用这个模板；在 `_data/cv.yml` 直接编写普通 Markdown 摘要（例如 `参与文心基模的后训练……`），详细工作内容使用 `cv_groups`，没有详细条目时显示 CV 自己的 `summary`。主页中的 Logo、措辞或间距修改不会改变 CV 正文。PDF 下载地址仍由各 CV 页面的 `pdf` 字段控制，不因新增中文页面自动公开其他 PDF。
+主页经历的 `role` 和 `summary` 支持 Markdown 加粗。项目名称直接写入对应语言的 `role`，括号、空格和加粗由正文控制，例如 `Research Intern **(Top Internship Program)**`、`大模型算法研究员**（Top 实习计划）**`，不单独维护 `program` 字段。模型名称直接写在对应语言的正文中；`experience-summary.html` 仅将 `%MODEL_LOGO%` 替换为浅/深色 Logo。Logo 模板和样式不添加间距，两侧空格直接写在主页正文中，例如 `参与 %MODEL_LOGO% 文心基模`。网页 CV 不调用这个模板；在 `_data/cv.yml` 直接编写普通 Markdown 摘要（例如 `参与文心基模的后训练……`），详细工作内容使用 `groups`，没有详细条目时显示 CV 自己的 `summary`。主页中的 Logo、措辞或间距修改不会改变 CV 正文。PDF 下载地址仍由各 CV 页面的 `pdf` 字段控制，不因新增中文页面自动公开其他 PDF。
 
 主页教育与实习卡片的 `url` 指向学校或公司官网：有独立语言入口时分别放在 `en.url` / `zh-Hans.url`，否则使用条目公共 `url`（如 UniPat AI）；模板优先读取当前语言的地址，再回退公共地址。仅名称链接在新标签页打开，Logo、描述和卡片留白不参与跳转。名称默认沿用标题颜色，悬停或键盘聚焦时显示链接颜色与下划线；未配置地址时仍显示普通标题。Terminal 继续提取名称文本，不额外输出官网地址。
+
+卡片 Logo 通过 `logo` 与 `logo_dark` 分别配置浅色、深色素材，统一切换，不使用品牌专用缩放或滤镜。公司 Logo 在资源中收紧透明留白，保持比例并以相同的最长边显示。UniPat 使用官方 PNG 裁剪、改色生成的黑白两版，来源及处理说明见 `images/unipat-source.md`；其他学校与公司继续使用各自的 SVG 素材。
 
 主页研究成果可在 `_data/profile.yml` 的条目公共字段中设置 `image`（如 `/images/seed21-cover.png`），中英文共用本地封面。卡片可用宽度达到 700px 时左图右文，较窄时上下排列；图片完整等比显示，使用 6px 轻微圆角，不裁剪。封面仅作展示，不参与跳转；访问项目主页和 Model Card 使用下方文字链接。未配置图片时仍为纯文字卡片。Terminal 只提取原有文字和资源链接，不显示封面。
 
@@ -162,9 +164,9 @@ Terminal 与主页共用 `home-content.html`，Terminal 固定读取 `_data/prof
 
 图片、字体与设计方案先放在 `_drafts/` 的临时博客中，以 HTML/CSS/SVG 直接预览，不另行导出封面截图；专用样式留在草稿内，定稿后删除草稿，再将确认的组件接入正式页面。图标、标志等优先使用原生 SVG；官方只提供位图且需保留原样时使用原始素材，不用 SVG 外壳包装 PNG 冒充矢量图。
 
-列表采用与主页一致的单列卡片：默认背景、边框透明，鼠标悬停时显示淡背景与柔和阴影，其余卡片轻微淡出；触屏不启用悬停效果。点击卡片正文或留白进入详情页，标签独立点击筛选。链接使用原生 HTML 和 CSS 扩展点击区域，不以 JavaScript 模拟跳转；键盘可聚焦标题链接。目前没有正式文章，预览样稿已清理，中英文列表分别显示 Coming soon / 敬请期待；博客阅读功能和测试保留。
+列表采用与主页一致的单列卡片：默认背景、边框透明，鼠标悬停时显示淡背景与柔和阴影，其余卡片轻微淡出；触屏不启用悬停效果。点击卡片正文或留白进入详情页，标签独立点击筛选。链接使用原生 HTML 和 CSS 扩展点击区域，不以 JavaScript 模拟跳转；键盘可聚焦标题链接。目前没有正式文章，预览样稿已清理，中英文列表均显示 Coming soon；博客阅读功能和测试保留。
 
-顶部导航为 Home / Blog / CV。`/blog/` 与 `/zh/blog/` 通过 `_includes/blog-index.html` 显示相同文章列表，界面标签随语言切换，不自动翻译文章。没有文章时显示 Coming soon / 敬请期待；有文章时显示日期、摘要和标签筛选。筛选保存在 URL 的 `#tag=...` 中，支持刷新、前进和后退；禁用 JavaScript 时保留完整文章列表，不显示筛选工具栏。详情页使用 `_layouts/post.html`，样式为 `_sass/layout/_blog.scss`，筛选脚本为 `assets/js/blog.js`，无需新框架或插件。
+顶部导航为 Home / Blog / CV。`/blog/` 与 `/zh/blog/` 通过 `_includes/blog-index.html` 显示相同文章列表，界面标签随语言切换，不自动翻译文章。没有文章时统一沿用英文默认值 Coming soon；有文章时显示日期、摘要和标签筛选。筛选保存在 URL 的 `#tag=...` 中，支持刷新、前进和后退；禁用 JavaScript 时保留完整文章列表，不显示筛选工具栏。详情页使用 `_layouts/post.html`，样式为 `_sass/layout/_blog.scss`，筛选脚本为 `assets/js/blog.js`，无需新框架或插件。
 
 正式文章放在 `_posts/YYYY-MM-DD-slug.md`，包含 `title`、`lang`、`description`、`tags` 等 front matter；默认文章路径为 `/blog/:title/`，例如 `_posts/2026-10-05-post-training-notes.md` 对应 `/blog/post-training-notes/`。网址使用文件名中日期后面的简短英文名称（也可显式设置 `slug`），页面标题仍由 `title` 决定，两者独立维护。日期保留在文件名和页面元信息中，不放进网址；不同日期的文章也不能重复使用同一个 slug。发布后尽量保持网址不变，中英文译文使用不同 slug。临时预览稿可继续显式指定 `/blog/preview/…/`。
 
@@ -266,16 +268,16 @@ bundle exec jekyll serve --host 127.0.0.1 --port 4000 --drafts
 
 论文统一使用 `type: paper`，不再区分会议论文、期刊论文和预印本。主页与网页 CV 的成果条目均支持可选的公共 `tag` 字符串，与 `type` 同级，例如 `tag: NeurIPS 2026`、`tag: ACL 2027`、`tag: Preprint` 或 `tag: arXiv`。奖项和报告形式也直接写入 `tag`，例如 `tag: "NeurIPS 2027 · Best Paper"`、`tag: "ICLR 2027 · Oral"`，不单独维护枚举词表。填写时直接显示该文字，中英文保持一致；未填写或为空时回退到本语言的类型名称（如 Paper / 论文、Technical Report / 技术报告）。`tag` 中的年份由作者填写，不从发布日期推断；它是展示标签，不是博客的 `tags` 筛选列表。会议名、期刊名和年份不放入翻译词表。Terminal 从英文主页标签自动提取，无需维护另一份。
 
-主页 `_data/profile.yml` 的研究成果中，`team`（团队署名）为中英文共用字段，与 `title`、`date`、`type` 同级；可选的公共字段 `model_card_url` 提供官方 Model Card 全文链接，中英文共用同一份全文。各语言分支维护项目主页 `url`、`summary` 和 `link_label`。`link_label` 是项目主页链接的 `aria-label` 无障碍描述，需要随页面语言翻译；链接可见文字仍取自上述界面词表，不由 `link_label` 控制。网页 CV 在独立的 `_data/cv.yml` 中维护自己的语言版 `url`、`link_label` 和可选公共 `model_card_url`，同样先显示项目主页，再显示 Model Card；不读取主页数据，也不显示封面。
+主页 `_data/profile.yml` 的研究成果中，`team`（团队署名）为中英文共用字段，与 `title`、`date`、`type` 同级；可选的公共字段 `model_card_url` 提供官方 Model Card 全文链接，中英文共用同一份全文。各语言分支维护项目主页 `url`、`summary` 和 `link_aria_label`。`link_aria_label` 是项目主页链接的 `aria-label` 无障碍描述，需要随页面语言翻译；链接可见文字仍取自上述界面词表，不由 `link_aria_label` 控制。网页 CV 在独立的 `_data/cv.yml` 中维护自己的语言版 `url`、`link_aria_label` 和可选公共 `model_card_url`，同样先显示项目主页，再显示 Model Card；不读取主页数据，也不显示封面。
 
 词表只是可选文案，不会自动生成标签、链接或占位按钮。主页成果卡片使用条目的 `type` 和项目主页 `url`；配置 `model_card_url` 时，在项目主页链接之后显示 Model Card，未配置则不显示。该链接名称在英文 `research.links.model_card` 定义，中文自动继承，保留官方叫法；`paper` 词条仍作为普通论文链接的预留名称。Terminal 通过共用的英文内容模板自动提取两个链接；网页 CV 的数据和模板仍独立维护。其他资源名称先作为备用词条，后续使用时再接入对应内容字段和模板。相同资源不要同时用不同名称重复展示。
 
-网页 CV 的 `awards` 条目将平台与奖项分开：`platform` 是可选的平台名称（如 Kaggle），`competition` 是比赛名称，`year` 是年份，`label` 指向通用奖项词条（如 `silver_medal`）。可选的 `url` 仅为比赛名称添加链接，未填写时显示普通文字。词表只翻译奖项名称，不组合平台名，也不包含分隔标点；模板按页面语言添加冒号，省略平台时不留前导空格。其他平台的银牌复用同一词条，新的奖项名称按实际需要添加。
+网页 CV 的 `awards` 条目将平台与奖项分开：`platform` 是可选的平台名称（如 Kaggle），`competition` 是比赛名称，`year` 是年份，`label_key` 指向通用奖项词条（如 `silver_medal`）。可选的 `url` 仅为比赛名称添加链接，未填写时显示普通文字。词表只翻译奖项名称，不组合平台名，也不包含分隔标点；模板按页面语言添加冒号，省略平台时不留前导空格。其他平台的银牌复用同一词条，新的奖项名称按实际需要添加。
 
 1. **改正文**：主页/Terminal 编辑 `_data/profile.yml`，网页 CV 编辑 `_data/cv.yml`，在相应条目的 `en` / `zh-Hans` 下修改文案。每份数据内的公共字段在中英文间只改一处；同时涉及主页和 CV 的日期或内容变更，需要分别维护，不能假定修改一份会自动同步另一份。只改中文不会影响英文 Terminal。部分模板有同一数据文件内的英文回退，但正式中文页面应补齐译文。
 2. **改界面和搜索信息**：通用标签、日期格式及中文 SEO 默认值在 `_data/i18n.yml`；单页标题/描述在页面 front matter，英文 SEO 默认值仍在 `_config.yml`。
 3. **新增一对页面**：设置不同的 `permalink` 与 `lang: en` / `zh-Hans`，共用同一个 `translation_key`。同一语言下该键只能对应一个页面；复用布局和内容模板，不复制整套 HTML/CSS。页面标题/描述应使用对应语言，CV 下载还需设置对应 `pdf`。
-4. **新增导航**：`_data/navigation.yml` 的 `label` 指向中英文界面文案键，`translation_key` 配对当前语言页面，`url` 用作无译文时的回退。语言切换和 SEO 对应链接自动读取页面配置，不另写 URL 映射或浏览器语言存储。
+4. **新增导航**：`_data/navigation.yml` 的 `label_key` 指向中英文界面文案键，`translation_key` 配对当前语言页面，`url` 用作无译文时的回退。语言切换和 SEO 对应链接自动读取页面配置，不另写 URL 映射或浏览器语言存储。
 
 更新网页内容不会自动更新 PDF；需要更新时按上面的固定公开文件名分别同步两份通用简历。新增语言页面后按下一节的双语检查项验证，不仅检查英文入口。
 

@@ -44,9 +44,7 @@ experience:
       role: Research Intern
       program: Top Internship Program
       department: Basic Model R&D Department
-      summary: >-
-        Contributed to ERNIE’s post-training,
-        focusing on improving its performance in terminal environments and on Terminal-Bench.
+      summary: Contributed to ERNIE’s post-training, focusing on improving its performance in terminal environments and on Terminal-Bench.
     zh-Hans:
       name: 百度
       role: 大模型算法研究员
@@ -60,39 +58,26 @@ experience:
       name: ByteDance
       role: Research Intern
       department: AI Data & Safety
-      cv_groups:
+      groups:
         - title: Coding Agent
           highlights:
-            - >-
-              **Verifiable Task Synthesis:** Built an automated pipeline to synthesize verifiable coding tasks
-              from shell scripts and Python source code, helping improve Seed models’ score on Terminal-Bench 2.1
-              from **53.6 to 71.0**.
-            - >-
-              **Targeted Data Synthesis:** Used rollout analysis to synthesize targeted tasks for RFT,
-              helping improve Seed models’ score on Terminal-Bench 2.1 from **71.0 to 84.7**.
+            - "**Verifiable Task Synthesis:** Built an automated pipeline to synthesize verifiable coding tasks from shell scripts and Python source code, helping improve Seed models’ score on Terminal-Bench 2.1 from **53.6 to 71.0**."
+            - "**Targeted Data Synthesis:** Used rollout analysis to synthesize targeted tasks for RFT, helping improve Seed models’ score on Terminal-Bench 2.1 from **71.0 to 84.7**."
         - title: GUI Agent
           highlights:
-            - >-
-              **GUI-Diver:** Built an automated pipeline to synthesize verifiable GUI tasks from real-world websites,
-              helping improve Seed models’ score on OSWorld-Verified from **61.9 to 78.8**.
+            - "**GUI-Diver:** Built an automated pipeline to synthesize verifiable GUI tasks from real-world websites, helping improve Seed models’ score on OSWorld-Verified from **61.9 to 78.8**."
     zh-Hans:
       name: 字节跳动
       role: 后训练数据算法实习生
       department: AI 数据与安全
-      cv_groups:
+      groups:
         - title: Coding Agent
           highlights:
-            - >-
-              **可验证任务合成：**搭建自动化流水线，基于 Shell 脚本与 Python 源代码合成可验证的编程任务，
-              支撑 Seed 系列模型在 Terminal-Bench 2.1 上由 **53.6 分提升至 71.0 分**。
-            - >-
-              **定向数据合成：**通过 rollout 轨迹分析开展定向任务合成，用于 RFT，
-              支撑 Seed 系列模型在 Terminal-Bench 2.1 上由 **71.0 分提升至 84.7 分**。
+            - "**可验证任务合成：**搭建自动化流水线，基于 Shell 脚本与 Python 源代码合成可验证的编程任务，支撑 Seed 系列模型在 Terminal-Bench 2.1 上由 **53.6 分提升至 71.0 分**。"
+            - "**定向数据合成：**通过 rollout 轨迹分析开展定向任务合成，用于 RFT，支撑 Seed 系列模型在 Terminal-Bench 2.1 上由 **71.0 分提升至 84.7 分**。"
         - title: GUI Agent
           highlights:
-            - >-
-              **GUI-Diver：**搭建自动化流水线，基于真实网站合成可验证的 GUI 任务，
-              支撑 Seed 系列模型在 OSWorld-Verified 上由 **61.9 分提升至 78.8 分**。
+            - "**GUI-Diver：**搭建自动化流水线，基于真实网站合成可验证的 GUI 任务，支撑 Seed 系列模型在 OSWorld-Verified 上由 **61.9 分提升至 78.8 分**。"
 
 research:
   - id: seed21
@@ -103,23 +88,23 @@ research:
     en:
       url: https://seed.bytedance.com/en/seed2_1
       team: ByteDance Seed
-      link_label: Seed2.1 project page
+      link_aria_label: Seed2.1 project page
     zh-Hans:
       url: https://seed.bytedance.com/zh/seed2_1
       team: ByteDance Seed
-      link_label: Seed2.1 项目主页
+      link_aria_label: Seed2.1 项目主页
 
 awards:
   - platform: Kaggle
     competition: "LLMs - You Can't Please Them All"
     url: https://www.kaggle.com/competitions/llms-you-cant-please-them-all
     year: 2025
-    label: silver_medal
+    label_key: silver_medal
   - platform: Kaggle
     competition: Learning Agency Lab - Automated Essay Scoring 2.0
     url: https://www.kaggle.com/competitions/learning-agency-lab-automated-essay-scoring-2
     year: 2024
-    label: silver_medal
+    label_key: silver_medal
 
 skills:
   - id: programming_languages

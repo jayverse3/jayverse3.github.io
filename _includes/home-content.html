@@ -8,7 +8,7 @@
 
 <ul>
   {% for item in site.data.profile.news %}
-  <li>🔥 <strong>[{{ item.date }}]</strong> {{ item[home_lang] | default: item.en | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
+  <li><strong>[{{ item.date }}]</strong> {{ item[home_lang] | default: item.en | markdownify | remove: '<p>' | remove: '</p>' | strip }}</li>
   {% endfor %}
 </ul>
 

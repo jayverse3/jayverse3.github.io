@@ -1,7 +1,7 @@
-import { plainText } from './shell';
+import { stripControlCharacters } from './shell';
 
 export function safeLink(value: string): URL | undefined {
-  if (value !== plainText(value)) return;
+  if (value !== stripControlCharacters(value)) return;
   try {
     const url = new URL(value);
     if (['https:', 'http:', 'mailto:'].includes(url.protocol)) return url;
@@ -10,7 +10,7 @@ export function safeLink(value: string): URL | undefined {
 
 export function hyperlink(text: string, href: string): string {
   const url = safeLink(href);
-  const label = plainText(text);
+  const label = stripControlCharacters(text);
   // OSC 8 keeps the target attached to the text, even when xterm wraps the line.
   return url ? `\x1b]8;;${url.href}\x1b\\${label}\x1b]8;;\x1b\\` : label;
 }

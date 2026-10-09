@@ -98,7 +98,7 @@ describe('terminal contact content', () => {
     for (const name of ['contact', 'profiles'] as const) {
       for (const prefix of ['', '/']) {
         const result = execute(prefix + name, sections, []);
-        expect(result.code).toBe(0);
+        expect(result.exitCode).toBe(0);
         expect(result.lines.slice(2)).toEqual(sections[name].lines);
       }
     }

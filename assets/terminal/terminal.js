@@ -9425,7 +9425,7 @@ function xs(e, t, n) {
 			text: e,
 			style: "error"
 		}],
-		code: 1
+		exitCode: 1
 	}), i;
 	try {
 		i = vs(_s(e));
@@ -9434,7 +9434,7 @@ function xs(e, t, n) {
 	}
 	if (!i.length) return {
 		lines: [],
-		code: 0
+		exitCode: 0
 	};
 	let a = i.shift().replace(/^\//, "").toLowerCase();
 	if (!Object.hasOwn(hs, a)) return r(`Command not found: ${a}. Type help to see what's available.`);
@@ -9449,7 +9449,7 @@ function xs(e, t, n) {
 			action: "theme",
 			theme: e,
 			lines: [],
-			code: 0
+			exitCode: 0
 		};
 	}
 	if (i.length) return r(`${a} does not take arguments. Try ${a} on its own.`);
@@ -9470,16 +9470,16 @@ function xs(e, t, n) {
 				style: "muted"
 			}
 		],
-		code: 0
+		exitCode: 0
 	};
 	if (a === "clear" || a === "welcome" || a === "home") return {
 		action: a,
 		lines: [],
-		code: 0
+		exitCode: 0
 	};
 	if (a === "history") return {
 		lines: n.map((e, t) => ({ text: `${String(t + 1).padStart(3)}  ${e}` })),
-		code: 0
+		exitCode: 0
 	};
 	let o = t[a];
 	return o ? {
@@ -9491,7 +9491,7 @@ function xs(e, t, n) {
 			{ text: "" },
 			...o.lines
 		],
-		code: 0
+		exitCode: 0
 	} : r("This section is not available yet. You can still visit the homepage with home.");
 }
 //#endregion

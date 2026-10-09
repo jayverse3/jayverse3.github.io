@@ -1,11 +1,11 @@
 {%- assign cv_entry = include.entry -%}
-{%- assign cv_copy = cv_entry[include.lang] | default: cv_entry.en -%}
+{%- assign entry_content = cv_entry[include.lang] | default: cv_entry.en -%}
 <article class="cv-entry{% if include.kind != 'research' %} cv-entry--{{ include.kind }}{% endif %}">
   <div class="cv-entry__header">
     {% if include.kind == 'education' %}
-    <h3 class="cv-entry__title"><strong>{{ cv_copy.name | escape }}</strong><span class="cv-entry__education-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__major">{{ cv_copy.major | escape }}</span><span class="cv-entry__separator"> | </span><span class="cv-entry__degree">{{ cv_copy.degree | escape }}</span></span></h3>
+    <h3 class="cv-entry__title"><strong>{{ entry_content.name | escape }}</strong><span class="cv-entry__education-details"><span class="cv-entry__separator"> | </span><span class="cv-entry__major">{{ entry_content.major | escape }}</span><span class="cv-entry__separator"> | </span><span class="cv-entry__degree">{{ entry_content.degree | escape }}</span></span></h3>
     {% elsif include.kind == 'experience' %}
-    <h3 class="cv-entry__title"><strong>{{ cv_copy.name | escape }}</strong><span class="cv-entry__position-details">{% if cv_copy.department %}<span class="cv-entry__separator"> | </span><span class="cv-entry__department">{{ cv_copy.department | escape }}</span>{% endif %}<span class="cv-entry__separator"> | </span><span class="cv-entry__role">{{ cv_copy.role | escape }}{% if cv_copy.program %}{% if include.lang == 'zh-Hans' %}<strong>（{{ cv_copy.program | escape }}）</strong>{% else %} <strong>({{ cv_copy.program | escape }})</strong>{% endif %}{% endif %}</span></span></h3>
+    <h3 class="cv-entry__title"><strong>{{ entry_content.name | escape }}</strong><span class="cv-entry__position-details">{% if entry_content.department %}<span class="cv-entry__separator"> | </span><span class="cv-entry__department">{{ entry_content.department | escape }}</span>{% endif %}<span class="cv-entry__separator"> | </span><span class="cv-entry__role">{{ entry_content.role | escape }}{% if entry_content.program %}{% if include.lang == 'zh-Hans' %}<strong>（{{ entry_content.program | escape }}）</strong>{% else %} <strong>({{ entry_content.program | escape }})</strong>{% endif %}{% endif %}</span></span></h3>
     {% else %}
     <h3 class="cv-entry__title"><strong>{{ cv_entry.title | escape }}</strong></h3>
     {% endif %}
@@ -13,9 +13,9 @@
   </div>
   {% if include.kind == 'experience' %}
   <div class="cv-entry__body">
-    {% if cv_copy.cv_groups %}
+    {% if entry_content.groups %}
     <ul class="cv-experience-groups">
-      {% for group in cv_copy.cv_groups %}
+      {% for group in entry_content.groups %}
       <li>
         <h4>{{ group.title | escape }}</h4>
         <ul>
@@ -27,13 +27,13 @@
       {% endfor %}
     </ul>
     {% else %}
-    {{ cv_copy.summary | markdownify }}
+    {{ entry_content.summary | markdownify }}
     {% endif %}
   </div>
   {% elsif include.kind == 'research' %}
   <div class="cv-entry__body">
-    <p>{{ cv_copy.team | escape }}</p>
-    <p>{{ cv_entry.tag | default: include.ui.research.types[cv_entry.type] | escape }} &middot; <a href="{{ cv_copy.url | default: cv_entry.url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ cv_copy.link_label | escape }}">{{ include.ui.research.links.project_page | escape }}</a>{% if cv_entry.model_card_url %} &middot; <a href="{{ cv_entry.model_card_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ include.ui.research.links.model_card | escape }} — {{ cv_entry.title | escape }}">{{ include.ui.research.links.model_card | escape }}</a>{% endif %}</p>
+    <p>{{ entry_content.team | escape }}</p>
+    <p>{{ cv_entry.tag | default: include.ui.research.types[cv_entry.type] | escape }} &middot; <a href="{{ entry_content.url | default: cv_entry.url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ entry_content.link_aria_label | escape }}">{{ include.ui.research.links.project_page | escape }}</a>{% if cv_entry.model_card_url %} &middot; <a href="{{ cv_entry.model_card_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ include.ui.research.links.model_card | escape }} — {{ cv_entry.title | escape }}">{{ include.ui.research.links.model_card | escape }}</a>{% endif %}</p>
   </div>
   {% endif %}
 </article>

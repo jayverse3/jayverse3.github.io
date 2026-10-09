@@ -55,7 +55,7 @@ npm --prefix _terminal run watch
 3. 在相应 *.test.ts 覆盖正常输入、无效参数和边界，执行 test 与 build。
 4. 浏览器检查浅深色、长行、加粗/链接、输入和页面返回，不仅凭单测判断渲染正常。
 
-不用 eval 或系统命令执行来模拟 Shell。保留 plainText 对控制字符的处理和 safeLink 协议校验，避免输入/粘贴注入终端控制序列；粘贴换行不能自动执行命令。
+不用 eval 或系统命令执行来模拟 Shell。保留 stripControlCharacters 对控制字符的处理和 safeLink 协议校验，避免输入/粘贴注入终端控制序列；粘贴换行不能自动执行命令。
 
 ## 交互约定
 

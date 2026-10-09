@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CommandHistory, commandNames, complete, execute, parseInput, plainText } from './shell';
+import { CommandHistory, commandNames, complete, execute, parseInput, stripControlCharacters } from './shell';
 
 describe('command parsing', () => {
   it('accepts quoted arguments and whitespace', () => {
@@ -13,7 +13,7 @@ describe('command parsing', () => {
     expect(parseInput('about "a|b"')).toEqual(['about', 'a|b']);
   });
   it('strips terminal control characters', () => {
-    expect(plainText('\x1b[2Jhello\u009b')).toBe('[2Jhello');
+    expect(stripControlCharacters('\x1b[2Jhello\u009b')).toBe('[2Jhello');
   });
 });
 
@@ -37,16 +37,16 @@ describe('commands', () => {
     const research = { title: 'Research', lines: [{ text: 'Seed2.1 Model Card' }] };
     for (const input of ['research', '/research', 'RESEARCH']) {
       expect(execute(input, { research }, [])).toEqual({
-        lines: [{ text: 'Research', style: 'heading' }, { text: '' }, ...research.lines], code: 0,
+        lines: [{ text: 'Research', style: 'heading' }, { text: '' }, ...research.lines], exitCode: 0,
       });
     }
   });
   it('supports CLI-style slash aliases', () => {
-    expect(execute('/help', {}, []).code).toBe(0);
+    expect(execute('/help', {}, []).exitCode).toBe(0);
     expect(execute('/welcome', {}, []).action).toBe('welcome');
   });
   it('validates arguments without evaluating input', () => {
-    for (const input of ['__proto__', 'constructor', 'about extra', 'theme blue', 'theme dark extra']) expect(execute(input, {}, []).code).toBe(1);
+    for (const input of ['__proto__', 'constructor', 'about extra', 'theme blue', 'theme dark extra']) expect(execute(input, {}, []).exitCode).toBe(1);
     expect(execute('theme dark', {}, []).theme).toBe('dark');
   });
   it('offers prefix completion only for command names', () => {
@@ -56,14 +56,14 @@ describe('commands', () => {
     expect(complete('toString')).toEqual([]);
   });
   it('shows the welcome banner without style arguments', () => {
-    expect(execute('welcome', {}, [])).toMatchObject({ action: 'welcome', code: 0 });
-    expect(execute('/welcome', {}, [])).toMatchObject({ action: 'welcome', code: 0 });
-    expect(execute('welcome extra', {}, []).code).toBe(1);
+    expect(execute('welcome', {}, [])).toMatchObject({ action: 'welcome', exitCode: 0 });
+    expect(execute('/welcome', {}, [])).toMatchObject({ action: 'welcome', exitCode: 0 });
+    expect(execute('welcome extra', {}, []).exitCode).toBe(1);
   });
   it('returns to the homepage with home, including the slash alias', () => {
-    for (const input of ['home', '/home', 'HOME']) expect(execute(input, {}, [])).toEqual({ action: 'home', lines: [], code: 0 });
-    expect(execute('home extra', {}, []).code).toBe(1);
-    expect(execute('unknown', {}, []).code).toBe(1);
+    for (const input of ['home', '/home', 'HOME']) expect(execute(input, {}, [])).toEqual({ action: 'home', lines: [], exitCode: 0 });
+    expect(execute('home extra', {}, []).exitCode).toBe(1);
+    expect(execute('unknown', {}, []).exitCode).toBe(1);
     expect(execute('help', {}, []).lines.find(line => line.text.trimStart().startsWith('home '))?.text).toContain('Return to the homepage');
     expect(execute('about', {}, []).lines[0].text).toContain('with home');
   });

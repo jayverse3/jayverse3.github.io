@@ -12,11 +12,11 @@ export interface Section {
 }
 
 export type ThemeChoice = 'light' | 'dark' | 'system' | 'toggle';
-export interface Result {
+export interface CommandResult {
   lines: Line[];
   action?: 'clear' | 'welcome' | 'home' | 'theme';
   theme?: ThemeChoice;
-  code: number;
+  exitCode: number;
 }
 
 export const commands = {
@@ -40,7 +40,7 @@ export type Command = keyof typeof commands;
 export const commandNames = (Object.keys(commands) as Command[]).sort();
 
 // Never let pasted text introduce terminal escape sequences or control codes.
-export function plainText(value: string): string {
+export function stripControlCharacters(value: string): string {
   return value.replace(/[\u0000-\u001f\u007f-\u009f]/g, '');
 }
 
@@ -95,26 +95,26 @@ export class CommandHistory {
   }
 }
 
-export function execute(input: string, sections: Record<string, Section>, history: readonly string[]): Result {
-  const fail = (text: string): Result => ({ lines: [{ text, style: 'error' }], code: 1 });
+export function execute(input: string, sections: Record<string, Section>, history: readonly string[]): CommandResult {
+  const fail = (text: string): CommandResult => ({ lines: [{ text, style: 'error' }], exitCode: 1 });
   let args: string[];
-  try { args = parseInput(plainText(input)); }
+  try { args = parseInput(stripControlCharacters(input)); }
   catch (error) { return fail((error as Error).message); }
-  if (!args.length) return { lines: [], code: 0 };
+  if (!args.length) return { lines: [], exitCode: 0 };
   const name = args.shift()!.replace(/^\//, '').toLowerCase();
   if (!Object.hasOwn(commands, name)) return fail(`Command not found: ${name}. Type help to see what's available.`);
   if (name === 'theme') {
     const choice = args[0] ?? 'toggle';
     if (args.length > 1 || !['light', 'dark', 'system', 'toggle'].includes(choice)) return fail('Usage: theme [light | dark | system]');
-    return { action: 'theme', theme: choice as ThemeChoice, lines: [], code: 0 };
+    return { action: 'theme', theme: choice as ThemeChoice, lines: [], exitCode: 0 };
   }
   if (args.length) return fail(`${name} does not take arguments. Try ${name} on its own.`);
   if (name === 'help') return {
-    lines: [{ text: 'Available commands', style: 'heading' }, { text: '' }, ...commandNames.map(command => ({ text: `  ${command.padEnd(16)}${commands[command]}`, style: 'command' as const })), { text: '' }, { text: 'Click a command, or type it below. A leading / also works.', style: 'muted' }], code: 0,
+    lines: [{ text: 'Available commands', style: 'heading' }, { text: '' }, ...commandNames.map(command => ({ text: `  ${command.padEnd(16)}${commands[command]}`, style: 'command' as const })), { text: '' }, { text: 'Click a command, or type it below. A leading / also works.', style: 'muted' }], exitCode: 0,
   };
-  if (name === 'clear' || name === 'welcome' || name === 'home') return { action: name, lines: [], code: 0 };
-  if (name === 'history') return { lines: history.map((text, index) => ({ text: `${String(index + 1).padStart(3)}  ${text}` })), code: 0 };
+  if (name === 'clear' || name === 'welcome' || name === 'home') return { action: name, lines: [], exitCode: 0 };
+  if (name === 'history') return { lines: history.map((text, index) => ({ text: `${String(index + 1).padStart(3)}  ${text}` })), exitCode: 0 };
   const section = sections[name];
   if (!section) return fail('This section is not available yet. You can still visit the homepage with home.');
-  return { lines: [{ text: section.title, style: 'heading' }, { text: '' }, ...section.lines], code: 0 };
+  return { lines: [{ text: section.title, style: 'heading' }, { text: '' }, ...section.lines], exitCode: 0 };
 }

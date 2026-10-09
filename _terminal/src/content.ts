@@ -1,7 +1,7 @@
 import type { Line, Section } from './shell';
-import { plainText } from './shell';
+import { stripControlCharacters } from './shell';
 
-const normalize = (value: string): string => plainText(value.replace(/\s+/g, ' '));
+const normalize = (value: string): string => stripControlCharacters(value.replace(/\s+/g, ' '));
 const text = (element: Element | null): string => normalize(element?.textContent ?? '').trim();
 
 function contentLine(element: Element | null, stripPrefix?: RegExp): Line {

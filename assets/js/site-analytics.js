@@ -7,7 +7,7 @@
   if (!/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(code)) return;
   const origin = "https://" + code + ".goatcounter.com";
   const siteVisitEvent = "site-visit";
-  const counterLabel = "Site visits";
+  const siteVisitTitle = "Site visits";
 
   // Local previews may read the public count, but must never record a visit.
   const isLocal = /^(localhost|127\.|\[?::1\]?)/.test(location.hostname);
@@ -34,7 +34,7 @@
         if (!window.goatcounter || typeof window.goatcounter.count !== "function") return;
         // The same event on every page is deduplicated by GoatCounter's Sessions.
         // Do not set no_session: we want one site visit, not one per page load.
-        window.goatcounter.count({ path: siteVisitEvent, title: counterLabel, event: true });
+        window.goatcounter.count({ path: siteVisitEvent, title: siteVisitTitle, event: true });
       }
 
       document.addEventListener("visibilitychange", recordSiteVisit);

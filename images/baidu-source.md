@@ -4,7 +4,7 @@
 - Source: [LobeHub Icons](https://github.com/lobehub/lobe-icons)
 - Original asset: https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-svg/icons/baidu-color.svg
 - White variant: `baidu-white.svg`, based on the official monochrome asset: https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/baidu.svg
-- The color asset is unchanged. In the white variant, only the root fill was changed from `currentColor` to `#fff`; the vector paths are unchanged.
+- Both variants use `viewBox="1.999 1 20.002 22"` to remove surrounding whitespace and match the visible scale of the other company logos. All vector paths and proportions remain unchanged. In the white variant, the root fill was changed from `currentColor` to `#fff`.
 - Brand trademarks belong to their respective owners.
 
 ## License

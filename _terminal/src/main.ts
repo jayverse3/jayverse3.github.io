@@ -6,7 +6,7 @@ import { readContent } from './content';
 import { bannerPalette, renderBanner } from './banner';
 import { safeLink } from './links';
 import { ansi, formatLine, paintText } from './formatting';
-import { CommandHistory, commands, complete, execute, plainText } from './shell';
+import { CommandHistory, commands, complete, execute, stripControlCharacters } from './shell';
 import type { ThemeChoice } from './shell';
 import './style.css';
 
@@ -126,7 +126,7 @@ async function redraw(clearScreen = false): Promise<void> {
   }
 }
 async function submit(value = line): Promise<void> {
-  line = plainText(value).trim().slice(0, 512);
+  line = stripControlCharacters(value).trim().slice(0, 512);
   caret = [...line].length;
   await redraw();
   await write('\r\n');
@@ -191,7 +191,7 @@ async function handleInput(data: string): Promise<void> {
   } else if (data.startsWith('\x1b')) return;
   else {
     // Pasted newlines remain editable; they never execute commands.
-    const inserted = [...plainText(data.replace(/[\r\n\t]+/g, ' '))].slice(0, 512 - characters.length);
+    const inserted = [...stripControlCharacters(data.replace(/[\r\n\t]+/g, ' '))].slice(0, 512 - characters.length);
     characters.splice(caret, 0, ...inserted);
     line = characters.join(''); caret += inserted.length;
   }
