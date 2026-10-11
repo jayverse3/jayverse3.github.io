@@ -11,8 +11,8 @@ $light-gray                 : mix(#fff, $gray, 50%);
 
 $background                 : #474747;
 $background-lighter         : mix(#fff, $background, 90%);
-$text                       : #ffffff;
-$link                       : #9abace;
+$text                       : #e5e7eb;
+$link                       : #abc8da;
 $link-light                 : mix(#fff, $link, 25%);
 
 /* Color codes used for the site */
@@ -30,6 +30,9 @@ html[data-theme="dark"] {
     --global-masthead-link-color        : #{$text};
     --global-masthead-link-color-hover  : #{$primary-color};
     --global-text-color                 : #{$text};
+    --global-text-color-heading         : #f5f5f5;
+    --global-text-color-secondary       : #c4c7cb;
+    --global-text-color-accent          : #{$primary-color};
     --global-text-color-light           : #f3f3f3;
     --global-thead-color                : #{$background-lighter};
 }

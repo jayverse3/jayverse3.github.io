@@ -1,10 +1,15 @@
 /* Homepage section headings, profile cards and welcome banner. */
 .page__content h2.home-section-title {
-  font-size: $type-size-3;
+  font-size: 1.5rem;
+  color: var(--global-text-color-heading);
   margin-top: 1.75rem;
 }
 
 /* Shared homepage cards for education, experience, and research. */
+.profile-cards {
+  container-type: inline-size;
+}
+
 .page__content .profile-card {
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
@@ -15,6 +20,7 @@
   border: 1px solid transparent;
   border-radius: 12px;
   background: transparent;
+  overflow-wrap: anywhere;
   @include card-interaction;
 
   &__logo {
@@ -61,11 +67,17 @@
     justify-content: space-between;
     gap: 0.25rem 1rem;
     margin-bottom: 0.4rem;
+
+    > * {
+      min-width: 0;
+      max-width: 100%;
+    }
   }
 
   h3 {
     margin: 0;
     font-size: 1.125rem;
+    color: var(--global-text-color-heading);
     line-height: 1.35;
 
     a {
@@ -86,30 +98,30 @@
 
   p {
     margin: 0;
-    line-height: 1.55;
+    line-height: 1.6;
   }
 
   .profile-card__subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   .profile-card__detail {
     margin-top: 0.1rem;
-    font-size: 0.9rem;
-    opacity: 0.8;
+    font-size: 0.875rem;
+    color: var(--global-text-color-secondary);
   }
 
   .profile-card__dates {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     text-align: right;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
-    opacity: 0.8;
+    color: var(--global-text-color-secondary);
   }
 
   .profile-card__description {
     grid-column: 2 / -1;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
 
   @media (max-width: $small) {
@@ -128,6 +140,24 @@
     }
   }
 
+}
+
+/* Keep a readable text column as available width shrinks or text grows. */
+@container (max-width: 20em) {
+  .page__content .profile-card--education,
+  .page__content .profile-card--experience {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 0.75rem;
+
+    .profile-card__description {
+      grid-column: 1 / -1;
+    }
+
+    .profile-card__dates {
+      text-align: start;
+      white-space: normal;
+    }
+  }
 }
 
 /* Stack school names and dates on small screens. */
@@ -158,10 +188,6 @@
 }
 
 /* Research responds to its available column width, including beside sidebars. */
-.profile-cards--research {
-  container-type: inline-size;
-}
-
 .page__content .profile-card--research {
   grid-template-columns: minmax(0, 1fr);
 
@@ -197,7 +223,7 @@
     align-items: center;
     gap: 0.5rem 1rem;
     margin-top: 0.75rem;
-    font-size: 0.8rem;
+    font-size: 0.875rem;
   }
 
   .profile-card__tag {
@@ -245,7 +271,7 @@ html[data-theme="dark"] .page__content {
 // Dim siblings only while a card is hovered, not while crossing the gaps.
 @media (hover: hover) and (pointer: fine) {
   .page__content .profile-cards:has(> .profile-card:hover) > .profile-card:not(:hover):not(:focus-within) {
-    opacity: 0.65;
+    opacity: 0.9;
   }
 }
 
@@ -254,9 +280,9 @@ html[data-theme="dark"] .page__content {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   margin-bottom: 0.5rem;
-  color: var(--global-base-color);
+  color: var(--global-text-color-accent);
   font-family: $welcome-font-family;
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 400;
   line-height: 1.35;
   text-align: center;

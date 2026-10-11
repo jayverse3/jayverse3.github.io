@@ -9789,6 +9789,7 @@ function Zs() {
 		cursor: n("accent"),
 		cursorAccent: n("bg"),
 		selectionBackground: n("selection"),
+		selectionForeground: n("fg"),
 		brightBlack: n("muted"),
 		blue: n("accent"),
 		brightBlue: n("accent"),

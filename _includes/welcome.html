@@ -1,9 +1,9 @@
 {% assign welcome_messages = site.data.profile.welcome[page.lang] | default: site.data.profile.welcome.en %}
-<div class="home-welcome" role="heading" aria-level="2"
+<h1 class="home-welcome"
      aria-label="{{ welcome_messages.first | escape }}"
      data-welcome-messages="{{ welcome_messages | jsonify | escape }}">
   {% for message in welcome_messages %}
     <span class="home-welcome__sizer" aria-hidden="true">{{ message | escape }}|</span>
   {% endfor %}
   <span class="home-welcome__line" aria-hidden="true"><span class="home-welcome__text">{{ welcome_messages.first | escape }}</span></span>
-</div>
+</h1>

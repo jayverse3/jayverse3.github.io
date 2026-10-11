@@ -34,10 +34,21 @@ $(function () {
     positionMenu();
   });
 
-  $(document).on("click", function (event) {
+  function closeMenu(duration) {
+    $menu.stop(true, true).fadeOut(duration);
+    $button.attr("aria-expanded", "false");
+  }
+
+  $(document).on("click focusin", function (event) {
     if ($button.is(":visible") && !wrapper.contains(event.target)) {
-      $menu.stop(true, true).fadeOut("fast");
-      $button.attr("aria-expanded", "false");
+      closeMenu(event.type === "focusin" ? 0 : "fast");
+    }
+  });
+
+  $(document).on("keydown", function (event) {
+    if (event.key === "Escape" && $button.is(":visible") && $button.attr("aria-expanded") === "true") {
+      closeMenu(0);
+      button.focus();
     }
   });
 

@@ -78,8 +78,7 @@
 
 .masthead__updated {
   font-size: $type-size-6;
-  color: var(--global-text-color);
-  opacity: 0.8;
+  color: var(--global-text-color-secondary);
   white-space: nowrap;
 }
 
@@ -171,12 +170,17 @@
       grid-column: 2;
       grid-row: 1;
       min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: normal;
+      overflow-wrap: anywhere;
       text-align: left;
     }
     &__actions { grid-column: 1; grid-row: 1; gap: 0; }
-    &__action { width: 36px; height: 40px; }
+    &__action {
+      width: auto;
+      min-width: 36px;
+      height: auto;
+      min-height: 40px;
+    }
   }
   .site-menu-ready #site-nav { display: none; }
 }

@@ -51,7 +51,7 @@ function refreshTheme(): void {
   const color = (name: string) => css.getPropertyValue('--terminal-' + name).trim();
   terminal.options.theme = {
     background: color('bg'), foreground: color('fg'), cursor: color('accent'), cursorAccent: color('bg'),
-    selectionBackground: color('selection'), brightBlack: color('muted'),
+    selectionBackground: color('selection'), selectionForeground: color('fg'), brightBlack: color('muted'),
     blue: color('accent'), brightBlue: color('accent'), green: color('green'), brightGreen: color('green'),
     red: color('error'), brightRed: color('error'), white: color('fg'), brightWhite: color('fg'),
     extendedAnsi: bannerPalette(theme),

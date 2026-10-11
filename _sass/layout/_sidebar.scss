@@ -21,7 +21,8 @@
   }
 
   @media screen and (min-width: $sidebar-screen-min-width) {
-    height: 100vh;
+    // Use the existing .sticky top offset and keep the scroll area inside the viewport.
+    bottom: 0;
     overflow-y: auto;               // Add scrollbar if the sidebar is too long
     position: fixed;
     padding-top: $masthead-height;
@@ -48,8 +49,8 @@
 
   p, li {
     font-family: $global-font-family;
-    font-size: $type-size-6;
-    line-height: 1.5;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
 
   img {
@@ -111,6 +112,7 @@
 .sidebar .author__name {
   font-family: $global-font-family;
   font-size: $type-size-5;
+  color: var(--global-text-color-heading);
 }
 
 .sidebar .author__desktop {
@@ -122,6 +124,7 @@
 
 .author__bio {
   margin: 0;
+  text-wrap: pretty;
 
   @include breakpoint($large) {
     margin-top: 10px;
