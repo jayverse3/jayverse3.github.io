@@ -10,9 +10,10 @@ main:
   - label_key: home
     translation_key: home
     url: /
-  - label_key: blog
-    translation_key: blog
-    url: /blog/
+  # Blog is temporarily hidden from navigation; uncomment to restore it.
+  # - label_key: blog
+  #   translation_key: blog
+  #   url: /blog/
   - label_key: cv
     translation_key: cv
     url: /cv/
